@@ -1,0 +1,1876 @@
+-- ============================================================
+-- Oracle SELECT Fundamental Concepts
+-- ============================================================
+-- У SELECT есть 3 фундаментальные идеи:
+--
+--   1. PROJECTION - какие columns/expressions показать.
+--   2. SELECTION  - какие rows выбрать.
+--   3. JOINING    - как соединить rows из разных tables.
+--
+-- Эти слова похожи на теорию relational database.
+-- Они помогают думать о SELECT не как о наборе случайных keywords,
+-- а как о понятном процессе:
+--
+--   FROM / JOIN  - откуда берем данные и как соединяем tables.
+--   WHERE        - какие rows оставляем.
+--   SELECT       - какие columns/expressions показываем.
+--
+-- Простой пример:
+--   SELECT employee_id, first_name, salary
+--   FROM employees
+--   WHERE salary > 5000;
+--
+-- Здесь:
+--   PROJECTION - employee_id, first_name, salary
+--   SELECTION  - salary > 5000
+--   JOINING    - нет, потому что используется одна table.
+--
+-- Важно:
+--   SELECT как SQL command и SELECTION как concept - это разные вещи.
+--
+--   SELECT command:
+--     полный SQL-запрос.
+--
+--   SELECTION concept:
+--     фильтрация rows, обычно через WHERE.
+
+
+-- ============================================================
+-- Concept 1: PROJECTION
+-- ============================================================
+-- PROJECTION    - Выбор columns или expressions, которые попадут в result set.
+--
+-- Простыми словами:
+--   Projection отвечает на вопрос:
+--     "Что показать?"
+--
+-- Пример:
+--   SELECT first_name,
+--          last_name,
+--          salary
+--   FROM employees;
+--
+-- Здесь projection:
+--   first_name
+--   last_name
+--   salary
+--
+-- Таблица employees может иметь 10, 20 или 100 columns,
+-- но result set покажет только эти 3 columns.
+--
+-- Projection находится в SELECT list:
+--   SELECT column1, column2, expression
+--   FROM table_name;
+
+
+-- ============================================================
+-- Projection with one column
+-- ============================================================
+-- Можно выбрать одну column:
+--
+--   SELECT first_name
+--   FROM employees;
+--
+-- Result set будет содержать только first_name.
+--
+-- Это удобно, когда тебе не нужны все данные таблицы.
+--
+-- Хорошая практика:
+--   Не используй SELECT * без необходимости.
+--   Выбирай только нужные columns.
+
+
+-- ============================================================
+-- Projection with multiple columns
+-- ============================================================
+-- Можно выбрать несколько columns:
+--
+--   SELECT employee_id,
+--          first_name,
+--          last_name,
+--          hire_date,
+--          salary
+--   FROM employees;
+--
+-- Каждая column в SELECT list становится column в result set.
+--
+-- Порядок columns в result set зависит от порядка в SELECT list.
+--
+-- Например:
+--   SELECT salary,
+--          first_name
+--   FROM employees;
+--
+-- Result set сначала покажет salary,
+-- потом first_name.
+
+
+-- ============================================================
+-- Projection with all columns
+-- ============================================================
+-- Символ * означает "все columns".
+--
+-- Пример:
+--   SELECT *
+--   FROM employees;
+--
+-- Это удобно:
+--   быстро посмотреть данные;
+--   учиться;
+--   исследовать маленькую table.
+--
+-- Но в production code SELECT * часто плохая привычка.
+--
+-- Почему SELECT * может быть проблемой:
+--   1. читает лишние columns;
+--   2. может быть медленнее;
+--   3. сложнее понять, какие данные реально нужны;
+--   4. query может сломаться в application code,
+--      если структура table изменится;
+--   5. result set становится менее предсказуемым.
+--
+-- Лучше:
+--   SELECT employee_id,
+--          first_name,
+--          last_name
+--   FROM employees;
+
+
+-- ============================================================
+-- Projection with expressions
+-- ============================================================
+-- Projection может содержать не только columns,
+-- но и expressions.
+--
+-- Expression - это выражение, которое Oracle вычисляет.
+--
+-- Примеры expressions:
+--   salary * 12
+--   first_name || ' ' || last_name
+--   NVL(commission_pct, 0)
+--   SYSDATE
+--   UPPER(last_name)
+--
+-- Пример:
+--   SELECT first_name,
+--          last_name,
+--          salary,
+--          salary * 12
+--   FROM employees;
+--
+-- Здесь projection содержит:
+--   3 обычные columns;
+--   1 calculated expression.
+--
+-- Result set покажет annual salary,
+-- но сама table не изменится.
+--
+-- SELECT читает и вычисляет,
+-- но не меняет данные.
+
+
+-- ============================================================
+-- Projection with aliases
+-- ============================================================
+-- Alias         - временное имя column/expression в result set.
+--
+-- Alias делает output понятнее.
+--
+-- Пример:
+--   SELECT first_name AS name,
+--          salary * 12 AS annual_salary
+--   FROM employees;
+--
+-- Result set columns:
+--   NAME
+--   ANNUAL_SALARY
+--
+-- AS можно не писать:
+--   SELECT first_name name,
+--          salary * 12 annual_salary
+--   FROM employees;
+--
+-- Но для обучения AS часто понятнее.
+--
+-- Alias с пробелами:
+--   SELECT salary * 12 AS "Annual Salary"
+--   FROM employees;
+--
+-- Важно:
+--   Double quotes делают alias case-sensitive
+--   и позволяют spaces.
+--
+-- Без double quotes Oracle обычно показывает alias в uppercase.
+
+
+-- ============================================================
+-- Projection with string concatenation
+-- ============================================================
+-- В Oracle оператор || соединяет strings.
+--
+-- Пример:
+--   SELECT first_name || ' ' || last_name AS full_name
+--   FROM employees;
+--
+-- Если:
+--   first_name = 'Steven'
+--   last_name  = 'King'
+--
+-- Result:
+--   Steven King
+--
+-- Можно добавлять текст:
+--   SELECT 'Employee: ' || first_name || ' ' || last_name AS employee_info
+--   FROM employees;
+--
+-- Result:
+--   Employee: Steven King
+--
+-- Важно:
+--   Строковые literals пишутся в single quotes:
+--     'text'
+--
+--   Double quotes используются для identifiers:
+--     "Annual Salary"
+
+
+-- ============================================================
+-- Projection with arithmetic
+-- ============================================================
+-- В SELECT list можно делать арифметику:
+--
+--   SELECT salary,
+--          salary + 100 AS increased_salary,
+--          salary * 12 AS annual_salary,
+--          salary / 2 AS half_salary
+--   FROM employees;
+--
+-- Арифметические операторы:
+--   +  addition
+--   -  subtraction
+--   *  multiplication
+--   /  division
+--
+-- Порядок операций как в математике:
+--   multiplication/division раньше addition/subtraction.
+--
+-- Пример:
+--   SELECT salary + 100 * 12 AS result_value
+--   FROM employees;
+--
+-- Сначала:
+--   100 * 12
+--
+-- Потом:
+--   salary + 1200
+--
+-- Чтобы изменить порядок, используй parentheses:
+--   SELECT (salary + 100) * 12 AS result_value
+--   FROM employees;
+
+
+-- ============================================================
+-- Projection with functions
+-- ============================================================
+-- В SELECT list можно использовать functions.
+--
+-- String functions:
+--   UPPER(last_name)
+--   LOWER(email)
+--   INITCAP(first_name)
+--   LENGTH(first_name)
+--   SUBSTR(phone_number, 1, 3)
+--
+-- Number functions:
+--   ROUND(salary, 2)
+--   TRUNC(salary, 0)
+--   MOD(employee_id, 2)
+--
+-- Date functions:
+--   SYSDATE
+--   ADD_MONTHS(hire_date, 12)
+--   MONTHS_BETWEEN(SYSDATE, hire_date)
+--   TRUNC(hire_date)
+--
+-- Conversion functions:
+--   TO_CHAR(hire_date, 'YYYY-MM-DD')
+--   TO_DATE('2026-08-08', 'YYYY-MM-DD')
+--   TO_NUMBER('1250.50')
+--
+-- Пример:
+--   SELECT employee_id,
+--          UPPER(last_name) AS last_name_upper,
+--          TO_CHAR(hire_date, 'YYYY-MM-DD') AS hire_date_text,
+--          ROUND(salary * 12, 2) AS annual_salary
+--   FROM employees;
+
+
+-- ============================================================
+-- Projection with DISTINCT
+-- ============================================================
+-- DISTINCT      - убирает duplicate rows из result set.
+--
+-- Пример:
+--   SELECT department_id
+--   FROM employees;
+--
+-- Может вернуть:
+--   10
+--   20
+--   20
+--   30
+--   30
+--   30
+--
+-- С DISTINCT:
+--   SELECT DISTINCT department_id
+--   FROM employees;
+--
+-- Вернет:
+--   10
+--   20
+--   30
+--
+-- Важно:
+--   DISTINCT работает на всю projection,
+--   а не только на одну column.
+--
+-- Пример:
+--   SELECT DISTINCT department_id,
+--                   job_id
+--   FROM employees;
+--
+-- Уникальной должна быть pair:
+--   department_id + job_id
+--
+-- Если department_id одинаковый,
+-- но job_id разный,
+-- rows не считаются duplicates.
+
+
+-- ============================================================
+-- Projection and NULL
+-- ============================================================
+-- Если column содержит NULL,
+-- result set покажет пустое значение.
+--
+-- Пример:
+--   SELECT first_name,
+--          commission_pct
+--   FROM employees;
+--
+-- commission_pct может быть NULL.
+--
+-- Чтобы заменить NULL:
+--   SELECT first_name,
+--          NVL(commission_pct, 0) AS commission_pct
+--   FROM employees;
+--
+-- Для нескольких вариантов:
+--   SELECT first_name,
+--          COALESCE(commission_pct, 0) AS commission_pct
+--   FROM employees;
+--
+-- Важно:
+--   NULL в arithmetic обычно дает NULL.
+--
+-- Пример:
+--   salary + commission_pct
+--
+-- Если commission_pct = NULL,
+-- result тоже будет NULL.
+--
+-- Лучше:
+--   salary + NVL(commission_pct, 0)
+
+
+-- ============================================================
+-- Concept 2: SELECTION
+-- ============================================================
+-- SELECTION     - Выбор rows по condition.
+--
+-- Простыми словами:
+--   Selection отвечает на вопрос:
+--     "Какие строки оставить?"
+--
+-- В SQL чаще всего selection пишется через WHERE.
+--
+-- Пример:
+--   SELECT employee_id,
+--          first_name,
+--          salary
+--   FROM employees
+--   WHERE salary > 5000;
+--
+-- Здесь:
+--   PROJECTION - employee_id, first_name, salary
+--   SELECTION  - salary > 5000
+--
+-- Oracle проверяет condition для каждой row.
+-- Если condition TRUE, row попадает в result set.
+-- Если condition FALSE или UNKNOWN, row не попадает.
+
+
+-- ============================================================
+-- Selection with comparison operators
+-- ============================================================
+-- Основные comparison operators:
+--
+--   =   equal
+--   <>  not equal
+--   !=  not equal
+--   >   greater than
+--   >=  greater than or equal
+--   <   less than
+--   <=  less than or equal
+--
+-- Примеры:
+--   SELECT employee_id,
+--          first_name,
+--          salary
+--   FROM employees
+--   WHERE salary > 5000;
+--
+--   SELECT employee_id,
+--          first_name,
+--          department_id
+--   FROM employees
+--   WHERE department_id = 90;
+--
+--   SELECT employee_id,
+--          first_name,
+--          salary
+--   FROM employees
+--   WHERE salary <= 3000;
+--
+-- Для not equal в Oracle часто используют:
+--   <>
+--
+-- Пример:
+--   SELECT employee_id,
+--          job_id
+--   FROM employees
+--   WHERE job_id <> 'IT_PROG';
+
+
+-- ============================================================
+-- Selection with string values
+-- ============================================================
+-- String values пишутся в single quotes.
+--
+-- Пример:
+--   SELECT employee_id,
+--          first_name,
+--          last_name
+--   FROM employees
+--   WHERE last_name = 'King';
+--
+-- Важно:
+--   String comparison обычно case-sensitive.
+--
+-- То есть:
+--   'King'
+--   'KING'
+--   'king'
+--
+-- могут быть разными значениями.
+--
+-- Чтобы сравнивать без учета регистра:
+--   SELECT employee_id,
+--          first_name,
+--          last_name
+--   FROM employees
+--   WHERE UPPER(last_name) = 'KING';
+--
+-- Но осторожно:
+--   function на column может мешать index usage,
+--   если нет function-based index.
+
+
+-- ============================================================
+-- Selection with dates
+-- ============================================================
+-- Для dates лучше использовать TO_DATE с явным format mask.
+--
+-- Пример:
+--   SELECT employee_id,
+--          first_name,
+--          hire_date
+--   FROM employees
+--   WHERE hire_date >= TO_DATE('2020-01-01', 'YYYY-MM-DD');
+--
+-- Плохо:
+--   WHERE hire_date >= '01-01-2020'
+--
+-- Почему плохо:
+--   Oracle будет делать implicit conversion.
+--   Результат может зависеть от NLS_DATE_FORMAT.
+--
+-- Хорошо:
+--   WHERE hire_date >= TO_DATE('2020-01-01', 'YYYY-MM-DD')
+--
+-- Важно:
+--   DATE хранит не только date,
+--   но и time до секунд.
+--
+-- Если нужно выбрать весь день:
+--   WHERE hire_date >= TO_DATE('2026-08-08', 'YYYY-MM-DD')
+--     AND hire_date <  TO_DATE('2026-08-09', 'YYYY-MM-DD');
+--
+-- Это часто лучше, чем:
+--   WHERE TRUNC(hire_date) = TO_DATE('2026-08-08', 'YYYY-MM-DD')
+--
+-- Потому что TRUNC(hire_date) на column может мешать index usage.
+
+
+-- ============================================================
+-- Selection with AND, OR, NOT
+-- ============================================================
+-- AND           - оба conditions должны быть TRUE.
+-- OR            - хотя бы одно condition должно быть TRUE.
+-- NOT           - меняет TRUE на FALSE, FALSE на TRUE.
+--
+-- AND example:
+--   SELECT employee_id,
+--          first_name,
+--          salary,
+--          department_id
+--   FROM employees
+--   WHERE salary > 5000
+--     AND department_id = 90;
+--
+-- Meaning:
+--   salary больше 5000
+--   и department_id равен 90.
+--
+-- OR example:
+--   SELECT employee_id,
+--          first_name,
+--          department_id
+--   FROM employees
+--   WHERE department_id = 60
+--      OR department_id = 90;
+--
+-- Meaning:
+--   department_id равен 60
+--   или department_id равен 90.
+--
+-- NOT example:
+--   SELECT employee_id,
+--          first_name,
+--          department_id
+--   FROM employees
+--   WHERE NOT department_id = 90;
+--
+-- Лучше читается так:
+--   WHERE department_id <> 90
+
+
+-- ============================================================
+-- Selection and parentheses
+-- ============================================================
+-- Parentheses делают condition понятнее
+-- и помогают управлять logic.
+--
+-- Пример:
+--   SELECT employee_id,
+--          first_name,
+--          salary,
+--          department_id
+--   FROM employees
+--   WHERE department_id = 60
+--      OR department_id = 90
+--     AND salary > 5000;
+--
+-- Такой запрос легко прочитать неправильно.
+--
+-- Лучше:
+--   SELECT employee_id,
+--          first_name,
+--          salary,
+--          department_id
+--   FROM employees
+--   WHERE (department_id = 60 OR department_id = 90)
+--     AND salary > 5000;
+--
+-- Meaning:
+--   department_id 60 или 90,
+--   и salary больше 5000.
+--
+-- Хорошая практика:
+--   Если есть AND и OR вместе,
+--   почти всегда ставь parentheses.
+
+
+-- ============================================================
+-- Selection with BETWEEN
+-- ============================================================
+-- BETWEEN       - проверяет диапазон.
+--
+-- Синтаксис:
+--   column_name BETWEEN low_value AND high_value
+--
+-- Пример:
+--   SELECT employee_id,
+--          first_name,
+--          salary
+--   FROM employees
+--   WHERE salary BETWEEN 3000 AND 7000;
+--
+-- Это похоже на:
+--   WHERE salary >= 3000
+--     AND salary <= 7000
+--
+-- Важно:
+--   BETWEEN включает границы.
+--
+-- Для dates:
+--   WHERE hire_date BETWEEN TO_DATE('2026-08-01', 'YYYY-MM-DD')
+--                       AND TO_DATE('2026-08-31', 'YYYY-MM-DD')
+--
+-- Осторожно:
+--   Если hire_date содержит time,
+--   то конец дня 2026-08-31 15:30:00 может не попасть,
+--   если upper bound равен 2026-08-31 00:00:00.
+--
+-- Часто лучше:
+--   WHERE hire_date >= TO_DATE('2026-08-01', 'YYYY-MM-DD')
+--     AND hire_date <  TO_DATE('2026-09-01', 'YYYY-MM-DD')
+
+
+-- ============================================================
+-- Selection with IN
+-- ============================================================
+-- IN            - проверяет, входит ли value в список.
+--
+-- Пример:
+--   SELECT employee_id,
+--          first_name,
+--          department_id
+--   FROM employees
+--   WHERE department_id IN (60, 90, 100);
+--
+-- Это похоже на:
+--   WHERE department_id = 60
+--      OR department_id = 90
+--      OR department_id = 100
+--
+-- Для strings:
+--   SELECT employee_id,
+--          first_name,
+--          job_id
+--   FROM employees
+--   WHERE job_id IN ('IT_PROG', 'SA_REP', 'FI_ACCOUNT');
+--
+-- NOT IN:
+--   SELECT employee_id,
+--          first_name,
+--          department_id
+--   FROM employees
+--   WHERE department_id NOT IN (60, 90);
+--
+-- Осторожно с NULL:
+--   NOT IN может вести себя неожиданно,
+--   если в списке есть NULL.
+--
+-- Пример опасной идеи:
+--   WHERE department_id NOT IN (60, 90, NULL)
+--
+-- Из-за NULL condition может не вернуть ожидаемые rows.
+-- Для subquery часто безопаснее использовать NOT EXISTS.
+
+
+-- ============================================================
+-- Selection with LIKE
+-- ============================================================
+-- LIKE          - поиск по pattern.
+--
+-- Wildcards:
+--   %  - zero or more characters.
+--   _  - exactly one character.
+--
+-- Примеры:
+--   SELECT employee_id,
+--          first_name,
+--          last_name
+--   FROM employees
+--   WHERE last_name LIKE 'S%';
+--
+-- Meaning:
+--   last_name начинается на S.
+--
+--   SELECT employee_id,
+--          first_name
+--   FROM employees
+--   WHERE first_name LIKE '%an%';
+--
+-- Meaning:
+--   first_name содержит an.
+--
+--   SELECT employee_id,
+--          first_name
+--   FROM employees
+--   WHERE first_name LIKE '_a%';
+--
+-- Meaning:
+--   second character = a.
+--
+-- Case-sensitive:
+--   LIKE обычно чувствителен к регистру.
+--
+-- Без учета регистра:
+--   WHERE UPPER(first_name) LIKE 'A%'
+--
+-- Escape special characters:
+--   SELECT product_name
+--   FROM products
+--   WHERE product_name LIKE '50\%%' ESCAPE '\';
+--
+-- Meaning:
+--   найти строки, которые начинаются с 50%.
+
+
+-- ============================================================
+-- Selection with IS NULL
+-- ============================================================
+-- NULL          - отсутствие/неизвестное значение.
+--
+-- Правильно:
+--   WHERE commission_pct IS NULL
+--
+--   WHERE commission_pct IS NOT NULL
+--
+-- Неправильно:
+--   WHERE commission_pct = NULL
+--
+--   WHERE commission_pct <> NULL
+--
+-- Почему:
+--   NULL означает unknown.
+--   Сравнение с unknown не дает TRUE.
+--
+-- Пример:
+--   SELECT employee_id,
+--          first_name,
+--          commission_pct
+--   FROM employees
+--   WHERE commission_pct IS NULL;
+--
+-- Этот query выбирает employees без commission.
+--
+-- Пример:
+--   SELECT employee_id,
+--          first_name,
+--          commission_pct
+--   FROM employees
+--   WHERE commission_pct IS NOT NULL;
+--
+-- Этот query выбирает employees с commission.
+
+
+-- ============================================================
+-- Selection with EXISTS
+-- ============================================================
+-- EXISTS        - проверяет, возвращает ли subquery хотя бы одну row.
+--
+-- Пример:
+--   SELECT d.department_id,
+--          d.department_name
+--   FROM departments d
+--   WHERE EXISTS (
+--     SELECT 1
+--     FROM employees e
+--     WHERE e.department_id = d.department_id
+--   );
+--
+-- Meaning:
+--   выбрать departments,
+--   где есть хотя бы один employee.
+--
+-- NOT EXISTS:
+--   SELECT d.department_id,
+--          d.department_name
+--   FROM departments d
+--   WHERE NOT EXISTS (
+--     SELECT 1
+--     FROM employees e
+--     WHERE e.department_id = d.department_id
+--   );
+--
+-- Meaning:
+--   выбрать departments,
+--   где нет employees.
+--
+-- EXISTS часто хорошо читается,
+-- когда logic звучит как:
+--   "есть связанная строка"
+--   "нет связанной строки"
+
+
+-- ============================================================
+-- Concept 3: JOINING
+-- ============================================================
+-- JOINING       - Соединение rows из нескольких tables.
+--
+-- Простыми словами:
+--   Joining отвечает на вопрос:
+--     "Как связать данные из разных таблиц?"
+--
+-- Пример:
+--   employees хранит employees.
+--   departments хранит departments.
+--
+-- В employees есть:
+--   department_id
+--
+-- В departments есть:
+--   department_id
+--   department_name
+--
+-- Чтобы показать имя employee и название department,
+-- нужно соединить эти tables:
+--
+--   SELECT e.first_name,
+--          e.last_name,
+--          d.department_name
+--   FROM employees e
+--   JOIN departments d
+--     ON d.department_id = e.department_id;
+--
+-- Здесь:
+--   PROJECTION - e.first_name, e.last_name, d.department_name
+--   SELECTION  - нет WHERE filter
+--   JOINING    - departments соединяется с employees
+--                по department_id.
+
+
+-- ============================================================
+-- Table aliases
+-- ============================================================
+-- Alias для table делает query короче и понятнее.
+--
+-- Пример:
+--   SELECT e.employee_id,
+--          e.first_name,
+--          d.department_name
+--   FROM employees e
+--   JOIN departments d
+--     ON d.department_id = e.department_id;
+--
+-- Здесь:
+--   e - alias для employees.
+--   d - alias для departments.
+--
+-- После объявления alias лучше использовать alias везде:
+--   e.employee_id
+--   d.department_name
+--
+-- Не смешивай:
+--   employees.employee_id
+--   e.employee_id
+--
+-- Если table alias задан,
+-- обычно обращаются через alias.
+--
+-- Хорошая практика:
+--   Используй короткие понятные aliases:
+--     e  employees
+--     d  departments
+--     j  jobs
+--     l  locations
+--     c  countries
+
+
+-- ============================================================
+-- INNER JOIN
+-- ============================================================
+-- INNER JOIN    - возвращает только matching rows из обеих tables.
+--
+-- Синтаксис:
+--   SELECT columns
+--   FROM table1 t1
+--   JOIN table2 t2
+--     ON t2.key = t1.key;
+--
+-- Пример:
+--   SELECT e.employee_id,
+--          e.first_name,
+--          d.department_name
+--   FROM employees e
+--   JOIN departments d
+--     ON d.department_id = e.department_id;
+--
+-- Meaning:
+--   Вернуть employees,
+--   у которых найден matching department.
+--
+-- Если employee.department_id = NULL
+-- или такого department_id нет в departments,
+-- row не попадет в result set.
+--
+-- JOIN без слова INNER обычно означает INNER JOIN:
+--   JOIN departments d
+--
+-- То же самое:
+--   INNER JOIN departments d
+
+
+-- ============================================================
+-- LEFT JOIN
+-- ============================================================
+-- LEFT JOIN     - возвращает все rows из left table
+--                 и matching rows из right table.
+--
+-- Если match не найден,
+-- columns из right table будут NULL.
+--
+-- Пример:
+--   SELECT e.employee_id,
+--          e.first_name,
+--          d.department_name
+--   FROM employees e
+--   LEFT JOIN departments d
+--     ON d.department_id = e.department_id;
+--
+-- Meaning:
+--   Вернуть всех employees.
+--   Если department есть, показать department_name.
+--   Если department нет, department_name будет NULL.
+--
+-- LEFT JOIN полезен, когда главная table слева
+-- и ты не хочешь потерять ее rows.
+--
+-- Пример business question:
+--   "Покажи всех сотрудников, даже если department не указан."
+
+
+-- ============================================================
+-- RIGHT JOIN
+-- ============================================================
+-- RIGHT JOIN    - возвращает все rows из right table
+--                 и matching rows из left table.
+--
+-- Пример:
+--   SELECT e.employee_id,
+--          e.first_name,
+--          d.department_name
+--   FROM employees e
+--   RIGHT JOIN departments d
+--     ON d.department_id = e.department_id;
+--
+-- Meaning:
+--   Вернуть все departments.
+--   Если employees есть, показать их.
+--   Если employees нет, employee columns будут NULL.
+--
+-- RIGHT JOIN можно почти всегда переписать как LEFT JOIN,
+-- поменяв tables местами.
+--
+-- Обычно LEFT JOIN читается легче:
+--   SELECT d.department_name,
+--          e.employee_id,
+--          e.first_name
+--   FROM departments d
+--   LEFT JOIN employees e
+--     ON e.department_id = d.department_id;
+
+
+-- ============================================================
+-- FULL OUTER JOIN
+-- ============================================================
+-- FULL OUTER JOIN - возвращает:
+--   matching rows;
+--   rows только из left table;
+--   rows только из right table.
+--
+-- Пример:
+--   SELECT e.employee_id,
+--          e.first_name,
+--          d.department_name
+--   FROM employees e
+--   FULL OUTER JOIN departments d
+--     ON d.department_id = e.department_id;
+--
+-- Meaning:
+--   Показать и employees без departments,
+--   и departments без employees,
+--   и normal matches.
+--
+-- FULL OUTER JOIN нужен реже,
+-- но полезен для сверки данных.
+--
+-- Пример business question:
+--   "Найди все несоответствия между двумя списками."
+
+
+-- ============================================================
+-- CROSS JOIN
+-- ============================================================
+-- CROSS JOIN    - каждая row из первой table соединяется
+--                 с каждой row из второй table.
+--
+-- Это называется Cartesian product.
+--
+-- Пример:
+--   SELECT e.first_name,
+--          d.department_name
+--   FROM employees e
+--   CROSS JOIN departments d;
+--
+-- Если:
+--   employees = 100 rows
+--   departments = 20 rows
+--
+-- Result:
+--   100 * 20 = 2000 rows
+--
+-- CROSS JOIN нужен редко.
+--
+-- Используется:
+--   для генерации комбинаций;
+--   для тестовых наборов;
+--   когда реально нужны все pairs.
+--
+-- Осторожно:
+--   Случайный CROSS JOIN может вернуть огромный result set.
+--   Часто это ошибка из-за забытого join condition.
+
+
+-- ============================================================
+-- Joining more than two tables
+-- ============================================================
+-- Можно join-ить больше двух tables.
+--
+-- Пример:
+--   SELECT e.employee_id,
+--          e.first_name,
+--          e.last_name,
+--          d.department_name,
+--          l.city,
+--          c.country_name
+--   FROM employees e
+--   JOIN departments d
+--     ON d.department_id = e.department_id
+--   JOIN locations l
+--     ON l.location_id = d.location_id
+--   JOIN countries c
+--     ON c.country_id = l.country_id;
+--
+-- Chain:
+--   employees -> departments -> locations -> countries
+--
+-- Каждая связь должна иметь понятное ON condition.
+--
+-- Хорошая практика:
+--   Сначала напиши FROM и JOINs.
+--   Потом добавь SELECT list.
+--   Потом добавь WHERE filter.
+
+
+-- ============================================================
+-- Join condition
+-- ============================================================
+-- Join condition обычно пишется после ON.
+--
+-- Пример:
+--   ON d.department_id = e.department_id
+--
+-- Meaning:
+--   row из departments подходит к row из employees,
+--   если department_id одинаковый.
+--
+-- Join condition может быть:
+--   equality condition;
+--   multiple conditions;
+--   range condition;
+--   expression condition.
+--
+-- Самый частый вариант:
+--   primary key = foreign key
+--
+-- Пример:
+--   departments.department_id - primary key.
+--   employees.department_id   - foreign key.
+--
+-- Query:
+--   SELECT e.first_name,
+--          d.department_name
+--   FROM employees e
+--   JOIN departments d
+--     ON d.department_id = e.department_id;
+--
+-- Multiple join conditions:
+--   SELECT o.order_id,
+--          oi.product_id,
+--          oi.quantity
+--   FROM orders o
+--   JOIN order_items oi
+--     ON oi.order_id = o.order_id
+--    AND oi.company_id = o.company_id;
+--
+-- Здесь две columns участвуют в join.
+
+
+-- ============================================================
+-- WHERE vs ON
+-- ============================================================
+-- ON            - описывает, как tables соединяются.
+-- WHERE         - фильтрует rows после соединения.
+--
+-- Пример:
+--   SELECT e.employee_id,
+--          e.first_name,
+--          d.department_name
+--   FROM employees e
+--   JOIN departments d
+--     ON d.department_id = e.department_id
+--   WHERE e.salary > 5000;
+--
+-- Здесь:
+--   ON    - связь employees с departments.
+--   WHERE - filter по salary.
+--
+-- Для INNER JOIN некоторые filters можно технически перенести в ON,
+-- но для читаемости лучше:
+--   join logic в ON;
+--   row filters в WHERE.
+--
+-- Для OUTER JOIN это особенно важно,
+-- потому что filter в WHERE может случайно превратить LEFT JOIN
+-- почти в INNER JOIN.
+--
+-- Осторожный пример:
+--   SELECT e.employee_id,
+--          e.first_name,
+--          d.department_name
+--   FROM employees e
+--   LEFT JOIN departments d
+--     ON d.department_id = e.department_id
+--   WHERE d.department_name = 'Sales';
+--
+-- Такой WHERE уберет rows,
+-- где d.department_name is NULL.
+--
+-- Если нужно сохранить unmatched employees,
+-- condition часто ставят в ON:
+--   SELECT e.employee_id,
+--          e.first_name,
+--          d.department_name
+--   FROM employees e
+--   LEFT JOIN departments d
+--     ON d.department_id = e.department_id
+--    AND d.department_name = 'Sales';
+
+
+-- ============================================================
+-- Old Oracle join syntax
+-- ============================================================
+-- В старом Oracle-коде можно увидеть join через WHERE.
+--
+-- Старый style:
+--   SELECT e.first_name,
+--          d.department_name
+--   FROM employees e,
+--        departments d
+--   WHERE d.department_id = e.department_id;
+--
+-- Современный style:
+--   SELECT e.first_name,
+--          d.department_name
+--   FROM employees e
+--   JOIN departments d
+--     ON d.department_id = e.department_id;
+--
+-- Лучше использовать modern ANSI JOIN syntax.
+--
+-- Почему:
+--   1. join condition видно отдельно;
+--   2. меньше риска случайного Cartesian product;
+--   3. OUTER JOIN читается понятнее;
+--   4. query легче поддерживать.
+--
+-- Старый outer join syntax:
+--   WHERE d.department_id(+) = e.department_id
+--
+-- В новом коде лучше:
+--   LEFT JOIN departments d
+--     ON d.department_id = e.department_id
+
+
+-- ============================================================
+-- Putting all concepts together
+-- ============================================================
+-- Большой пример:
+--   SELECT e.employee_id,
+--          e.first_name || ' ' || e.last_name AS full_name,
+--          d.department_name,
+--          e.salary,
+--          e.salary * 12 AS annual_salary
+--   FROM employees e
+--   JOIN departments d
+--     ON d.department_id = e.department_id
+--   WHERE e.salary > 5000
+--     AND d.department_name = 'Sales';
+--
+-- Разбор:
+--
+-- PROJECTION:
+--   e.employee_id
+--   e.first_name || ' ' || e.last_name AS full_name
+--   d.department_name
+--   e.salary
+--   e.salary * 12 AS annual_salary
+--
+-- SELECTION:
+--   e.salary > 5000
+--   d.department_name = 'Sales'
+--
+-- JOINING:
+--   employees e
+--   JOIN departments d
+--   ON d.department_id = e.department_id
+--
+-- Meaning:
+--   Показать employees из Sales department,
+--   у которых salary больше 5000,
+--   и вывести employee info + annual salary.
+
+
+-- ============================================================
+-- Logical order of SELECT processing
+-- ============================================================
+-- Важно понимать logical order.
+-- SQL пишется в одном порядке,
+-- а логически обрабатывается в другом.
+--
+-- Как пишем:
+--   SELECT
+--   FROM
+--   WHERE
+--   GROUP BY
+--   HAVING
+--   ORDER BY
+--
+-- Логически думать можно так:
+--   1. FROM / JOIN  - взять tables и соединить rows.
+--   2. WHERE        - отфильтровать rows.
+--   3. GROUP BY     - сгруппировать rows.
+--   4. HAVING       - отфильтровать groups.
+--   5. SELECT       - выбрать columns/expressions.
+--   6. ORDER BY     - отсортировать final result.
+--
+-- Для трех фундаментальных concepts:
+--
+--   JOINING happens in FROM/JOIN.
+--   SELECTION happens in WHERE.
+--   PROJECTION happens in SELECT.
+--
+-- Поэтому alias из SELECT list обычно нельзя использовать в WHERE:
+--
+--   SELECT salary * 12 AS annual_salary
+--   FROM employees
+--   WHERE annual_salary > 60000;
+--
+-- Такой query может не работать,
+-- потому что WHERE логически идет раньше SELECT.
+--
+-- Правильно:
+--   SELECT salary * 12 AS annual_salary
+--   FROM employees
+--   WHERE salary * 12 > 60000;
+--
+-- Или через subquery:
+--   SELECT *
+--   FROM (
+--     SELECT salary * 12 AS annual_salary
+--     FROM employees
+--   )
+--   WHERE annual_salary > 60000;
+
+
+-- ============================================================
+-- Projection vs Selection
+-- ============================================================
+-- PROJECTION меняет columns.
+-- SELECTION меняет rows.
+--
+-- Table:
+--   employees
+--
+-- Query 1:
+--   SELECT first_name,
+--          last_name
+--   FROM employees;
+--
+-- Что изменилось:
+--   columns стало меньше.
+--   rows остались все.
+--
+-- Это projection.
+--
+-- Query 2:
+--   SELECT *
+--   FROM employees
+--   WHERE department_id = 90;
+--
+-- Что изменилось:
+--   columns остались все.
+--   rows стало меньше.
+--
+-- Это selection.
+--
+-- Query 3:
+--   SELECT first_name,
+--          last_name
+--   FROM employees
+--   WHERE department_id = 90;
+--
+-- Что изменилось:
+--   columns стало меньше.
+--   rows стало меньше.
+--
+-- Это projection + selection.
+
+
+-- ============================================================
+-- Joining vs Selection
+-- ============================================================
+-- JOINING соединяет tables.
+-- SELECTION фильтрует rows.
+--
+-- Query:
+--   SELECT e.first_name,
+--          d.department_name
+--   FROM employees e
+--   JOIN departments d
+--     ON d.department_id = e.department_id
+--   WHERE d.department_name = 'IT';
+--
+-- JOINING:
+--   employees соединяется с departments.
+--
+-- SELECTION:
+--   оставляем только rows,
+--   где department_name = 'IT'.
+--
+-- Не путай:
+--   ON d.department_id = e.department_id
+--
+-- Это join condition.
+--
+--   WHERE d.department_name = 'IT'
+--
+-- Это row filter.
+
+
+-- ============================================================
+-- Result set
+-- ============================================================
+-- RESULT SET    - результат SELECT query.
+--
+-- Result set выглядит как table:
+--   columns;
+--   rows.
+--
+-- Но result set не обязательно является real table.
+--
+-- Он может содержать:
+--   columns из table;
+--   expressions;
+--   function results;
+--   aliases;
+--   joined data;
+--   grouped data;
+--   sorted data.
+--
+-- Пример:
+--   SELECT first_name || ' ' || last_name AS full_name,
+--          salary * 12 AS annual_salary
+--   FROM employees
+--   WHERE salary > 5000;
+--
+-- Result set имеет columns:
+--   full_name
+--   annual_salary
+--
+-- Эти columns не обязаны существовать в table.
+-- Oracle вычисляет их для output.
+
+
+-- ============================================================
+-- Row, column, value
+-- ============================================================
+-- ROW           - одна запись в table/result set.
+-- COLUMN        - один attribute/field.
+-- VALUE         - конкретное значение в row + column.
+--
+-- Пример:
+--
+--   EMPLOYEE_ID | FIRST_NAME | SALARY
+--   ------------+------------+--------
+--   100         | Steven     | 24000
+--   101         | Neena      | 17000
+--
+-- Rows:
+--   row 1: employee_id=100, first_name=Steven, salary=24000
+--   row 2: employee_id=101, first_name=Neena, salary=17000
+--
+-- Columns:
+--   EMPLOYEE_ID
+--   FIRST_NAME
+--   SALARY
+--
+-- Values:
+--   100
+--   Steven
+--   24000
+--
+-- Projection works with columns.
+-- Selection works with rows.
+-- Joining works with rows from different tables.
+
+
+-- ============================================================
+-- Table and relation idea
+-- ============================================================
+-- TABLE         - структура, где данные хранятся в rows и columns.
+--
+-- В relational database tables связаны друг с другом.
+--
+-- Пример:
+--   employees.department_id
+--   departments.department_id
+--
+-- employees.department_id говорит:
+--   "employee belongs to department".
+--
+-- departments.department_id говорит:
+--   "this is department identifier".
+--
+-- Обычно:
+--   departments.department_id - primary key.
+--   employees.department_id   - foreign key.
+--
+-- JOIN использует эту связь:
+--   SELECT e.first_name,
+--          d.department_name
+--   FROM employees e
+--   JOIN departments d
+--     ON d.department_id = e.department_id;
+--
+-- Без relationship между tables
+-- join часто не имеет business meaning.
+
+
+-- ============================================================
+-- Primary key and foreign key in joins
+-- ============================================================
+-- PRIMARY KEY   - column(s), которые уникально идентифицируют row.
+--
+-- FOREIGN KEY   - column(s), которые ссылаются на primary key другой table.
+--
+-- Пример:
+--   departments.department_id is primary key.
+--   employees.department_id is foreign key.
+--
+-- Join:
+--   SELECT e.employee_id,
+--          e.first_name,
+--          d.department_name
+--   FROM employees e
+--   JOIN departments d
+--     ON d.department_id = e.department_id;
+--
+-- Primary key side:
+--   departments d
+--
+-- Foreign key side:
+--   employees e
+--
+-- Это relationship:
+--   many employees can belong to one department.
+--
+-- Cardinality:
+--   departments 1 ---- many employees
+--
+-- В join result один department может повторяться много раз,
+-- потому что в нем много employees.
+
+
+-- ============================================================
+-- One-to-one, one-to-many, many-to-many
+-- ============================================================
+-- One-to-one:
+--   one row in table A matches one row in table B.
+--
+-- Example:
+--   employees
+--   employee_profiles
+--
+-- One-to-many:
+--   one row in table A matches many rows in table B.
+--
+-- Example:
+--   departments
+--   employees
+--
+-- One department can have many employees.
+--
+-- Many-to-many:
+--   many rows in table A match many rows in table B.
+--   Usually needs junction/intersection table.
+--
+-- Example:
+--   students
+--   courses
+--   student_courses
+--
+-- Join:
+--   SELECT s.student_name,
+--          c.course_name
+--   FROM students s
+--   JOIN student_courses sc
+--     ON sc.student_id = s.student_id
+--   JOIN courses c
+--     ON c.course_id = sc.course_id;
+--
+-- Understanding relationship type helps predict
+-- how many rows query will return.
+
+
+-- ============================================================
+-- Duplicate rows
+-- ============================================================
+-- Duplicates can appear because:
+--   1. table really has duplicate-like data;
+--   2. projection hides columns that make rows different;
+--   3. join creates multiple matches;
+--   4. join condition is incomplete.
+--
+-- Example:
+--   SELECT department_id
+--   FROM employees;
+--
+-- department_id repeats because many employees
+-- can belong to the same department.
+--
+-- Use DISTINCT only when you really need unique result:
+--   SELECT DISTINCT department_id
+--   FROM employees;
+--
+-- But do not use DISTINCT to hide a bad join.
+--
+-- Bad join example:
+--   SELECT e.first_name,
+--          d.department_name
+--   FROM employees e
+--   JOIN departments d
+--     ON 1 = 1;
+--
+-- This creates too many combinations.
+-- DISTINCT may hide symptoms,
+-- but the real problem is wrong join condition.
+
+
+-- ============================================================
+-- Filtering before or after joining
+-- ============================================================
+-- SQL optimizer can choose physical execution plan,
+-- but logically:
+--   FROM/JOIN happens before WHERE.
+--
+-- Example:
+--   SELECT e.employee_id,
+--          e.first_name,
+--          d.department_name
+--   FROM employees e
+--   JOIN departments d
+--     ON d.department_id = e.department_id
+--   WHERE d.department_name = 'IT';
+--
+-- Easy mental model:
+--   1. connect employees with departments;
+--   2. keep only IT rows;
+--   3. show selected columns.
+--
+-- Real optimizer may filter earlier for performance,
+-- but query meaning stays the same.
+
+
+-- ============================================================
+-- SELECT does not change data
+-- ============================================================
+-- SELECT is read-only.
+--
+-- It does not:
+--   insert rows;
+--   update rows;
+--   delete rows;
+--   commit transaction;
+--   rollback transaction.
+--
+-- SELECT only returns result set.
+--
+-- Example:
+--   SELECT first_name,
+--          salary
+--   FROM employees;
+--
+-- This shows data.
+-- It does not change employees table.
+--
+-- Commands that change data:
+--   INSERT
+--   UPDATE
+--   DELETE
+--   MERGE
+--
+-- Commands that change structure:
+--   CREATE
+--   ALTER
+--   DROP
+--   TRUNCATE
+
+
+-- ============================================================
+-- SELECT from DUAL
+-- ============================================================
+-- DUAL          - специальная one-row table в Oracle.
+--
+-- Используется, когда нужно получить expression,
+-- но не нужна настоящая table.
+--
+-- Examples:
+--   SELECT 1 + 1 AS result
+--   FROM dual;
+--
+--   SELECT SYSDATE AS today
+--   FROM dual;
+--
+--   SELECT USER AS current_user
+--   FROM dual;
+--
+--   SELECT 'Hello Oracle' AS message
+--   FROM dual;
+--
+-- В Oracle новых версий некоторые expressions можно выполнять без FROM,
+-- но DUAL все еще часто встречается в учебниках и старом коде.
+
+
+-- ============================================================
+-- Basic SELECT template
+-- ============================================================
+-- Минимальный template:
+--
+--   SELECT projection_list
+--   FROM table_name;
+--
+-- Template with selection:
+--
+--   SELECT projection_list
+--   FROM table_name
+--   WHERE condition;
+--
+-- Template with joining:
+--
+--   SELECT projection_list
+--   FROM table1 t1
+--   JOIN table2 t2
+--     ON t2.key = t1.key;
+--
+-- Template with all three concepts:
+--
+--   SELECT t1.column1,
+--          t2.column2,
+--          expression AS alias_name
+--   FROM table1 t1
+--   JOIN table2 t2
+--     ON t2.key = t1.key
+--   WHERE condition;
+
+
+-- ============================================================
+-- Reading a SELECT query
+-- ============================================================
+-- Когда читаешь SELECT query,
+-- удобно задавать вопросы в таком порядке:
+--
+-- 1. FROM:
+--   Какая main table?
+--
+-- 2. JOIN:
+--   Какие tables соединяются?
+--   По каким keys?
+--
+-- 3. WHERE:
+--   Какие rows остаются?
+--
+-- 4. SELECT:
+--   Какие columns/expressions показываются?
+--
+-- 5. ORDER BY:
+--   Как сортируется result?
+--
+-- Пример:
+--   SELECT e.employee_id,
+--          e.first_name,
+--          d.department_name
+--   FROM employees e
+--   JOIN departments d
+--     ON d.department_id = e.department_id
+--   WHERE e.salary > 5000
+--   ORDER BY e.salary DESC;
+--
+-- Reading:
+--   FROM employees.
+--   JOIN departments by department_id.
+--   Keep employees with salary > 5000.
+--   Show employee_id, first_name, department_name.
+--   Sort by salary descending.
+
+
+-- ============================================================
+-- Common beginner mistakes
+-- ============================================================
+-- 1. Путать SELECT command и SELECTION concept.
+--    SELECT command - весь query.
+--    SELECTION - filtering rows.
+--
+-- 2. Использовать SELECT * всегда.
+--    Лучше выбирать только нужные columns.
+--
+-- 3. Забывать WHERE.
+--    Query без WHERE может вернуть всю table.
+--
+-- 4. Писать string literals без single quotes.
+--    Неправильно:
+--      WHERE last_name = King
+--
+--    Правильно:
+--      WHERE last_name = 'King'
+--
+-- 5. Сравнивать NULL через =.
+--    Неправильно:
+--      WHERE commission_pct = NULL
+--
+--    Правильно:
+--      WHERE commission_pct IS NULL
+--
+-- 6. Смешивать AND и OR без parentheses.
+--    Лучше явно показывать logic.
+--
+-- 7. Забывать join condition.
+--    Это может создать Cartesian product.
+--
+-- 8. Использовать old comma join в новом коде.
+--    Лучше ANSI JOIN:
+--      JOIN ... ON ...
+--
+-- 9. Фильтровать right table в WHERE после LEFT JOIN
+--    и случайно терять unmatched rows.
+--
+-- 10. Думать, что SELECT меняет данные.
+--     SELECT только читает.
+
+
+-- ============================================================
+-- Small practice tasks
+-- ============================================================
+-- Task 1:
+--   Напиши query, который показывает только:
+--     employee_id
+--     first_name
+--     last_name
+--
+--   Table:
+--     employees
+--
+--   Concept:
+--     PROJECTION
+--
+-- Task 2:
+--   Напиши query, который показывает всех employees
+--   с salary больше 5000.
+--
+--   Concept:
+--     SELECTION
+--
+-- Task 3:
+--   Напиши query, который показывает:
+--     first_name
+--     last_name
+--     annual_salary
+--
+--   annual_salary = salary * 12
+--
+--   Concept:
+--     PROJECTION with expression
+--
+-- Task 4:
+--   Напиши query, который показывает employees
+--   из departments 60 или 90.
+--
+--   Используй IN.
+--
+-- Task 5:
+--   Напиши query, который показывает employees,
+--   у которых last_name начинается на S.
+--
+--   Используй LIKE.
+--
+-- Task 6:
+--   Напиши query, который показывает employees
+--   без commission.
+--
+--   Используй IS NULL.
+--
+-- Task 7:
+--   Соедини employees и departments.
+--   Покажи:
+--     employee_id
+--     first_name
+--     department_name
+--
+--   Concept:
+--     JOINING
+--
+-- Task 8:
+--   Соедини employees и departments через LEFT JOIN.
+--   Покажи всех employees,
+--   даже если department не найден.
+--
+-- Task 9:
+--   Соедини employees, departments и locations.
+--   Покажи:
+--     employee full name
+--     department_name
+--     city
+--
+-- Task 10:
+--   Возьми query из Task 9
+--   и добавь selection:
+--     только employees с salary > 7000.
+
+
+-- ============================================================
+-- Summary
+-- ============================================================
+-- PROJECTION:
+--   выбирает columns/expressions для output.
+--   Обычно находится в SELECT list.
+--
+-- SELECTION:
+--   выбирает rows по condition.
+--   Обычно находится в WHERE.
+--
+-- JOINING:
+--   соединяет rows из нескольких tables.
+--   Обычно находится в FROM/JOIN ... ON.
+--
+-- Главное:
+--   Projection = what columns?
+--   Selection  = what rows?
+--   Joining    = what tables and relationships?
+--
+-- Если ты понимаешь эти 3 concepts,
+-- SELECT становится намного легче читать и писать.
