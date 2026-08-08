@@ -75,4 +75,25 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('Full name: ' || v_employee.full_name);
 END;
 
+-- Task 7: Filling Associative array and printing values using loop
+DECLARE
+    TYPE t_names IS TABLE OF VARCHAR2(100) INDEX BY PLS_INTEGER;
+    
+    v_names t_names;
+    
+    i PLS_INTEGER;
+BEGIN
+    v_names(1) := 'Raul';
+    v_names(2) := 'Zaur';
+    v_names(3) := 'Ceyla';
+    
+    i := v_names.FIRST;
+    
+    WHILE i IS NOT NULL LOOP
+        DBMS_OUTPUT.PUT_LINE(i || ': ' || v_names(i));
+        
+        i := v_names.NEXT(i);
+    END LOOP;
+END;
+
     
