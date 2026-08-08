@@ -26,3 +26,13 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('Is active: FALSE');
     END IF;
 END;
+
+-- Task 3: NVL on v_bonus
+DECLARE
+    v_salary NUMBER(10) := 1850;
+    v_bonus  NUMBER(10);
+    v_result NUMBER(10);
+BEGIN
+    v_result := v_salary + NVL(v_bonus, 0);
+    DBMS_OUTPUT.PUT_LINE('Salary with bonus: ' || v_result);
+END;
