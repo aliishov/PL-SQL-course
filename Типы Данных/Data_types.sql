@@ -20,7 +20,7 @@
 --   v_employee_id NUMBER(10);
 --   v_first_name  VARCHAR2(50) := 'Ali';
 --   v_created_at  DATE DEFAULT SYSDATE;
---   v_is_active   BOOLEAN := TRUE;
+--   v_is_active   BOOLEAN NOT NULL := TRUE;
 --
 -- Важно:
 --   SQL-типы используются в таблицах и SQL-запросах.
@@ -28,7 +28,7 @@
 --   Некоторые PL/SQL-типы нельзя напрямую хранить в таблицах.
 --
 -- Перед запуском примеров с DBMS_OUTPUT:
---   SET SERVEROUTPUT ON;
+   SET SERVEROUTPUT ON;
 
 
 -- ============================================================
@@ -122,14 +122,14 @@
 --   v_temperature BINARY_DOUBLE := 36.6;
 --
 -- Пример блока:
---   DECLARE
---     v_price    NUMBER(8, 2) := 199.99;
---     v_quantity PLS_INTEGER := 3;
---     v_total    NUMBER(10, 2);
---   BEGIN
---     v_total := v_price * v_quantity;
---     DBMS_OUTPUT.PUT_LINE('Total = ' || v_total);
---   END;
+   DECLARE
+     v_price    NUMBER(8, 2) := 199.99;
+     v_quantity PLS_INTEGER := 3;
+     v_total    NUMBER(10, 2);
+   BEGIN
+     v_total := v_price * v_quantity;
+     DBMS_OUTPUT.PUT_LINE('Total = ' || v_total);
+   END;
 --   /
 
 
@@ -216,14 +216,14 @@
 --   v_hash       RAW(32);
 --
 -- Пример блока:
---   DECLARE
---     v_first_name VARCHAR2(50) := 'Ali';
---     v_last_name  VARCHAR2(50) := 'Ishov';
---     v_full_name  VARCHAR2(101);
---   BEGIN
---     v_full_name := v_first_name || ' ' || v_last_name;
---     DBMS_OUTPUT.PUT_LINE(v_full_name);
---   END;
+   DECLARE
+     v_first_name VARCHAR2(50) := 'Raul';
+     v_last_name  VARCHAR2(50) := 'Alishov';
+     v_full_name  VARCHAR2(101);
+   BEGIN
+     v_full_name := v_first_name || ' ' || v_last_name;
+     DBMS_OUTPUT.PUT_LINE(v_full_name);
+   END;
 --   /
 
 
@@ -299,13 +299,13 @@
 --   v_deadline   DATE := TO_DATE('2026-08-07', 'YYYY-MM-DD');
 --
 -- Пример блока:
---   DECLARE
---     v_started_at TIMESTAMP WITH TIME ZONE := SYSTIMESTAMP;
---     v_due_date   DATE := ADD_MONTHS(SYSDATE, 1);
---   BEGIN
---     DBMS_OUTPUT.PUT_LINE('Started at = ' || v_started_at);
---     DBMS_OUTPUT.PUT_LINE('Due date = ' || TO_CHAR(v_due_date, 'YYYY-MM-DD'));
---   END;
+   DECLARE
+     v_started_at TIMESTAMP WITH TIME ZONE := SYSTIMESTAMP;
+     v_due_date   DATE := ADD_MONTHS(SYSDATE, 1);
+   BEGIN
+     DBMS_OUTPUT.PUT_LINE('Started at = ' || v_started_at);
+     DBMS_OUTPUT.PUT_LINE('Due date = ' || TO_CHAR(v_due_date, 'YYYY-MM-DD'));
+   END;
 --   /
 
 
@@ -331,18 +331,18 @@
 --   v_is_valid  BOOLEAN;
 --
 -- Пример блока:
---   DECLARE
---     v_salary    NUMBER(10, 2) := 2500;
---     v_has_bonus BOOLEAN;
---   BEGIN
---     v_has_bonus := v_salary > 2000;
---
---     IF v_has_bonus THEN
---       DBMS_OUTPUT.PUT_LINE('Bonus allowed');
---     ELSE
---       DBMS_OUTPUT.PUT_LINE('Bonus not allowed');
---     END IF;
---   END;
+   DECLARE
+     v_salary    NUMBER(10, 2) := 2500;
+     v_has_bonus BOOLEAN;
+   BEGIN
+     v_has_bonus := v_salary > 2000;
+
+     IF v_has_bonus THEN
+       DBMS_OUTPUT.PUT_LINE('Bonus allowed');
+     ELSE
+       DBMS_OUTPUT.PUT_LINE('Bonus not allowed');
+     END IF;
+   END;
 --   /
 --
 -- BOOLEAN и NULL:
@@ -425,16 +425,16 @@
 --   v_employee employees%ROWTYPE;
 --
 -- Пример блока:
---   DECLARE
---     v_employee employees%ROWTYPE;
---   BEGIN
---     SELECT *
---     INTO v_employee
---     FROM employees
---     WHERE employee_id = 100;
---
---     DBMS_OUTPUT.PUT_LINE(v_employee.first_name);
---   END;
+   DECLARE
+     v_employee employees%ROWTYPE;
+   BEGIN
+     SELECT *
+     INTO v_employee
+     FROM employees
+     WHERE employee_id = 100;
+
+     DBMS_OUTPUT.PUT_LINE(v_employee.first_name);
+   END;
 --   /
 --
 -- Когда использовать:
@@ -556,14 +556,14 @@
 --   используй CONSTANT вместо обычной переменной.
 --
 -- Пример блока:
---   DECLARE
---     c_vat_rate CONSTANT NUMBER(5, 2) := 18;
---     v_price    NUMBER(10, 2) := 100;
---     v_total    NUMBER(10, 2);
---   BEGIN
---     v_total := v_price + (v_price * c_vat_rate / 100);
---     DBMS_OUTPUT.PUT_LINE(v_total);
---   END;
+   DECLARE
+     c_vat_rate CONSTANT NUMBER(5, 2) := 18;
+     v_price    NUMBER(10, 2) := 100;
+     v_total    NUMBER(10, 2);
+   BEGIN
+     v_total := v_price + (v_price * c_vat_rate / 100);
+     DBMS_OUTPUT.PUT_LINE(v_total);
+   END;
 --   /
 
 
@@ -617,17 +617,17 @@
 --     Иначе вернуть if_null.
 --
 -- Пример:
---   SELECT NVL(commission_pct, 0)
---   FROM employees;
+   SELECT NVL(commission_pct, 0)
+   FROM employees;
 --
 -- Пример PL/SQL:
---   DECLARE
---     v_bonus NUMBER;
---     v_total NUMBER;
---   BEGIN
---     v_total := 1000 + NVL(v_bonus, 0);
---     DBMS_OUTPUT.PUT_LINE(v_total);
---   END;
+   DECLARE
+     v_bonus NUMBER;
+     v_total NUMBER;
+   BEGIN
+     v_total := 1000 + NVL(v_bonus, 0);
+     DBMS_OUTPUT.PUT_LINE(v_total);
+   END;
 --   /
 
 
@@ -679,30 +679,30 @@
 -- Type conversion examples
 -- ============================================================
 -- Пример 1: string -> number
---   DECLARE
---     v_text   VARCHAR2(20) := '1250.50';
---     v_amount NUMBER(10, 2);
---   BEGIN
---     v_amount := TO_NUMBER(v_text);
---     DBMS_OUTPUT.PUT_LINE(v_amount);
---   END;
+   DECLARE
+     v_text   VARCHAR2(20) := '1250.50';
+     v_amount NUMBER(10, 2);
+   BEGIN
+     v_amount := TO_NUMBER(v_text);
+     DBMS_OUTPUT.PUT_LINE(v_amount);
+   END;
 --   /
 --
 -- Пример 2: date -> string
---   DECLARE
---     v_today DATE := SYSDATE;
---   BEGIN
---     DBMS_OUTPUT.PUT_LINE(TO_CHAR(v_today, 'YYYY-MM-DD HH24:MI:SS'));
---   END;
+   DECLARE
+     v_today DATE := SYSDATE;
+   BEGIN
+     DBMS_OUTPUT.PUT_LINE(TO_CHAR(v_today, 'YYYY-MM-DD HH24:MI:SS'));
+   END;
 --   /
 --
 -- Пример 3: string -> date
---   DECLARE
---     v_hire_date DATE;
---   BEGIN
---     v_hire_date := TO_DATE('2026-08-07', 'YYYY-MM-DD');
---     DBMS_OUTPUT.PUT_LINE(TO_CHAR(v_hire_date, 'DD.MM.YYYY'));
---   END;
+   DECLARE
+     v_hire_date DATE;
+   BEGIN
+     v_hire_date := TO_DATE('2026-08-07', 'YYYY-MM-DD');
+     DBMS_OUTPUT.PUT_LINE(TO_CHAR(v_hire_date, 'DD.MM.YYYY'));
+   END;
 --   /
 
 
