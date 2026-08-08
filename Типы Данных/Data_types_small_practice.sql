@@ -48,7 +48,7 @@ END;
 
 -- Task 5: Adding SUBTYPEs
 DECLARE
-    SUBTYPE t_money    IS NUMBER(12, 2);
+    SUBTYPE t_money IS NUMBER(12, 2);
     
     v_money_1     t_money := 1000.23;
     v_money_2     t_money := 1231.12;
@@ -57,4 +57,22 @@ BEGIN
     v_total_money := v_money_1 + v_money_2;
     DBMS_OUTPUT.PUT_LINE('Total money: ' || v_total_money);
 END;
+
+-- Task 6: Creating and filling RECORD
+DEClARE
+    TYPE t_employee_info IS RECORD (
+        employee_id NUMBER(10),
+        full_name   VARCHAR2(100),
+        salary      NUMBER(10, 2)
+    );
+    
+    v_employee t_employee_info;
+BEGIN
+    v_employee.employee_id := 1;
+    v_employee.full_name   := 'Raul Alishov';
+    v_employee.salary      := 1850.00;
+    
+    DBMS_OUTPUT.PUT_LINE('Full name: ' || v_employee.full_name);
+END;
+
     
