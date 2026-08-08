@@ -1,0 +1,1311 @@
+-- ============================================================
+-- Oracle SQL*Plus / SQL Developer DESCRIBE command
+-- ============================================================
+-- DESCRIBE      - Команда клиента Oracle для просмотра структуры объекта.
+--
+-- Короткая форма:
+--   DESC
+--
+-- Полная форма:
+--   DESCRIBE
+--
+-- Важно:
+--   DESCRIBE - это не SQL-запрос.
+--   DESCRIBE - это команда инструмента, например:
+--     SQL*Plus
+--     SQLcl
+--     SQL Developer worksheet
+--     некоторые IDE для Oracle
+--
+-- Поэтому DESCRIBE обычно пишут отдельно, а не внутри PL/SQL блока.
+--
+-- Правильно:
+--   DESC employees
+--
+-- Неправильно:
+--   BEGIN
+--     DESC employees;
+--   END;
+--   /
+--
+-- Если нужно получить структуру объекта именно через SQL-запрос,
+-- используют data dictionary views:
+--   USER_TAB_COLUMNS
+--   ALL_TAB_COLUMNS
+--   DBA_TAB_COLUMNS
+--   USER_ARGUMENTS
+--   ALL_ARGUMENTS
+--   USER_OBJECTS
+--   ALL_OBJECTS
+
+
+-- ============================================================
+-- Basic syntax
+-- ============================================================
+-- Синтаксис:
+--   DESC object_name
+--   DESCRIBE object_name
+--
+-- С объектом в другой схеме:
+--   DESC schema_name.object_name
+--
+-- С database link:
+--   DESC object_name@db_link_name
+--   DESC schema_name.object_name@db_link_name
+--
+-- Примеры:
+--   DESC employees
+--   DESCRIBE employees
+--   DESC hr.employees
+--   DESCRIBE hr.departments
+--   DESC employees@remote_db
+--
+-- В SQL*Plus точка с запятой обычно не обязательна для команды DESCRIBE:
+--   DESC employees
+--
+-- Но многие инструменты нормально принимают и так:
+--   DESC employees;
+--
+-- В учебных файлах можно писать без semicolon,
+-- чтобы было видно, что это client command, а не обычный SQL statement.
+
+
+-- ============================================================
+-- What DESCRIBE shows for a table
+-- ============================================================
+-- Для таблицы DESCRIBE показывает список колонок.
+--
+-- Обычно вывод содержит:
+--   Name      - имя колонки;
+--   Null?     - может ли колонка хранить NULL;
+--   Type      - тип данных колонки.
+--
+-- Пример команды:
+--   DESC employees
+--
+-- Примерный вывод:
+--   Name           Null?    Type
+--   -------------- -------- ------------
+--   EMPLOYEE_ID    NOT NULL NUMBER(6)
+--   FIRST_NAME              VARCHAR2(20)
+--   LAST_NAME      NOT NULL VARCHAR2(25)
+--   EMAIL          NOT NULL VARCHAR2(25)
+--   PHONE_NUMBER            VARCHAR2(20)
+--   HIRE_DATE      NOT NULL DATE
+--   JOB_ID         NOT NULL VARCHAR2(10)
+--   SALARY                  NUMBER(8,2)
+--   COMMISSION_PCT          NUMBER(2,2)
+--   MANAGER_ID              NUMBER(6)
+--   DEPARTMENT_ID           NUMBER(4)
+--
+-- Как читать вывод:
+--   EMPLOYEE_ID NOT NULL NUMBER(6)
+--     Колонка employee_id обязательная.
+--     Тип NUMBER(6), то есть максимум 6 цифр.
+--
+--   FIRST_NAME VARCHAR2(20)
+--     Колонка first_name необязательная.
+--     Может хранить строку до 20 символов/bytes,
+--     в зависимости от настроек length semantics.
+--
+--   SALARY NUMBER(8,2)
+--     Всего 8 цифр, из них 2 после точки.
+--     Пример: 123456.78
+--
+--   HIRE_DATE DATE
+--     Хранит дату и время до секунд.
+--
+-- Важно:
+--   DESCRIBE не показывает все свойства таблицы.
+--   Он показывает короткую структуру.
+--   Для constraints, indexes, comments, triggers нужны другие запросы.
+
+
+-- ============================================================
+-- What DESCRIBE shows for a view
+-- ============================================================
+-- VIEW          - Виртуальная таблица на основе SELECT-запроса.
+--
+-- DESCRIBE для view показывает колонки результата view.
+--
+-- Пример:
+--   DESC employee_details_view
+--
+-- Возможный вывод:
+--   Name             Null?    Type
+--   ---------------- -------- ------------
+--   EMPLOYEE_ID               NUMBER(6)
+--   FULL_NAME                 VARCHAR2(46)
+--   DEPARTMENT_NAME           VARCHAR2(30)
+--   JOB_TITLE                 VARCHAR2(35)
+--
+-- Важно:
+--   DESCRIBE view не показывает сам SELECT-код view.
+--   Он показывает только результат: имена колонок и типы.
+--
+-- Чтобы увидеть SQL-код view:
+--   SELECT text
+--   FROM user_views
+--   WHERE view_name = 'EMPLOYEE_DETAILS_VIEW';
+--
+-- В Oracle имена объектов в data dictionary обычно хранятся в uppercase,
+-- если объект был создан без double quotes.
+
+
+-- ============================================================
+-- What DESCRIBE shows for a synonym
+-- ============================================================
+-- SYNONYM       - Альтернативное имя для объекта.
+--
+-- Если synonym указывает на таблицу или view,
+-- DESCRIBE часто показывает структуру целевого объекта.
+--
+-- Пример:
+--   DESC emp
+--
+-- Если EMP - synonym на HR.EMPLOYEES,
+-- вывод будет похож на:
+--   DESC hr.employees
+--
+-- Важно:
+--   Synonym скрывает реальное имя объекта.
+--   Это удобно, но иногда мешает понять,
+--   где именно находится таблица.
+--
+-- Чтобы посмотреть synonyms текущего пользователя:
+--   SELECT synonym_name, table_owner, table_name
+--   FROM user_synonyms
+--   ORDER BY synonym_name;
+--
+-- Чтобы посмотреть доступные synonyms:
+--   SELECT owner, synonym_name, table_owner, table_name
+--   FROM all_synonyms
+--   WHERE synonym_name = 'EMP';
+
+
+-- ============================================================
+-- What DESCRIBE shows for a procedure
+-- ============================================================
+-- PROCEDURE     - PL/SQL-блок, который выполняет действие.
+--
+-- DESCRIBE для procedure показывает параметры.
+--
+-- Пример процедуры:
+--   CREATE OR REPLACE PROCEDURE raise_salary (
+--     p_employee_id IN employees.employee_id%TYPE,
+--     p_percent     IN NUMBER,
+--     p_new_salary  OUT employees.salary%TYPE
+--   ) IS
+--   BEGIN
+--     NULL;
+--   END;
+--   /
+--
+-- Команда:
+--   DESC raise_salary
+--
+-- Примерный вывод:
+--   PROCEDURE raise_salary
+--    Argument Name  Type    In/Out Default?
+--    -------------- ------- ------ --------
+--    P_EMPLOYEE_ID  NUMBER  IN
+--    P_PERCENT      NUMBER  IN
+--    P_NEW_SALARY   NUMBER  OUT
+--
+-- Как читать:
+--   IN      - значение передается в процедуру.
+--   OUT     - процедура возвращает значение через параметр.
+--   IN OUT  - параметр и принимается, и изменяется.
+--
+-- Важно:
+--   DESCRIBE помогает быстро понять,
+--   какие параметры нужны процедуре,
+--   но не показывает тело процедуры.
+--
+-- Чтобы увидеть код процедуры:
+--   SELECT text
+--   FROM user_source
+--   WHERE name = 'RAISE_SALARY'
+--   ORDER BY line;
+
+
+-- ============================================================
+-- What DESCRIBE shows for a function
+-- ============================================================
+-- FUNCTION      - PL/SQL-блок, который возвращает значение.
+--
+-- DESCRIBE для function показывает:
+--   return type;
+--   input/output parameters.
+--
+-- Пример функции:
+--   CREATE OR REPLACE FUNCTION get_annual_salary (
+--     p_monthly_salary IN NUMBER
+--   ) RETURN NUMBER IS
+--   BEGIN
+--     RETURN p_monthly_salary * 12;
+--   END;
+--   /
+--
+-- Команда:
+--   DESC get_annual_salary
+--
+-- Примерный вывод:
+--   FUNCTION get_annual_salary RETURNS NUMBER
+--    Argument Name      Type    In/Out Default?
+--    ------------------ ------- ------ --------
+--    P_MONTHLY_SALARY   NUMBER  IN
+--
+-- Важно:
+--   Функцию можно вызвать в SQL,
+--   если она соответствует правилам SQL-вызова.
+--
+-- Пример:
+--   SELECT get_annual_salary(2500)
+--   FROM dual;
+--
+-- DESCRIBE показывает сигнатуру функции,
+-- но не показывает ее business logic.
+
+
+-- ============================================================
+-- What DESCRIBE shows for a package
+-- ============================================================
+-- PACKAGE       - Группа связанных procedures, functions,
+--                 constants, types, cursors и variables.
+--
+-- DESCRIBE для package показывает публичную спецификацию package.
+--
+-- Пример:
+--   DESC employee_api
+--
+-- Возможный вывод:
+--   PROCEDURE hire_employee
+--    Argument Name  Type       In/Out Default?
+--    -------------- ---------- ------ --------
+--    P_FIRST_NAME   VARCHAR2   IN
+--    P_LAST_NAME    VARCHAR2   IN
+--    P_SALARY       NUMBER     IN
+--
+--   FUNCTION get_salary RETURNS NUMBER
+--    Argument Name  Type       In/Out Default?
+--    -------------- ---------- ------ --------
+--    P_EMPLOYEE_ID  NUMBER     IN
+--
+-- Важно:
+--   Package состоит из двух частей:
+--     package specification;
+--     package body.
+--
+-- DESCRIBE показывает то, что видно снаружи,
+-- то есть specification.
+-- Тело package body через DESCRIBE не раскрывается.
+--
+-- Чтобы увидеть исходный код package:
+--   SELECT type, line, text
+--   FROM user_source
+--   WHERE name = 'EMPLOYEE_API'
+--   ORDER BY type, line;
+
+
+-- ============================================================
+-- What DESCRIBE shows for object types
+-- ============================================================
+-- OBJECT TYPE   - Пользовательский объектный тип Oracle.
+--
+-- Пример:
+--   CREATE OR REPLACE TYPE t_address AS OBJECT (
+--     city    VARCHAR2(50),
+--     street  VARCHAR2(100),
+--     zip     VARCHAR2(20)
+--   );
+--   /
+--
+-- Команда:
+--   DESC t_address
+--
+-- Примерный вывод:
+--   Name    Null? Type
+--   ------- ----- -------------
+--   CITY          VARCHAR2(50)
+--   STREET        VARCHAR2(100)
+--   ZIP           VARCHAR2(20)
+--
+-- Если object type содержит methods,
+-- DESCRIBE может показать attributes и methods.
+--
+-- Object types встречаются реже,
+-- но важно знать, что DESCRIBE работает не только с таблицами.
+
+
+-- ============================================================
+-- DESCRIBE and case sensitivity
+-- ============================================================
+-- В Oracle обычные имена объектов не чувствительны к регистру.
+--
+-- Эти команды обычно одинаковые:
+--   DESC employees
+--   DESC EMPLOYEES
+--   DESC Employees
+--
+-- Потому что объект, созданный так:
+--   CREATE TABLE employees (...)
+--
+-- в data dictionary хранится как:
+--   EMPLOYEES
+--
+-- Но если объект создан с double quotes,
+-- имя становится case-sensitive.
+--
+-- Пример:
+--   CREATE TABLE "MyTable" (
+--     "Id" NUMBER
+--   );
+--
+-- Тогда нужно обращаться точнее:
+--   DESC "MyTable"
+--
+-- И к колонке:
+--   SELECT "Id"
+--   FROM "MyTable";
+--
+-- Хорошая практика:
+--   В Oracle обычно не используют double quotes в именах объектов.
+--   Лучше писать простые имена:
+--     employees
+--     employee_id
+--     created_at
+
+
+-- ============================================================
+-- DESCRIBE with schema name
+-- ============================================================
+-- SCHEMA        - Пользователь/владелец объектов в Oracle.
+--
+-- Если таблица находится в твоей схеме:
+--   DESC employees
+--
+-- Если таблица находится в другой схеме:
+--   DESC hr.employees
+--
+-- Пример:
+--   DESC sys.all_tables
+--
+-- Важно:
+--   Чтобы описать объект в другой схеме,
+--   у тебя должны быть права на этот объект.
+--
+-- Если прав нет, Oracle может вернуть ошибку:
+--   ORA-04043: object does not exist
+--
+-- Это не всегда значит, что объекта реально нет.
+-- Иногда это значит:
+--   1. объект в другой схеме;
+--   2. нет privileges;
+--   3. имя написано неправильно;
+--   4. объект создан с double quotes;
+--   5. подключение идет не к той базе/schema.
+
+
+-- ============================================================
+-- DESCRIBE with database link
+-- ============================================================
+-- DATABASE LINK - Ссылка на удаленную Oracle database.
+--
+-- Синтаксис:
+--   DESC table_name@db_link_name
+--
+-- Пример:
+--   DESC employees@prod_db
+--   DESC hr.employees@prod_db
+--
+-- Важно:
+--   Нужен существующий database link.
+--   Также нужны права на удаленный объект.
+--
+-- Database links чаще встречаются в enterprise-системах,
+-- где одна база читает данные из другой базы.
+
+
+-- ============================================================
+-- DESCRIBE vs SELECT *
+-- ============================================================
+-- DESCRIBE:
+--   показывает структуру объекта;
+--   не читает строки таблицы;
+--   не показывает данные;
+--   удобен перед написанием SELECT/INSERT/UPDATE.
+--
+-- SELECT *:
+--   читает данные;
+--   показывает строки и значения;
+--   может быть тяжелым на большой таблице;
+--   не всегда удобно показывает типы колонок.
+--
+-- Пример:
+--   DESC employees
+--
+-- Это безопаснее, чем сразу:
+--   SELECT *
+--   FROM employees;
+--
+-- Особенно если таблица большая.
+--
+-- Хорошая привычка:
+--   Сначала DESC table_name.
+--   Потом SELECT только нужные колонки.
+--
+-- Пример:
+--   DESC employees
+--
+--   SELECT employee_id, first_name, last_name, salary
+--   FROM employees
+--   WHERE department_id = 90;
+
+
+-- ============================================================
+-- DESCRIBE vs data dictionary
+-- ============================================================
+-- DESCRIBE удобен для быстрого просмотра.
+-- Но иногда нужен SQL-запрос к metadata.
+--
+-- DESCRIBE:
+--   DESC employees
+--
+-- Data dictionary:
+--   SELECT column_id,
+--          column_name,
+--          data_type,
+--          data_length,
+--          data_precision,
+--          data_scale,
+--          nullable
+--   FROM user_tab_columns
+--   WHERE table_name = 'EMPLOYEES'
+--   ORDER BY column_id;
+--
+-- Что дает data dictionary:
+--   можно фильтровать;
+--   можно сортировать;
+--   можно join-ить с constraints/indexes/comments;
+--   можно сохранять результат;
+--   можно использовать внутри scripts.
+--
+-- Когда использовать DESCRIBE:
+--   быстро посмотреть структуру вручную.
+--
+-- Когда использовать USER_TAB_COLUMNS:
+--   написать отчет;
+--   проверить много таблиц;
+--   автоматизировать анализ;
+--   использовать metadata внутри SQL/PLSQL.
+
+
+-- ============================================================
+-- Useful metadata queries instead of DESCRIBE
+-- ============================================================
+-- Колонки своей таблицы:
+--   SELECT column_id,
+--          column_name,
+--          data_type,
+--          data_length,
+--          data_precision,
+--          data_scale,
+--          nullable
+--   FROM user_tab_columns
+--   WHERE table_name = 'EMPLOYEES'
+--   ORDER BY column_id;
+--
+-- Колонки доступной таблицы в любой схеме:
+--   SELECT owner,
+--          table_name,
+--          column_id,
+--          column_name,
+--          data_type,
+--          nullable
+--   FROM all_tab_columns
+--   WHERE owner = 'HR'
+--     AND table_name = 'EMPLOYEES'
+--   ORDER BY column_id;
+--
+-- Primary key / foreign key / check constraints:
+--   SELECT constraint_name,
+--          constraint_type,
+--          status
+--   FROM user_constraints
+--   WHERE table_name = 'EMPLOYEES'
+--   ORDER BY constraint_name;
+--
+-- Колонки constraints:
+--   SELECT constraint_name,
+--          column_name,
+--          position
+--   FROM user_cons_columns
+--   WHERE table_name = 'EMPLOYEES'
+--   ORDER BY constraint_name, position;
+--
+-- Indexes:
+--   SELECT index_name,
+--          uniqueness,
+--          status
+--   FROM user_indexes
+--   WHERE table_name = 'EMPLOYEES'
+--   ORDER BY index_name;
+--
+-- Columns of indexes:
+--   SELECT index_name,
+--          column_name,
+--          column_position
+--   FROM user_ind_columns
+--   WHERE table_name = 'EMPLOYEES'
+--   ORDER BY index_name, column_position;
+--
+-- Comments on columns:
+--   SELECT column_name,
+--          comments
+--   FROM user_col_comments
+--   WHERE table_name = 'EMPLOYEES'
+--   ORDER BY column_name;
+--
+-- Source code of procedure/function/package:
+--   SELECT line,
+--          text
+--   FROM user_source
+--   WHERE name = 'OBJECT_NAME'
+--   ORDER BY line;
+
+
+-- ============================================================
+-- DESCRIBE and NOT NULL
+-- ============================================================
+-- В выводе DESCRIBE есть колонка Null?.
+--
+-- Пример:
+--   Name         Null?    Type
+--   ------------ -------- ------------
+--   EMPLOYEE_ID  NOT NULL NUMBER(6)
+--   FIRST_NAME            VARCHAR2(20)
+--
+-- Если в Null? написано NOT NULL:
+--   колонка обязательная;
+--   INSERT без значения может упасть с ошибкой;
+--   UPDATE в NULL тоже может упасть с ошибкой.
+--
+-- Если поле Null? пустое:
+--   колонка nullable;
+--   в ней может быть NULL.
+--
+-- Пример:
+--   FIRST_NAME nullable.
+--
+-- Но важно:
+--   DESCRIBE не показывает check constraints.
+--   Колонка может быть nullable,
+--   но check constraint может запрещать какие-то значения.
+--
+-- Например:
+--   salary NUMBER(8,2)
+--   check salary > 0
+--
+-- DESCRIBE покажет NUMBER(8,2),
+-- но само правило salary > 0 нужно смотреть в USER_CONSTRAINTS.
+
+
+-- ============================================================
+-- DESCRIBE and data type reading
+-- ============================================================
+-- NUMBER(8,2)
+--   8 цифр всего.
+--   2 цифры после точки.
+--   Максимальный пример: 999999.99
+--
+-- NUMBER(6)
+--   6 цифр всего.
+--   Обычно целое значение.
+--   Пример: 123456
+--
+-- VARCHAR2(20)
+--   Строка до 20 bytes/chars,
+--   зависит от length semantics.
+--
+-- CHAR(1)
+--   Фиксированная строка длиной 1.
+--   Часто используется для флагов:
+--     'Y' / 'N'
+--     'A' / 'I'
+--
+-- DATE
+--   Дата и время до секунд.
+--   Не только day/month/year.
+--
+-- TIMESTAMP(6)
+--   Дата и время с долями секунды.
+--
+-- CLOB
+--   Большой текст.
+--
+-- BLOB
+--   Большие бинарные данные.
+--
+-- ROWID
+--   Физический адрес строки.
+--
+-- Если видишь тип через DESCRIBE,
+-- сразу думай:
+--   Какие значения туда можно вставлять?
+--   Может ли значение быть NULL?
+--   Нужно ли преобразование TO_DATE/TO_NUMBER?
+--   Можно ли использовать эту колонку в расчетах?
+
+
+-- ============================================================
+-- Practical workflow with DESCRIBE
+-- ============================================================
+-- Когда ты видишь новую таблицу, удобно идти так:
+--
+-- Step 1:
+--   Посмотреть структуру.
+--
+--   DESC employees
+--
+-- Step 2:
+--   Выбрать несколько понятных колонок.
+--
+--   SELECT employee_id,
+--          first_name,
+--          last_name,
+--          hire_date,
+--          salary
+--   FROM employees
+--   FETCH FIRST 10 ROWS ONLY;
+--
+-- Step 3:
+--   Посмотреть constraints, если нужно писать INSERT/UPDATE.
+--
+--   SELECT constraint_name,
+--          constraint_type,
+--          status
+--   FROM user_constraints
+--   WHERE table_name = 'EMPLOYEES';
+--
+-- Step 4:
+--   Посмотреть foreign keys, если есть связи.
+--
+--   SELECT constraint_name,
+--          r_constraint_name
+--   FROM user_constraints
+--   WHERE table_name = 'EMPLOYEES'
+--     AND constraint_type = 'R';
+--
+-- Step 5:
+--   Писать запрос уже осознанно.
+--
+--   SELECT employee_id,
+--          last_name,
+--          salary
+--   FROM employees
+--   WHERE salary > 5000
+--   ORDER BY salary DESC;
+
+
+-- ============================================================
+-- DESCRIBE is not DDL and not DML
+-- ============================================================
+-- DDL commands:
+--   CREATE
+--   ALTER
+--   DROP
+--   TRUNCATE
+--
+-- DML commands:
+--   INSERT
+--   UPDATE
+--   DELETE
+--   MERGE
+--
+-- Query:
+--   SELECT
+--
+-- Transaction control:
+--   COMMIT
+--   ROLLBACK
+--   SAVEPOINT
+--
+-- Client command:
+--   DESCRIBE
+--   DESC
+--
+-- DESCRIBE:
+--   не создает объект;
+--   не меняет объект;
+--   не удаляет объект;
+--   не читает данные строк;
+--   показывает metadata.
+--
+-- Поэтому DESCRIBE обычно безопасная команда для обучения.
+
+
+-- ============================================================
+-- Common errors
+-- ============================================================
+-- ORA-04043: object does not exist
+--   Возможные причины:
+--     объект реально не существует;
+--     имя написано неправильно;
+--     объект находится в другой схеме;
+--     нет privileges;
+--     объект создан с double quotes и case-sensitive именем;
+--     подключение идет не к той базе.
+--
+-- SP2-0565 or similar SQL*Plus errors
+--   Ошибка может быть связана с SQL*Plus/client syntax.
+--   Проверь, где ты выполняешь команду.
+--
+-- Unknown command
+--   Инструмент может не поддерживать DESCRIBE.
+--   Например, обычный JDBC execution может ожидать SQL,
+--   а DESCRIBE является client command.
+--
+-- Table or view does not exist
+--   Для SELECT это часто ORA-00942.
+--   Для DESCRIBE может быть ORA-04043.
+--
+-- Если DESC не работает:
+--   1. проверь spelling;
+--   2. попробуй полное имя schema.object;
+--   3. проверь текущего пользователя:
+--        SHOW USER
+--   4. проверь объект:
+--        SELECT object_name, object_type
+--        FROM user_objects
+--        WHERE object_name = 'EMPLOYEES';
+--   5. проверь доступные объекты:
+--        SELECT owner, object_name, object_type
+--        FROM all_objects
+--        WHERE object_name = 'EMPLOYEES';
+
+
+-- ============================================================
+-- DESCRIBE and privileges
+-- ============================================================
+-- Чтобы DESCRIBE работал,
+-- пользователь должен видеть объект.
+--
+-- Для своей таблицы:
+--   DESC my_table
+--
+-- Для чужой таблицы:
+--   DESC other_schema.some_table
+--
+-- Нужны privileges, например:
+--   SELECT on table/view
+--   EXECUTE on procedure/function/package/type
+--
+-- Пример grant:
+--   GRANT SELECT ON hr.employees TO app_user;
+--
+-- После этого app_user может:
+--   DESC hr.employees
+--
+-- Для package/procedure/function:
+--   GRANT EXECUTE ON employee_api TO app_user;
+--
+-- Важно:
+--   Если доступа нет,
+--   Oracle часто не раскрывает существование объекта.
+--   Поэтому ошибка может выглядеть как "object does not exist".
+
+
+-- ============================================================
+-- DESCRIBE in SQL Developer
+-- ============================================================
+-- В Oracle SQL Developer есть несколько способов смотреть структуру:
+--
+-- Способ 1:
+--   DESC employees
+--
+-- Способ 2:
+--   открыть таблицу в Connections panel.
+--
+-- Способ 3:
+--   использовать autocomplete / object browser.
+--
+-- В worksheet команда может работать так:
+--   DESC employees;
+--
+-- Или так:
+--   DESCRIBE employees;
+--
+-- Но помни:
+--   Это все еще команда инструмента,
+--   а не SQL statement для PL/SQL block.
+
+
+-- ============================================================
+-- DESCRIBE in SQL*Plus / SQLcl
+-- ============================================================
+-- SQL*Plus и SQLcl поддерживают:
+--   DESC
+--   DESCRIBE
+--
+-- Примеры:
+--   SQL> DESC employees
+--   SQL> DESCRIBE departments
+--
+-- Для SQL*Plus можно настраивать отображение object types:
+--   SET DESCRIBE DEPTH 2
+--   SET DESCRIBE INDENT ON
+--   SET DESCRIBE LINE NUM ON
+--
+-- Обычно новичку это не нужно.
+-- Но если DESCRIBE показывает сложные object types,
+-- эти настройки могут сделать вывод удобнее.
+--
+-- SQLcl также часто имеет дополнительные команды:
+--   INFO table_name
+--   INFO+ table_name
+--
+-- INFO/INFO+ могут показывать больше metadata,
+-- но DESCRIBE остается базовой и простой командой.
+
+
+-- ============================================================
+-- DESCRIBE and INSERT
+-- ============================================================
+-- Перед INSERT полезно сделать DESCRIBE,
+-- чтобы понять:
+--   какие колонки обязательные;
+--   какие типы данных нужны;
+--   какие колонки можно пропустить;
+--   где нужна дата, число или строка.
+--
+-- Пример:
+--   DESC departments
+--
+-- Возможный вывод:
+--   Name             Null?    Type
+--   ---------------- -------- ------------
+--   DEPARTMENT_ID    NOT NULL NUMBER(4)
+--   DEPARTMENT_NAME  NOT NULL VARCHAR2(30)
+--   MANAGER_ID                NUMBER(6)
+--   LOCATION_ID               NUMBER(4)
+--
+-- Значит для INSERT минимум нужны:
+--   department_id
+--   department_name
+--
+-- Пример:
+--   INSERT INTO departments (
+--     department_id,
+--     department_name
+--   ) VALUES (
+--     280,
+--     'Analytics'
+--   );
+--
+-- Важно:
+--   DESCRIBE не показывает default values.
+--   Если колонка NOT NULL, но имеет DEFAULT,
+--   INSERT может пройти без явного значения.
+--
+-- Default values нужно смотреть в USER_TAB_COLUMNS:
+--   SELECT column_name,
+--          data_default
+--   FROM user_tab_columns
+--   WHERE table_name = 'DEPARTMENTS';
+
+
+-- ============================================================
+-- DESCRIBE and SELECT
+-- ============================================================
+-- Перед SELECT полезно сделать DESCRIBE,
+-- чтобы не угадывать имена колонок.
+--
+-- Пример:
+--   DESC employees
+--
+-- Потом:
+--   SELECT employee_id,
+--          first_name,
+--          last_name
+--   FROM employees;
+--
+-- Если колонка называется HIRE_DATE,
+-- не нужно гадать:
+--   hiredate
+--   hire_date
+--   start_date
+--
+-- DESCRIBE сразу показывает точное имя.
+--
+-- Важно:
+--   В SQL можно писать имена колонок в lowercase:
+--     SELECT employee_id
+--     FROM employees;
+--
+-- Oracle поймет это как EMPLOYEE_ID,
+-- если объект не был создан с double quotes.
+
+
+-- ============================================================
+-- DESCRIBE and UPDATE
+-- ============================================================
+-- Перед UPDATE DESCRIBE помогает понять тип колонки.
+--
+-- Пример:
+--   DESC employees
+--
+-- Если SALARY NUMBER(8,2):
+--   UPDATE employees
+--   SET salary = 3000
+--   WHERE employee_id = 100;
+--
+-- Если HIRE_DATE DATE:
+--   UPDATE employees
+--   SET hire_date = TO_DATE('2026-08-08', 'YYYY-MM-DD')
+--   WHERE employee_id = 100;
+--
+-- Если EMAIL VARCHAR2(25):
+--   UPDATE employees
+--   SET email = 'AISHOV'
+--   WHERE employee_id = 100;
+--
+-- Хорошая практика:
+--   Смотри тип через DESCRIBE.
+--   Потом используй правильный literal/conversion.
+--
+-- Строка:
+--   'text'
+--
+-- Число:
+--   100
+--   100.50
+--
+-- Дата:
+--   TO_DATE('2026-08-08', 'YYYY-MM-DD')
+
+
+-- ============================================================
+-- DESCRIBE and PL/SQL variables
+-- ============================================================
+-- DESCRIBE помогает выбрать тип PL/SQL переменной.
+--
+-- Если:
+--   DESC employees
+--
+-- показывает:
+--   EMPLOYEE_ID NUMBER(6)
+--   SALARY      NUMBER(8,2)
+--   FIRST_NAME  VARCHAR2(20)
+--
+-- То можно объявить:
+--   DECLARE
+--     v_employee_id NUMBER(6);
+--     v_salary      NUMBER(8, 2);
+--     v_first_name  VARCHAR2(20);
+--   BEGIN
+--     NULL;
+--   END;
+--   /
+--
+-- Но лучше использовать %TYPE:
+--   DECLARE
+--     v_employee_id employees.employee_id%TYPE;
+--     v_salary      employees.salary%TYPE;
+--     v_first_name  employees.first_name%TYPE;
+--   BEGIN
+--     NULL;
+--   END;
+--   /
+--
+-- Почему %TYPE лучше:
+--   если колонка salary станет NUMBER(10,2),
+--   переменная автоматически будет соответствовать колонке
+--   после recompilation PL/SQL-кода.
+
+
+-- ============================================================
+-- DESCRIBE and constraints limitation
+-- ============================================================
+-- DESCRIBE показывает NOT NULL,
+-- но не показывает остальные constraints подробно.
+--
+-- Он не показывает:
+--   primary key;
+--   foreign key;
+--   unique;
+--   check;
+--   default values;
+--   indexes;
+--   triggers;
+--   comments;
+--   identity details;
+--   virtual column expressions.
+--
+-- Поэтому DESCRIBE - это быстрый старт,
+-- но не полная документация таблицы.
+--
+-- Для полной картины смотри:
+--   USER_CONSTRAINTS
+--   USER_CONS_COLUMNS
+--   USER_INDEXES
+--   USER_IND_COLUMNS
+--   USER_TAB_COLUMNS
+--   USER_COL_COMMENTS
+--   USER_TRIGGERS
+
+
+-- ============================================================
+-- Short examples
+-- ============================================================
+-- Example 1:
+--   DESC employees
+--
+-- Example 2:
+--   DESC departments
+--
+-- Example 3:
+--   DESCRIBE locations
+--
+-- Example 4:
+--   DESC jobs
+--
+-- Example 5:
+--   DESC hr.employees
+--
+-- Example 6:
+--   DESC employee_api
+--
+-- Example 7:
+--   DESC get_annual_salary
+--
+-- Example 8:
+--   DESC raise_salary
+--
+-- Example 9:
+--   DESC t_address
+--
+-- Example 10:
+--   DESC employees@remote_db
+
+
+-- ============================================================
+-- Mini examples with comments
+-- ============================================================
+-- Посмотреть структуру таблицы:
+--   DESC employees
+--
+-- После этого написать SELECT:
+--   SELECT employee_id,
+--          first_name,
+--          last_name,
+--          salary
+--   FROM employees
+--   WHERE salary >= 5000;
+--
+-- Посмотреть структуру departments:
+--   DESC departments
+--
+-- После этого написать INSERT:
+--   INSERT INTO departments (
+--     department_id,
+--     department_name
+--   ) VALUES (
+--     290,
+--     'Data Engineering'
+--   );
+--
+-- Посмотреть структуру jobs:
+--   DESC jobs
+--
+-- После этого написать SELECT:
+--   SELECT job_id,
+--          job_title,
+--          min_salary,
+--          max_salary
+--   FROM jobs
+--   ORDER BY job_title;
+
+
+-- ============================================================
+-- Common mistakes
+-- ============================================================
+-- 1. Писать DESCRIEB / DESCIRIEB вместо DESCRIBE.
+--    Правильно:
+--      DESCRIBE employees
+--      DESC employees
+--
+-- 2. Думать, что DESCRIBE - это SQL.
+--    Это client command.
+--
+-- 3. Пытаться запускать DESC внутри PL/SQL блока.
+--    DESC нужно запускать отдельно.
+--
+-- 4. Думать, что DESCRIBE показывает данные.
+--    Он показывает структуру, а не строки.
+--
+-- 5. Думать, что DESCRIBE показывает все constraints.
+--    Он показывает только короткую metadata.
+--
+-- 6. Не указывать schema, когда таблица в другой схеме.
+--    Используй:
+--      DESC hr.employees
+--
+-- 7. Пугаться ORA-04043.
+--    Проверь spelling, schema, privileges и connection.
+--
+-- 8. Использовать SELECT * на большой таблице вместо DESCRIBE.
+--    Сначала лучше посмотреть структуру.
+--
+-- 9. Не замечать NOT NULL.
+--    Для INSERT обязательные колонки особенно важны.
+--
+-- 10. Не смотреть точность NUMBER.
+--     NUMBER(8,2) и NUMBER(8) - разные вещи.
+
+
+-- ============================================================
+-- Quick checklist
+-- ============================================================
+-- Когда используешь DESCRIBE, спроси себя:
+--
+-- 1. Как называется объект?
+--    employees
+--    departments
+--    hr.employees
+--
+-- 2. Это моя схема или чужая?
+--    DESC employees
+--    DESC hr.employees
+--
+-- 3. Какие колонки NOT NULL?
+--    Они важны для INSERT и UPDATE.
+--
+-- 4. Какие типы данных у колонок?
+--    NUMBER, VARCHAR2, DATE, TIMESTAMP, CLOB ...
+--
+-- 5. Нужны ли TO_DATE или TO_NUMBER?
+--    Для строковых дат лучше использовать явный формат.
+--
+-- 6. Нужны ли constraints/indexes?
+--    Если да, DESCRIBE мало.
+--    Иди в USER_CONSTRAINTS / USER_INDEXES.
+--
+-- 7. Нужен ли source code?
+--    Для procedure/function/package смотри USER_SOURCE.
+
+
+-- ============================================================
+-- Practice tasks
+-- ============================================================
+-- Task 1:
+--   Выполни:
+--     DESC employees
+--
+--   Ответь:
+--     сколько колонок в таблице;
+--     какие колонки NOT NULL;
+--     какие колонки имеют тип NUMBER;
+--     какие колонки имеют тип VARCHAR2;
+--     есть ли колонка DATE.
+--
+-- Task 2:
+--   Выполни:
+--     DESC departments
+--
+--   Напиши INSERT только с обязательными колонками.
+--
+-- Task 3:
+--   Выполни:
+--     DESC jobs
+--
+--   Напиши SELECT, который выводит:
+--     job_id
+--     job_title
+--     min_salary
+--     max_salary
+--
+-- Task 4:
+--   Выполни:
+--     DESC hr.employees
+--
+--   Если команда не работает,
+--   проверь:
+--     подключение;
+--     schema;
+--     privileges;
+--     spelling.
+--
+-- Task 5:
+--   Найди metadata employees через SQL:
+--
+--     SELECT column_id,
+--            column_name,
+--            data_type,
+--            nullable
+--     FROM user_tab_columns
+--     WHERE table_name = 'EMPLOYEES'
+--     ORDER BY column_id;
+--
+--   Сравни результат с:
+--     DESC employees
+--
+-- Task 6:
+--   Создай PL/SQL block,
+--   где переменные объявлены через %TYPE:
+--
+--     v_employee_id employees.employee_id%TYPE;
+--     v_salary      employees.salary%TYPE;
+--
+--   Подумай:
+--     почему это лучше, чем руками писать NUMBER(6), NUMBER(8,2)?
+--
+-- Task 7:
+--   Создай простую procedure с параметрами IN и OUT.
+--   Потом выполни:
+--     DESC procedure_name
+--
+--   Посмотри, как DESCRIBE показывает параметры.
+--
+-- Task 8:
+--   Создай простую function, которая возвращает NUMBER.
+--   Потом выполни:
+--     DESC function_name
+--
+--   Посмотри, как DESCRIBE показывает return type.
+
+
+-- ============================================================
+-- Summary
+-- ============================================================
+-- DESCRIBE / DESC - быстрая команда для просмотра структуры объекта.
+--
+-- Используется для:
+--   tables;
+--   views;
+--   synonyms;
+--   procedures;
+--   functions;
+--   packages;
+--   object types.
+--
+-- Показывает:
+--   column names;
+--   nullability;
+--   data types;
+--   procedure/function parameters;
+--   public package specification.
+--
+-- Не показывает полностью:
+--   table data;
+--   source code body;
+--   all constraints;
+--   indexes;
+--   triggers;
+--   comments;
+--   default values in a convenient full form.
+--
+-- Главная идея:
+--   DESCRIBE нужен, чтобы быстро понять,
+--   "что находится внутри объекта"
+--   перед тем как писать SELECT, INSERT, UPDATE или PL/SQL code.
