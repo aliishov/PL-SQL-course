@@ -36,3 +36,13 @@ BEGIN
     v_result := v_salary + NVL(v_bonus, 0);
     DBMS_OUTPUT.PUT_LINE('Salary with bonus: ' || v_result);
 END;
+
+-- Task 4: Change VARCHAR2 to DATE
+DECLARE
+    v_v_date VARCHAR2(10) := '2026-08-07';
+    v_d_date DATE;
+BEGIN
+    v_d_date := TO_DATE(v_v_date, 'YYYY-MM-DD');
+    DBMS_OUTPUT.PUT_LINE('DATE: ' || TO_CHAR(v_d_date, 'DD.MM.YYYY'));
+END;
+    
