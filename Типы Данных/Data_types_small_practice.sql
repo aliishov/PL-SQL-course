@@ -45,4 +45,16 @@ BEGIN
     v_d_date := TO_DATE(v_v_date, 'YYYY-MM-DD');
     DBMS_OUTPUT.PUT_LINE('DATE: ' || TO_CHAR(v_d_date, 'DD.MM.YYYY'));
 END;
+
+-- Task 5: Adding SUBTYPEs
+DECLARE
+    SUBTYPE t_money    IS NUMBER(12, 2);
+    
+    v_money_1     t_money := 1000.23;
+    v_money_2     t_money := 1231.12;
+    v_total_money t_money;
+BEGIN
+    v_total_money := v_money_1 + v_money_2;
+    DBMS_OUTPUT.PUT_LINE('Total money: ' || v_total_money);
+END;
     
