@@ -18,3 +18,7 @@ SELECT first_name,
        last_name,
        first_name || ' ' || last_name AS full_name
 FROM employees;
+
+-- Task 5: select 'Hello Oracle' using dual table
+SELECT 'Hello Oracle' AS message
+FROM dual;
