@@ -12,3 +12,7 @@ FROM dual;
 -- Task 4: Select 'Hello Oracle' with alias message
 SELECT 'Hello Oracle' message
 FROM dual;
+
+-- Task 5: Select SYSDATE with alias current_date
+SELECT SYSDATE current_date
+FROM dual;
