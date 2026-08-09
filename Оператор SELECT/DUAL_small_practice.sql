@@ -16,3 +16,7 @@ FROM dual;
 -- Task 5: Select SYSDATE with alias current_date
 SELECT SYSDATE current_date
 FROM dual;
+
+-- Task 6: Select USER with alias current_user
+SELECT USER current_date
+FROM dual;
