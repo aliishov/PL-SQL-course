@@ -8,3 +8,8 @@ SELECT first_name,
        salary, 
        salary * 12
 FROM employees;
+
+-- Task 3: Select commission_pct and ommission_pct devided by 2
+SELECT commission_pct, 
+       commission_pct / 12
+FROM employees;
