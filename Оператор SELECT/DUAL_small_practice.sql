@@ -8,3 +8,7 @@ FROM dual;
 -- Task 3: Select 10 + 20 with alias result_value
 SELECT 10 + 20 result_value
 FROM dual;
+
+-- Task 4: Select 'Hello Oracle' with alias message
+SELECT 'Hello Oracle' message
+FROM dual;
