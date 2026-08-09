@@ -13,3 +13,7 @@ FROM employees;
 SELECT commission_pct, 
        commission_pct / 12
 FROM employees;
+
+-- Task 4: Select salary * NVL(commission_pct, 0) with alias commission_amount
+SELECT salary * NVL(commission_pct, 0) commission_amount
+FROM employees;
