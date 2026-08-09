@@ -24,3 +24,7 @@ FROM dual;
 -- Task 7: Select 'It's my life'
 SELECT 'It''s my life'
 FROM dual;
+
+-- Task 8: Select 'It's my life' usin q operator
+SELECT q'<'It's my life>'
+FROM dual;
