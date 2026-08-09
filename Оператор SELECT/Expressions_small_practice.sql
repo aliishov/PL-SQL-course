@@ -22,3 +22,9 @@ FROM employees;
 SELECT start_date,
        start_date + 7
 FROM job_history;
+
+-- Task 6: Select start_date, end_date and days between them
+SELECT start_date,
+       end_date,
+       (end_date - start_date) + 1 days_between
+FROM job_history;
