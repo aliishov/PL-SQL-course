@@ -32,3 +32,7 @@ FROM job_history;
 -- Task 7: Select full name
 SELECT first_name ||' '|| last_name full_name
 FROM employees;
+
+-- Task 8: Select 'Hello Oracle' from DUAL
+SELECT 'Hello Oracle'
+FROM dual;
