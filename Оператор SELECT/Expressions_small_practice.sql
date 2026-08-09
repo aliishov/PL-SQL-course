@@ -28,3 +28,7 @@ SELECT start_date,
        end_date,
        (end_date - start_date) + 1 days_between
 FROM job_history;
+
+-- Task 7: Select full name
+SELECT first_name ||' '|| last_name full_name
+FROM employees;
