@@ -17,3 +17,8 @@ FROM employees;
 -- Task 4: Select salary * NVL(commission_pct, 0) with alias commission_amount
 SELECT salary * NVL(commission_pct, 0) commission_amount
 FROM employees;
+
+-- Task 5: Select start_date and start_date + 7 from job_history
+SELECT start_date,
+       start_date + 7
+FROM job_history;
