@@ -20,3 +20,7 @@ FROM dual;
 -- Task 6: Select USER with alias current_user
 SELECT USER current_date
 FROM dual;
+
+-- Task 7: Select 'It's my life'
+SELECT 'It''s my life'
+FROM dual;
