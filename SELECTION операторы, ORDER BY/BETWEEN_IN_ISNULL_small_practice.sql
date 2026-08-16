@@ -42,3 +42,8 @@ WHERE end_date IN (
 SELECT *
 FROM employees
 WHERE commission_pct IS NULL;
+
+-- Task 8: Display employees whose commission_pct is filled in.
+SELECT *
+FROM employees
+WHERE commission_pct IS NOT NULL;
