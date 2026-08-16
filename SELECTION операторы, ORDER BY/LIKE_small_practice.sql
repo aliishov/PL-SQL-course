@@ -22,3 +22,8 @@ WHERE first_name LIKE 'D_n';
 SELECT *
 FROM employees
 WHERE first_name LIKE '_a%';
+
+-- Task 6: Print employees whose job_id begins with the literal ST_. Use ESCAPE.
+SELECT *
+FROM employees
+WHERE job_id LIKE 'ST\_%' ESCAPE '\';
