@@ -21,3 +21,8 @@ WHERE hire_date = TO_DATE('2005-09-21', 'YYYY-MM-DD');
 SELECT * 
 FROM departments
 WHERE location_id = 1700;
+
+-- Task 5: Print all columns from job_history where job_id is 'ST_CLERK'.
+SELECT *
+FROM job_history
+WHERE job_id = 'ST_CLERK';
