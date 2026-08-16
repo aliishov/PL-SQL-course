@@ -11,4 +11,9 @@ WHERE salary BETWEEN 4000 AND 10000;
 SELECT *
 FROM job_history
 WHERE start_date BETWEEN TO_DATE('01.01.2004', 'DD.MM.YYYY') 
-                 AND TO_DATE('31.12.2006', 'DD.MM.YYYY');
+                     AND TO_DATE('31.12.2006', 'DD.MM.YYYY');
+
+-- Task 3: Print employees where the first_name is between 'A' and 'C'.
+SELECT *
+FROM employees
+WHERE first_name BETWEEN 'A' AND 'C';
