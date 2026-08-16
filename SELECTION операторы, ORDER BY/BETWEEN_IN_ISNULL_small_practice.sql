@@ -37,3 +37,8 @@ WHERE end_date IN (
   TO_DATE('2007-12-31', 'YYYY-MM-DD'),
   TO_DATE('2005-05-05', 'YYYY-MM-DD')
 );
+
+-- Task 7: Display employees whose commission_pct is missing.
+SELECT *
+FROM employees
+WHERE commission_pct IS NULL;
