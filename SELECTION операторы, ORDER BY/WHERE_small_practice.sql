@@ -4,3 +4,10 @@ SELECT first_name,
        salary
 FROM employees
 WHERE salary = 17000;
+
+-- Task 2: Print first_name and salary from employees where last_name is 'King'.
+SELECT first_name,
+       salary
+FROM employees
+WHERE last_name = 'King';
+
