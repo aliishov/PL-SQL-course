@@ -5,3 +5,10 @@ SELECT first_name,
        salary
 FROM employees
 WHERE salary BETWEEN 4000 AND 10000;
+
+-- Task 2: Print rows from job_history where the start_date is between 
+--         January 1, 2004, and December 31, 2006. Use TO_DATE.
+SELECT *
+FROM job_history
+WHERE start_date BETWEEN TO_DATE('01.01.2004', 'DD.MM.YYYY') 
+                 AND TO_DATE('31.12.2006', 'DD.MM.YYYY');
