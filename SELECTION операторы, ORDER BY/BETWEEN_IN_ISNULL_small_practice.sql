@@ -19,6 +19,12 @@ FROM employees
 WHERE first_name BETWEEN 'A' AND 'C';
 
 -- Task 4: Display departments where location_id is in the list: 1700, 2400, 1500
-SELECt *
+SELECT *
 FROM departments
 WHERE location_id IN (1700, 2400, 1500);
+
+-- Task 5: Display rows from job_history where job_id is 
+--         in the list: 'IT_PROG', 'ST_CLERK'
+SELECT *
+FROM job_history
+WHERE job_id in ('IT_PROG', 'ST_CLERK');
