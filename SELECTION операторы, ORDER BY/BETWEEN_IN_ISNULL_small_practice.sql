@@ -28,3 +28,12 @@ WHERE location_id IN (1700, 2400, 1500);
 SELECT *
 FROM job_history
 WHERE job_id in ('IT_PROG', 'ST_CLERK');
+
+-- Task 6: Display rows from job_history where end_date is one of the 
+--         following dates: 2007-12-31, 2005-05-05
+SELECT * 
+FROM job_history
+WHERE end_date IN (
+  TO_DATE('2007-12-31', 'YYYY-MM-DD'),
+  TO_DATE('2005-05-05', 'YYYY-MM-DD')
+);
