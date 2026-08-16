@@ -7,3 +7,9 @@ WHERE salary > 10000 AND department_id = 90;
 SELECT *
 FROM employees
 WHERE job_id = 'IT_PROG' AND department_id = 60;
+
+-- Task 3: Display employees with a first_name of 'Steven' and a last_name of 'King'.
+SELECT *
+FROM employees
+WHERE first_name = 'Steven' AND last_name = 'King';
+
