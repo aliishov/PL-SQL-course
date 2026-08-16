@@ -13,3 +13,7 @@ SELECT *
 FROM employees
 WHERE first_name = 'Steven' AND last_name = 'King';
 
+-- Task 4: Display employees with a hire_date of 2005-01-01 or later and a department_id of 50.
+SELECT *
+FROM employees
+WHERE hire_date >= TO_DATE('2005-01-01', 'YYYY-MM-DD') AND department_id = 50;
