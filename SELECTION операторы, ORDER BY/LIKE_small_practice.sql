@@ -7,3 +7,8 @@ WHERE first_name LIKE 'S%';
 SELECT * 
 FROM employees
 WHERE first_name LIKE '%r';
+
+-- Task 3: Print employees whose first_name contains ar.
+SELECT *
+FROM employees
+WHERE first_name LIKE '%ar%';
