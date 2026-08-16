@@ -12,3 +12,8 @@ WHERE first_name LIKE '%r';
 SELECT *
 FROM employees
 WHERE first_name LIKE '%ar%';
+
+-- Task 4: Print employees whose first_name matches the pattern: D_n
+SELECT *
+FROM employees
+WHERE first_name LIKE 'D_n';
