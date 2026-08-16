@@ -11,3 +11,8 @@ SELECT first_name,
 FROM employees
 WHERE last_name = 'King';
 
+-- Task 3: Print all columns from employees where hire_date is September 21, 2005. 
+--         Use TO_DATE with the format 'YYYY-MM-DD'.
+SELECT *
+FROM employees
+WHERE hire_date = TO_DATE('2005-09-21', 'YYYY-MM-DD');
