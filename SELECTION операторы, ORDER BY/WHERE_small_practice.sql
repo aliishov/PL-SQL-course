@@ -16,3 +16,8 @@ WHERE last_name = 'King';
 SELECT *
 FROM employees
 WHERE hire_date = TO_DATE('2005-09-21', 'YYYY-MM-DD');
+
+-- Task 4: Print all columns from departments where location_id is 1700.
+SELECT * 
+FROM departments
+WHERE location_id = 1700;
