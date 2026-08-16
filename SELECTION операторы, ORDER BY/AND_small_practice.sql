@@ -16,4 +16,13 @@ WHERE first_name = 'Steven' AND last_name = 'King';
 -- Task 4: Display employees with a hire_date of 2005-01-01 or later and a department_id of 50.
 SELECT *
 FROM employees
-WHERE hire_date >= TO_DATE('2005-01-01', 'YYYY-MM-DD') AND department_id = 50;
+WHERE hire_date >= TO_DATE('2005-01-01', 'YYYY-MM-DD') 
+  AND department_id = 50;
+
+-- Task 5: Display employees with a salary greater than or equal to 5,000, 
+--         a department_id of 50, and a job_id of 'ST_CLERK'.
+SELECT * 
+FROM employees
+WHERE salary >= 5000 
+  AND department_id = 50
+  AND job_id = 'ST_CLERK';
