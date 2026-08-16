@@ -17,3 +17,8 @@ WHERE start_date BETWEEN TO_DATE('01.01.2004', 'DD.MM.YYYY')
 SELECT *
 FROM employees
 WHERE first_name BETWEEN 'A' AND 'C';
+
+-- Task 4: Display departments where location_id is in the list: 1700, 2400, 1500
+SELECt *
+FROM departments
+WHERE location_id IN (1700, 2400, 1500);
