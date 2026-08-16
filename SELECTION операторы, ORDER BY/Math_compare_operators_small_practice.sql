@@ -20,3 +20,7 @@ SELECt *
 FROM job_history
 WHERE start_date > TO_DATE('01.01.2005', 'DD.MM.YYYY');
 
+-- Task 5: Print employees with job_id not equal to 'IT_PROG'. Use <> or !=.
+SELECT *
+FROM employees
+WHERE job_id <> 'IT_PROG';
