@@ -15,3 +15,8 @@ SELECT *
 FROM employees
 WHERE first_name = 'Steven';
 
+-- Task 4: Print rows from job_history where start_date is later than 01 January 2005. Use TO_DATE.
+SELECt * 
+FROM job_history
+WHERE start_date > TO_DATE('01.01.2005', 'DD.MM.YYYY');
+
