@@ -9,3 +9,9 @@ SELECT first_name,
        last_name
 FROM employees
 WHERE salary < 10000;
+
+-- Task 3: Print employees with first_name equal to 'Steven'.
+SELECT * 
+FROM employees
+WHERE first_name = 'Steven';
+
