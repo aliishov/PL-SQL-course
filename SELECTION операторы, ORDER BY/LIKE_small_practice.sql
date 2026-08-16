@@ -17,3 +17,8 @@ WHERE first_name LIKE '%ar%';
 SELECT *
 FROM employees
 WHERE first_name LIKE 'D_n';
+
+-- Task 5: Print employees whose second character in first_name is a.
+SELECT *
+FROM employees
+WHERE first_name LIKE '_a%';
