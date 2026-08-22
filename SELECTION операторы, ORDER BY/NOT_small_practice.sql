@@ -17,3 +17,8 @@ WHERE NOT(hire_date = TO_DATE('2005-01-01', 'yyyy-mm-dd'));
 SELECT *
 FROM employees
 WHERE first_name NOT LIKE 'S%';
+
+-- Task 5: Display employees whose department_id is not in the list: 60, 90.
+SELECT *
+FROM employees
+WHERE department_id NOT IN (60, 90);
