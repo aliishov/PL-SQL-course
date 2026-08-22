@@ -22,3 +22,8 @@ WHERE first_name NOT LIKE 'S%';
 SELECT *
 FROM employees
 WHERE department_id NOT IN (60, 90);
+
+-- Task 6: Display employees whose salary is not between 4,000 and 10,000.
+SELECT *
+FROM employees
+WHERE salary NOT BETWEEN 4000 AND 10000;
