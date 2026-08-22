@@ -42,7 +42,8 @@ SELECT *
 FROM employees
 ORDER BY commission_pct DESC NULLS LAST;
 
--- Task 7: Display first_name and salary. Use ORDER BY 2. Then rewrite the query using ORDER BY salary.
+-- Task 7: Display first_name and salary. Use ORDER BY 2. 
+--         Then rewrite the query using ORDER BY salary.
 SELECT first_name,
        salary
 FROM employees
@@ -52,3 +53,11 @@ SELECT first_name,
        salary
 FROM employees
 ORDER BY salary;
+
+-- Task 8: Create composite sorting: job_id ascending; 
+--         salary descending; last_name ascending.
+SELECT *
+FROM employees
+ORDER BY job_id,
+         salary DESC,
+         last_name;
