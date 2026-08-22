@@ -36,7 +36,19 @@ FROM employees
 WHERE job_id = 'IT_PROG'
 ORDER BY annual_salary DESC;
 
--- Task 6: Print employees and sort by commission_pct DESC, but put NULL values ​​at the end.
+-- Task 6: Print employees and sort by commission_pct DESC, but put 
+--         NULL values ​​at the end.
 SELECT *
 FROM employees
 ORDER BY commission_pct DESC NULLS LAST;
+
+-- Task 7: Display first_name and salary. Use ORDER BY 2. Then rewrite the query using ORDER BY salary.
+SELECT first_name,
+       salary
+FROM employees
+ORDER BY 2;
+
+SELECT first_name,
+       salary
+FROM employees
+ORDER BY salary;
