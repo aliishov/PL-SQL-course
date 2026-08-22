@@ -12,3 +12,8 @@ WHERE NOT (job_id = 'IT_PROG');
 SELECT *
 FROM employees 
 WHERE NOT(hire_date = TO_DATE('2005-01-01', 'yyyy-mm-dd'));
+
+-- Task 4: Display employees whose first_name does not start with S.
+SELECT *
+FROM employees
+WHERE first_name NOT LIKE 'S%';
