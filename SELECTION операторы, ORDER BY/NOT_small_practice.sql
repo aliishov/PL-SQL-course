@@ -27,3 +27,8 @@ WHERE department_id NOT IN (60, 90);
 SELECT *
 FROM employees
 WHERE salary NOT BETWEEN 4000 AND 10000;
+
+-- Task 7: Display employees whose commission_pct is not empty.
+SELECT *
+FROM employees
+WHERE commission_pct IS NOT NULL;
