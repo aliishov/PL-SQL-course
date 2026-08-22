@@ -9,3 +9,10 @@ SELECT *
 FROM employees
 WHERE job_id = 'IT_PROG' 
    OR job_id = 'ST_CLERK';
+
+-- Task 3: Display employees with a first_name of 'Steven' or a first_name of 'David'.
+SELECT * 
+FROM employees
+WHERE first_name = 'Steven' 
+   OR first_name = 'David';
+   
