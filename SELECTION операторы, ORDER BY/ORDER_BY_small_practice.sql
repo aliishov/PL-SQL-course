@@ -35,3 +35,8 @@ SELECT last_name,
 FROM employees
 WHERE job_id = 'IT_PROG'
 ORDER BY annual_salary DESC;
+
+-- Task 6: Print employees and sort by commission_pct DESC, but put NULL values ​​at the end.
+SELECT *
+FROM employees
+ORDER BY commission_pct DESC NULLS LAST;
