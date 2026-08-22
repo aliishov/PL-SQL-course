@@ -7,3 +7,8 @@ WHERE NOT (salary = 17000);
 SELECT *
 FROM employees
 WHERE NOT (job_id = 'IT_PROG');
+
+-- Task 3: Display employees whose hire_date is not 2005-01-01. Use TO_DATE.
+SELECT *
+FROM employees 
+WHERE NOT(hire_date = TO_DATE('2005-01-01', 'yyyy-mm-dd'));
