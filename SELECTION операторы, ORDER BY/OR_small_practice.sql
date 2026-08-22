@@ -22,4 +22,9 @@ SELECT *
 FROM employees
 WHERE hire_date = TO_DATE('2005-01-01', 'yyyy-mm-dd') 
    OR hire_date = TO_DATE('2006-01-01', 'yyyy-mm-dd');
-.
+
+-- Task 5: Display employees with a salary greater than 10000 or a department_id of 90.
+SELECT * 
+FROM employees
+WHERE salary > 10000 
+   OR department_id = 90;
