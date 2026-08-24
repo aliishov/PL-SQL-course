@@ -21,3 +21,8 @@ SELECT *
 FROM employees
 WHERE LOWER(first_name) = 'david';
 
+-- Task 6: Find employees whose LOWER(first_name) contains 'en'.
+SELECT *
+FROM employees
+WHERE LOWER(first_name) LIKE '%en%';
+
