@@ -12,3 +12,7 @@ FROM employees;
 SELECT UPPER('oracle sql') AS text_lower
 FROM dual;
 
+-- Task 4: Print UPPER('PRIVET' || ' KAK DELa?888') from dual.
+SELECT UPPER('PRIVET' || ' KAK DELa?888') AS text_lower
+FROM dual;
+
