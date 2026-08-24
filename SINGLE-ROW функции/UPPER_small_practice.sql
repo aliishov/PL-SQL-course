@@ -21,3 +21,9 @@ SELECT *
 FROM employees
 WHERE UPPER(first_name) = 'DAVID';
 
+-- Task 6: Find employees whose UPPER(first_name) contains 'EN'.
+SELECT *
+FROM employees
+WHERE UPPER(first_name) LIKE '%EN%';
+
+
