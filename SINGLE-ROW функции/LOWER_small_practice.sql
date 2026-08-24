@@ -11,3 +11,8 @@ FROM employees;
 -- Task 3: Print LOWER('ORACLE SQL') from dual.
 SELECT LOWER('ORACLE SQL') AS text_lower
 FROM dual;
+
+-- Task 4: Print LOWER('PRIVET' || ' KAK DELa?888') from dual.
+SELECT LOWER('PRIVET' || ' KAK DELa?888') AS text_lower
+FROM dual;
+
