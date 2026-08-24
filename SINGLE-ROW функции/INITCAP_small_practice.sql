@@ -26,3 +26,8 @@ SELECT *
 FROM employees
 WHERE INITCAP(first_name) LIKE '%en%';
 
+-- Task 7: Print full_name: first_name || ' ' || last_name 
+--         And next to it, full_name_INITCAP through INITCAP.
+SELECT first_name || ' ' || last_name AS full_name,
+       INITCAP(first_name || ' ' || last_name) AS full_name_initcap
+FROM employees;
