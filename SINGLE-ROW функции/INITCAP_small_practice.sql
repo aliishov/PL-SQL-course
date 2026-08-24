@@ -16,3 +16,8 @@ FROM dual;
 SELECT INITCAP('PRIVET' || ' KAK DELa?888') AS text_initcap
 FROM dual;
 
+-- Task 5: Find employees whose INITCAP(first_name) is 'David'.
+SELECT *
+FROM employees
+WHERE INITCAP(first_name) = 'David';
+
