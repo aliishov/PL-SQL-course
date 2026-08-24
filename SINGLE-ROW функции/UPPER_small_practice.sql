@@ -8,3 +8,7 @@ SELECT last_name
        UPPER(last_name) AS last_name_lower
 FROM employees;
 
+-- Task 3: Print UPPER('oracle sql') from dual.
+SELECT UPPER('oracle sql') AS text_lower
+FROM dual;
+
