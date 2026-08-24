@@ -26,4 +26,8 @@ SELECT *
 FROM employees
 WHERE UPPER(first_name) LIKE '%EN%';
 
-
+-- Task 7: Print full_name: first_name || ' ' || last_name 
+--         And next to it, full_name_lower through UPPER.
+SELECT first_name || ' ' || last_name AS full_name,
+       UPPER(first_name || ' ' || last_name) AS full_name_lower
+FROM employees;
