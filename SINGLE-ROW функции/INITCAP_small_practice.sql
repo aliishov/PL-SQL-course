@@ -3,3 +3,8 @@ SELECT first_name
        INITCAP(first_name) AS first_name_INITCAP
 FROM employees;
 
+-- Task 2: Print last_name and INITCAP(last_name) from employees.
+SELECT last_name
+       INITCAP(last_name) AS last_name_initcap
+FROM employees;
+
