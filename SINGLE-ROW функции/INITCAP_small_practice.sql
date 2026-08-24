@@ -12,3 +12,7 @@ FROM employees;
 SELECT INITCAP('ORACLE SQL') AS text_initcap
 FROM dual;
 
+-- Task 4: Print INITCAP('PRIVET' || ' KAK DELa?888') from dual.
+SELECT INITCAP('PRIVET' || ' KAK DELa?888') AS text_initcap
+FROM dual;
+
