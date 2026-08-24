@@ -21,3 +21,8 @@ SELECT *
 FROM employees
 WHERE INITCAP(first_name) = 'David';
 
+-- Task 6: Find employees whose INITCAP(first_name) contains 'en'.
+SELECT *
+FROM employees
+WHERE INITCAP(first_name) LIKE '%en%';
+
