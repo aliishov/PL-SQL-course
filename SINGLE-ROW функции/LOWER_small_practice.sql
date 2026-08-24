@@ -7,3 +7,7 @@ FROM employees;
 SELECT last_name
        LOWER(last_name) AS last_name_lower
 FROM employees;
+
+-- Task 3: Print LOWER('ORACLE SQL') from dual.
+SELECT LOWER('ORACLE SQL') AS text_lower
+FROM dual;
