@@ -16,3 +16,8 @@ FROM dual;
 SELECT LOWER('PRIVET' || ' KAK DELa?888') AS text_lower
 FROM dual;
 
+-- Task 5: Find employees whose LOWER(first_name) is 'david'.
+SELECT *
+FROM employees
+WHERE LOWER(first_name) = 'david';
+
