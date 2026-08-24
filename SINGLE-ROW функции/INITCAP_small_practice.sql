@@ -8,3 +8,7 @@ SELECT last_name
        INITCAP(last_name) AS last_name_initcap
 FROM employees;
 
+-- Task 3: Print INITCAP('ORACLE SQL') from dual.
+SELECT INITCAP('ORACLE SQL') AS text_initcap
+FROM dual;
+
