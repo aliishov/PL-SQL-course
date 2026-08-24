@@ -16,3 +16,8 @@ FROM dual;
 SELECT UPPER('PRIVET' || ' KAK DELa?888') AS text_lower
 FROM dual;
 
+-- Task 5: Find employees whose UPPER(first_name) is 'DAVID'.
+SELECT *
+FROM employees
+WHERE UPPER(first_name) = 'DAVID';
+
