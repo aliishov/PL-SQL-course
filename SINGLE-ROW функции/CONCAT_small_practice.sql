@@ -13,3 +13,7 @@ SELECT first_name,
        salary,
        CONCAT('Salary: ', salary) AS message
 FROM employees;
+
+-- Task 4: Print: Today is: SYSDATE using CONCAT.
+SELECT CONCAT('Today is: ', SYSDATE) AS today
+FROM dual;
