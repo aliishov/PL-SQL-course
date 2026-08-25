@@ -9,5 +9,10 @@ SELECT last_name,
 FROM employees;
 
 -- Task 3: Print LENGTH('Raul') from dual.
-SELECT LENGTH('Raul') 
+SELECT LENGTH('Raul') AS lngth
+FROM dual;
+
+-- Task 4: Compare: LENGTH('Raul Aliishov') LENGTH('Raul       Aliishov')
+SELECT LENGTH('Raul Aliishov')       AS lngth_wo_S,
+       LENGTH('Raul       Aliishov') AS lngth_w_s
 FROM dual;
