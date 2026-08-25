@@ -17,3 +17,8 @@ SELECT first_name,
        RPAD(first_name, 15, '*') AS r_pad
 FROM employees;
 
+-- Task 5: Check: LPAD('SQL', 10, 'ab') RPAD('SQL', 10, 'ab') 
+--         Explain the result.
+SELECT LPAD('SQL', 10, 'ab') AS l_pad,
+       RPAD('SQL', 10, 'ab') AS r_pad
+FROM dual;
