@@ -21,3 +21,7 @@ FROM dual;
 -- Task 5: Concatenate 3 pieces: 'Privet' 'my' 'druq'. Use nested CONCAT.
 SELECT CONCAT('Privet ', CONCAT('my', ' druq')) AS message
 FROM dual;
+
+-- Task 6: Rewrite Task 5 using operator ||.
+SELECT 'Privet ' || 'my' || ' druq' AS message
+FROM dual;
