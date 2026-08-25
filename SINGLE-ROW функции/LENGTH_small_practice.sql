@@ -22,3 +22,8 @@ FROM dual;
 SELECT 'Name is ' || first_name || ' and surname is ' || last_name AS full_name,
        LENGTH(full_name) AS full_name_lgnth
 FROM employees;
+
+-- Task 6: Print countries where LENGTH(country_name) is greater than 8.
+SELECT *
+FROM countries
+WHERE LENGTH(country_name) > 8;
