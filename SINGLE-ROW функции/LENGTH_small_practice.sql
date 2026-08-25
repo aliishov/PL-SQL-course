@@ -7,3 +7,7 @@ FROM employees;
 SELECT last_name,
        LENGTH(last_name) AS lngth
 FROM employees;
+
+-- Task 3: Print LENGTH('Raul') from dual.
+SELECT LENGTH('Raul') 
+FROM dual;
