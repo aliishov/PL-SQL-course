@@ -7,3 +7,9 @@ SELECT first_name,
        last_name,
        CONCAT(first_name, CONCAT(' ', last_name) AS full_name
 FROM employees;
+
+-- Task 3: Print first_name, salary, and the text: Salary: salary. Use CONCAT.
+SELECT first_name,
+       salary,
+       CONCAT('Salary: ', salary) AS message
+FROM employees;
