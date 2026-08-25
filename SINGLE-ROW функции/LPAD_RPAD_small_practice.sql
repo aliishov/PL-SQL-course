@@ -1,13 +1,13 @@
 -- Task 1: Print LPAD('Oracle', 10, '*') from dual.
-SELECT LPAD('Oracle', 10, '*') AS l_pad
+SELECT LPAD('Oracle', 10, '*') AS padded_text
 FROM dual;
 
 -- Task 2: Print RPAD('Oracle', 10, '*') from dual.
-SELECT RPAD('Oracle', 10, '*') AS r_pad
+SELECT RPAD('Oracle', 10, '*') AS padded_text
 FROM dual;
 
 -- Task 3: Print LPAD('25', 5, '0') from dual.
-SELECT LPAD('25', 5, '0') AS l_pad
+SELECT LPAD('25', 5, '0') AS padded_text
 FROM dual;
 
 -- Task 4: Print first_name, LPAD(first_name, 15, '*'), 
@@ -27,4 +27,9 @@ FROM dual;
 --         Explain why the result is short.
 SELECT LPAD('Oracle', 3, '*') AS l_pad,
        RPAD('Oracle', 3, '*') AS r_pad
+FROM dual;
+
+-- Task 7: Print LPAD('Oracle', 10, '*') and next to it the LENGTH of this expression.
+SELECT LPAD('Oracle', 10, '*') AS padded_text,
+       LENGTH(LPAD('Oracle', 10, '*')) AS padded_length
 FROM dual;
