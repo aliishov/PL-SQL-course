@@ -27,3 +27,8 @@ FROM employees;
 SELECT *
 FROM countries
 WHERE LENGTH(country_name) > 8;
+
+-- Task 7: Print countries and sort them by LENGTH(country_name).
+SELECT *
+FROM countries
+ORDER BY LENGTH(country_name);
