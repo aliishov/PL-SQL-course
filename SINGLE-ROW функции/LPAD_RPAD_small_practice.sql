@@ -22,3 +22,9 @@ FROM employees;
 SELECT LPAD('SQL', 10, 'ab') AS l_pad,
        RPAD('SQL', 10, 'ab') AS r_pad
 FROM dual;
+
+-- Task 6: Check: LPAD('Oracle', 3, '*') RPAD('Oracle', 3, '*') 
+--         Explain why the result is short.
+SELECT LPAD('Oracle', 3, '*') AS l_pad,
+       RPAD('Oracle', 3, '*') AS r_pad
+FROM dual;
