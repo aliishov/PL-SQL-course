@@ -16,3 +16,9 @@ FROM dual;
 SELECT LENGTH('Raul Aliishov')       AS lngth_wo_S,
        LENGTH('Raul       Aliishov') AS lngth_w_s
 FROM dual;
+
+-- Task 5: Print full_name: 'Name is ' || first_name || ' and surname is ' || last_name. 
+--         And next to it, full_name_length, separated by LENGTH.
+SELECT 'Name is ' || first_name || ' and surname is ' || last_name AS full_name,
+       LENGTH(full_name) AS full_name_lgnth
+FROM employees;
