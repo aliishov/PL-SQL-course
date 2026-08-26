@@ -17,3 +17,7 @@ FROM dual;
 -- Task 5: Check the result if start_position is too large.
 SELECT SUBSTR('Oracle Database', 100, 4) AS result
 FROM dual;
+
+-- Task 6: Check the result if number_of_characters = 0.
+SELECT SUBSTR('Oracle Database', 7, 0) AS result
+FROM dual;
