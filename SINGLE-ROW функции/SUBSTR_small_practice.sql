@@ -21,3 +21,8 @@ FROM dual;
 -- Task 6: Check the result if number_of_characters = 0.
 SELECT SUBSTR('Oracle Database', 7, 0) AS result
 FROM dual;
+
+-- Task 7: Get the first character from employee email.
+SELECT email,
+       SUBSTR(email, 1, 1) AS first_character
+FROM employees;
