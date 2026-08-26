@@ -13,3 +13,7 @@ FROM dual;
 -- Task 4: Get the last 3 characters.
 SELECT SUBSTR('Oracle', -3) AS result
 FROM dual;
+
+-- Task 5: Check the result if start_position is too large.
+SELECT SUBSTR('Oracle Database', 100, 4) AS result
+FROM dual;
