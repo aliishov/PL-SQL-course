@@ -5,3 +5,7 @@ FROM dual;
 -- Task 2: Get the text from position 4 to the end.
 SELECT SUBSTR('Oracle Database', 4) AS result
 FROM dual;
+
+-- Task 3: Get 4 characters from position 8.
+SELECT SUBSTR('Oracle Database', 8, 4) AS result
+FROM dual;
