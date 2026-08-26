@@ -6,3 +6,7 @@ FROM dual;
 SELECT TRIM(LEADING '*' FROM '***Oracle***') AS result
 FROM dual;
 
+-- Task 3: Remove '#' only from right.
+SELECT TRIM(TRAILING '#' FROM 'Oracle###') AS result
+FROM dual;
+
