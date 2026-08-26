@@ -14,3 +14,6 @@ FROM dual;
 SELECT TRIM(BOTH '0' FROM '0004500') AS result
 FROM dual;
 
+-- Task 5: Make sure that the space inside the text is not removed.
+SELECT TRIM('   Oracle   SQL   ') AS result
+FROM dual;
