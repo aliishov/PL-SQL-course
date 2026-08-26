@@ -14,3 +14,7 @@ FROM dual;
 SELECT INSTR('database', 'a', 1, 2) AS result
 FROM dual;
 
+-- Task 5: Start your search at position 5.
+SELECT INSTR('database', 'a', 5) AS result
+FROM dual;
+
