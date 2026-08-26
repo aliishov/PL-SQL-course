@@ -10,3 +10,7 @@ FROM dual;
 SELECT INSTR('SQL Developer', 'Java') AS result
 FROM dual;
 
+-- Task 4: Find the second occurrence of the letter 'a'.
+SELECT INSTR('database', 'a', 1, 2) AS result
+FROM dual;
+
