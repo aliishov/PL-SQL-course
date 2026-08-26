@@ -18,3 +18,6 @@ FROM dual;
 SELECT INSTR('database', 'a', 5) AS result
 FROM dual;
 
+-- Task 6: Find the character from right to left.
+SELECT INSTR('database', 'a', -1) AS result
+FROM dual;
