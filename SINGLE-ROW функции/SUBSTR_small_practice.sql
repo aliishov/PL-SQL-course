@@ -9,3 +9,7 @@ FROM dual;
 -- Task 3: Get 4 characters from position 8.
 SELECT SUBSTR('Oracle Database', 8, 4) AS result
 FROM dual;
+
+-- Task 4: Get the last 3 characters.
+SELECT SUBSTR('Oracle', -3) AS result
+FROM dual;
