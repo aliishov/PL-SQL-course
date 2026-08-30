@@ -5,3 +5,7 @@ FROM dual;
 -- Task 2: Leave 1 digit after the decimal point.
 SELECT TRUNC(46.67, 1) AS result
 FROM dual;
+
+-- Task 3: Leave 2 digits after the decimal point.
+SELECT TRUNC(46.678, 2) AS result
+FROM dual;
