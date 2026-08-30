@@ -22,3 +22,8 @@ FROM dual;
 SELECT salary,
        ROUND(salary, -3) AS rounded_salary
 FROM employees;
+
+-- Task 7: Round up the calculated expression.
+SELECT salary,
+       ROUND(salary * 1.15, 2) AS rounded_salary
+FROM employees;
