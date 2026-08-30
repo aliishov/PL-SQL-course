@@ -9,3 +9,7 @@ FROM dual;
 -- Task 3: Leave 2 digits after the decimal point.
 SELECT TRUNC(46.678, 2) AS result
 FROM dual;
+
+-- Task 4: Leave the number before tens.
+SELECT TRUNC(4567, -1) AS result
+FROM dual;
