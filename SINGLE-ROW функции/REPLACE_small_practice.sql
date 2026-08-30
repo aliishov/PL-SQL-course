@@ -17,3 +17,7 @@ FROM dual;
 -- Task 5: Check result if search_string is not found.
 SELECT REPLACE('Oracle SQL', 'x', '*') AS result
 FROM dual;
+
+-- Task 6: Check case sensitivity.
+SELECT REPLACE('Raul Alishov', 'a', '*') AS result
+FROM dual;
