@@ -21,3 +21,8 @@ FROM dual;
 -- Task 6: Check case sensitivity.
 SELECT REPLACE('Raul Alishov', 'a', '*') AS result
 FROM dual;
+
+-- Task 7: Apply REPLACE to 'column'.
+SELECT phone_number,
+       REPLACE(phone_number, '.', '-') AS formatted_phone
+FROM employees;
