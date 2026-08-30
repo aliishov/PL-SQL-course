@@ -17,3 +17,8 @@ FROM dual;
 -- Task 5: Round to hundreds.
 SELECT ROUND(4567, -2) AS result
 FROM dual;
+
+-- Task 6: Round salary to thousands.
+SELECT salary,
+       ROUND(salary, -3) AS rounded_salary
+FROM employees;
