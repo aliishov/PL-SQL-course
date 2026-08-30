@@ -5,3 +5,7 @@ FROM dual;
 -- Task 2: Replace 'spaces' with 'underscores'.
 SELECT REPLACE('Oracle SQL Course', ' ', '_') AS result
 FROM dual;
+
+-- Task 3: Remove 'hyphens'.
+SELECT REPLACE('A-B-C-D', '-') AS result
+FROM dual;
