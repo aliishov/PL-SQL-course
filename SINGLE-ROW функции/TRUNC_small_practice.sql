@@ -22,3 +22,8 @@ FROM dual;
 SELECT salary,
        TRUNC(salary, -3) AS truncated_salary
 FROM employees;
+
+-- Task 7: Truncate the calculated expression.
+SELECT salary,
+       TRUNC(salary * 1.15, 2) AS increased_salary
+FROM employees;
