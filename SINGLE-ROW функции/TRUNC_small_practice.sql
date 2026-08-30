@@ -13,3 +13,7 @@ FROM dual;
 -- Task 4: Leave the number before tens.
 SELECT TRUNC(4567, -1) AS result
 FROM dual;
+
+-- Task 5: Leave the number before hundreds.
+SELECT TRUNC(4567, -2) AS result
+FROM dual;
