@@ -9,3 +9,7 @@ FROM dual;
 -- Task 3: Round to 2 digits after decimal point.
 SELECT ROUND(46.678, 2) AS result
 FROM dual;
+
+-- Task 4: Round to tens.
+SELECT ROUND(4567, -2) AS result
+FROM dual;
