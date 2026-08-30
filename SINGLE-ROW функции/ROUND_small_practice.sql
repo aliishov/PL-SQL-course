@@ -5,3 +5,7 @@ FROM dual;
 -- Task 2: Round to 1 digit after decimal point.
 SELECT ROUND(46.67, 1) AS result
 FROM dual;
+
+-- Task 3: Round to 2 digits after decimal point.
+SELECT ROUND(46.678, 2) AS result
+FROM dual;
