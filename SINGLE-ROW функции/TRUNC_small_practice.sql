@@ -17,3 +17,8 @@ FROM dual;
 -- Task 5: Leave the number before hundreds.
 SELECT TRUNC(4567, -2) AS result
 FROM dual;
+
+-- Task 6: Truncate salary to thousands.
+SELECT salary,
+       TRUNC(salary, -3) AS truncated_salary
+FROM employees;
