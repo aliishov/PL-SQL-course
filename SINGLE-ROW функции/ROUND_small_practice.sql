@@ -11,5 +11,9 @@ SELECT ROUND(46.678, 2) AS result
 FROM dual;
 
 -- Task 4: Round to tens.
+SELECT ROUND(4567, -1) AS result
+FROM dual;
+
+-- Task 5: Round to hundreds.
 SELECT ROUND(4567, -2) AS result
 FROM dual;
