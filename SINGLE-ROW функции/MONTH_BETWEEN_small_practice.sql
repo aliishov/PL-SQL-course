@@ -13,3 +13,7 @@ FROM dual;
 -- Task 4: Different day of month.
 SELECT MONTHS_BETWEEN(DATE '2020-05-15', DATE '2020-01-10') AS result
 FROM dual;
+
+-- Task 5: Both dates are last day of month.
+SELECT MONTHS_BETWEEN(DATE '2020-02-29', DATE '2020-01-31') AS result
+FROM dual;
