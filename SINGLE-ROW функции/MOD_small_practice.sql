@@ -19,3 +19,9 @@ SELECT employee_id,
        first_name
 FROM employees
 WHERE MOD(employee_id, 2) = 0;
+
+-- Task 6: Find the odd employee_id.
+SELECT employee_id,
+       first_name
+FROM employees
+WHERE MOD(employee_id, 2) = 1;
