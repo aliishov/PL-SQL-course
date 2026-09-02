@@ -29,3 +29,10 @@ SELECT employee_id,
        hire_date,
        SYSDATE - hire_date AS days_since_here
 FROM employees;
+
+-- Task 8: Find employees hired before current date.
+SELECT employee_id,
+       first_name,
+       hire_date
+FROM employees
+WHERE hire_date < SYSDATE;
