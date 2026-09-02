@@ -24,3 +24,10 @@ SELECT employee_id,
        end_date,
        MONTHS_BETWEEN(end_date, start_date) AS months_count
 FROM job_history;
+
+-- Task 7: Filter periods at least 12 months.
+SELECT employee_id,
+       start_date,
+       end_date
+FROM job_history
+WHERE MONTHS_BETWEEN(end_date, start_date) >= 12;
