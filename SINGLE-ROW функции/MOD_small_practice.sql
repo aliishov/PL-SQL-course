@@ -9,3 +9,7 @@ FROM dual;
 -- Task 3: Check if the dividend is smaller than the divisor.
 SELECT MOD(2, 5) AS result
 FROM dual;
+
+-- Task 4: Check if the divisor is 0.
+SELECT MOD(9, 0) AS result
+FROM dual;
