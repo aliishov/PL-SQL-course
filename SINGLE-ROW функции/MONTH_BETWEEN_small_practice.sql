@@ -17,3 +17,10 @@ FROM dual;
 -- Task 5: Both dates are last day of month.
 SELECT MONTHS_BETWEEN(DATE '2020-02-29', DATE '2020-01-31') AS result
 FROM dual;
+
+-- Task 6: Use job_history.
+SELECT employee_id,
+       start_date,
+       end_date,
+       MONTHS_BETWEEN(end_date, start_date) AS months_count
+FROM job_history;
