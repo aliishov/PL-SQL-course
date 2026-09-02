@@ -31,3 +31,10 @@ SELECT employee_id,
        first_name,
        MOD(employee_id, 4) + 1 AS team_number
 FROM employees;
+
+-- Task 8: Find salary values ​​divisible by 1000.
+SELECT employee_id,
+       first_name,
+       salary
+FROM employees
+WHERE MOD(salary, 1000) = 0;
