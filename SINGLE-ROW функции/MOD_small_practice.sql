@@ -25,3 +25,9 @@ SELECT employee_id,
        first_name
 FROM employees
 WHERE MOD(employee_id, 2) = 1;
+
+-- Task 7: Divide employees into 4 teams.
+SELECT employee_id,
+       first_name,
+       MOD(employee_id, 4) + 1 AS team_number
+FROM employees;
