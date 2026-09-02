@@ -9,3 +9,7 @@ FROM dual;
 -- Task 3: Same dates.
 SELECT MONTHS_BETWEEN(DATE '2020-05-01', DATE '2020-05-01') AS result
 FROM dual;
+
+-- Task 4: Different day of month.
+SELECT MONTHS_BETWEEN(DATE '2020-05-15', DATE '2020-01-10') AS result
+FROM dual;
