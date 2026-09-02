@@ -22,3 +22,10 @@ FROM dual;
 -- Task 6: Add half day.
 SELECT SYSDATE + 0.5 AS ten_days_ago
 FROM dual;
+
+-- Task 7: Calculate days since hire.
+SELECT employee_id,
+       first_name,
+       hire_date,
+       SYSDATE - hire_date AS days_since_here
+FROM employees;
