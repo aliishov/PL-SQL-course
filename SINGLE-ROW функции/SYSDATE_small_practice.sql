@@ -6,3 +6,7 @@ FROM dual;
 SELECT *
 FROM nls_session_parameters
 WHERE parameter = 'NLS_DATE_FORMAT';
+
+-- Task 3: Show SYSDATE with visible time part.
+SELECT TO_CHAR(SYSDATE, 'DD-MM-YYYY hh24:mi:ss') as server_date_time
+FROM dual;
