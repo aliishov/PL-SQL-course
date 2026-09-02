@@ -36,3 +36,10 @@ SELECT employee_id,
        hire_date
 FROM employees
 WHERE hire_date < SYSDATE;
+
+-- Task 9: Show date 30 days after hire.
+SELECT employee_id,
+       first_name,
+       hire_date,
+       hire_date + 30 AS after_30_days
+FROM employees;
