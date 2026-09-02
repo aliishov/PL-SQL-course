@@ -14,3 +14,7 @@ FROM dual;
 -- Task 4: Add 10 days.
 SELECT SYSDATE + 10 AS ten_days_later
 FROM dual;
+
+-- Task 5: Subtract 10 days.
+SELECT SYSDATE - 10 AS ten_days_ago
+FROM dual;
