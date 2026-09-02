@@ -13,3 +13,9 @@ FROM dual;
 -- Task 4: Check if the divisor is 0.
 SELECT MOD(9, 0) AS result
 FROM dual;
+
+-- Task 5: Find the even employee_id.
+SELECT employee_id,
+       first_name
+FROM employees
+WHERE MOD(employee_id, 2) = 0;
