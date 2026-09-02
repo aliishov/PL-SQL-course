@@ -31,3 +31,10 @@ SELECT employee_id,
        end_date
 FROM job_history
 WHERE MONTHS_BETWEEN(end_date, start_date) >= 12;
+
+-- Task 8: Count months since hire_date.
+SELECT employee_id,
+       first_name,
+       hire_date,
+       MONTHS_BETWEEN(SYSDATE, hire_date) AS months_after_hire
+FROM employees;
