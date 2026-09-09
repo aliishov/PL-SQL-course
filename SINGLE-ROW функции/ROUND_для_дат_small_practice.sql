@@ -32,3 +32,13 @@ SELECT employee_id,
        hire_date,
        ROUND(hire_date, 'MM') AS rounded_month
 FROM employees;
+
+-- Task 9: Use selected employees from the first examples.
+SELECT employee_id,
+       first_name,
+       hire_date,
+       ROUND(hire_date, 'YYYY') AS rounded_year,
+       ROUND(hire_date, 'Q') AS rounded_quarter,
+       ROUND(hire_date, 'MM') AS rounded_month
+FROM employees
+WHERE employee_id IN (120, 121);
