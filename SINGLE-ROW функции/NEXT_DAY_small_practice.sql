@@ -13,3 +13,7 @@ FROM dual;
 -- Task 4: Use abbreviation.
 SELECT NEXT_DAY(DATE '2026-09-09', 'FRI') AS result
 FROM dual;
+
+-- Task 5: Use SYSDATE.
+SELECT NEXT_DAY(SYSDATE, 'MONDAY') AS result
+FROM dual;
