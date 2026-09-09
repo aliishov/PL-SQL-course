@@ -5,3 +5,7 @@ FROM dual;
 -- Task 2: Round day 15 to month.
 SELECT ROUND(DATE ' 2026-09-15', 'MM') AS result
 FROM dual;
+
+-- Task 3: Round day 16 to month.
+SELECT ROUND(DATE '2026-09-16', 'MM') AS result
+FROM dual;
