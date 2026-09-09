@@ -13,3 +13,7 @@ FROM dual;
 -- Task 4: Round before July 1 to year.
 SELECT ROUND(DATE ' 2026-06-30', 'YYYY') AS result
 FROM dual;
+
+-- Task 5: Round July 1 to year.
+SELECT ROUND(DATE ' 2026-07-01', 'YYYY') AS result
+FROM dual;
