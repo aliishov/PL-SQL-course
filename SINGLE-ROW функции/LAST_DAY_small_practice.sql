@@ -5,3 +5,7 @@ FROM dual;
 -- Task 2: Find last day of August 2026.
 SELECT LAST_DAY(DATE '2026-08-01') AS result
 FROM dual;
+
+-- Task 3: Find last day of April 2026.
+SELECT LAST_DAY(DATE '2026-04-01') AS result
+FROM dual;
