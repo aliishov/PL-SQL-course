@@ -29,3 +29,13 @@ SELECT employee_id,
        hire_date,
        TRUNC(hire_date, 'MM') AS hire_month_start
 FROM employees;
+
+-- Task 8: Use selected employees from the first examples.
+SELECT employee_id,
+       first_name,
+       hire_date,
+       TRUNC(hire_date, 'YYYY') AS year_start,
+       TRUNC(hire_date, 'Q') AS quarter_start,
+       TRUNC(hire_date, 'MM') AS month_start
+FROM employees
+WHERE employee_id IN (120, 121, 100, 101);
