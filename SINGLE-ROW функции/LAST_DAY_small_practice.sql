@@ -9,3 +9,7 @@ FROM dual;
 -- Task 3: Find last day of April 2026.
 SELECT LAST_DAY(DATE '2026-04-01') AS result
 FROM dual;
+
+-- Task 4: Check February in common year.
+SELECT LAST_DAY(DATE '2026-02-01') AS result
+FROM dual;
