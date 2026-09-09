@@ -21,3 +21,10 @@ FROM dual;
 -- Task 6: Calculate days left in fixed month.
 SELECT LAST_DAY(SYSDATE) - DATE '2026-09-09' AS result
 FROM dual;
+
+-- Task 7: Use employees hire_date.
+SELECT employee_id,
+       first_name,
+       hire_date,
+       LAST_DAY(hire_date) AS hire_month_end
+FROM employees;
