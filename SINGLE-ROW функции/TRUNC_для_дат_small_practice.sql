@@ -9,3 +9,7 @@ FROM dual;
 -- Task 3: Truncate end of month to month.
 SELECT TRUNC(DATE '2026-12-31', 'MM') AS result
 FROM dual;
+
+-- Task 4: Truncate fixed date to year.
+SELECT TRUNC(DATE '2026-12-31', 'YYYY') AS result
+FROM dual;
