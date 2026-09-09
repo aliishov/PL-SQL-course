@@ -13,3 +13,7 @@ FROM dual;
 -- Task 4: Check February in common year.
 SELECT LAST_DAY(DATE '2026-02-01') AS result
 FROM dual;
+
+-- Task 5: Check February in leap year.
+SELECT LAST_DAY(DATE '2028-02-01') AS result
+FROM dual;
