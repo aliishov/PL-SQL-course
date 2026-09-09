@@ -9,3 +9,7 @@ FROM dual;
 -- Task 3: Find next Sunday after fixed date.
 SELECT NEXT_DAY(DATE '2026-09-09', 'SUNDAY') AS result
 FROM dual;
+
+-- Task 4: Use abbreviation.
+SELECT NEXT_DAY(DATE '2026-09-09', 'FRI') AS result
+FROM dual;
