@@ -30,3 +30,9 @@ SELECT employee_id,
        start_date,
        NEXT_DAY(start_date, 'FRIDAY') AS next_friday_fater_start
 FROM job_history;
+
+-- Task 8: Check NLS parameters.
+SELECT parameter,
+       value
+FROM sys.nls_session_parameters
+WHERE parameter IN ('NLS_DATE_LANGUAGE', 'NLS_TERRITORY', 'NLS_DATE_FORMAT');
