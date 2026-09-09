@@ -39,3 +39,10 @@ SELECT employee_id,
        TRUNC(hire_date, 'MM') AS month_start
 FROM employees
 WHERE employee_id IN (120, 121, 100, 101);
+
+-- Task 9: Find rows inside one month.
+SELECT employee_id,
+       first_name,
+       hire_date
+FROM employees
+WHERE TRUNC(hire_date, 'MM') = DATE '2007-06-01';
