@@ -17,3 +17,8 @@ FROM dual;
 -- Task 5: Truncate fixed date to quarter.
 SELECT TRUNC(DATE '2026-12-31', 'Q') AS result
 FROM dual;
+
+-- Task 6: Compare MM and MONTH.
+SELECT TRUNC(DATE '2026-12-31', 'MM') AS result_mm,
+       TRUNC(DATE '2026-12-31', 'MONTH') AS result_month
+FROM dual;
