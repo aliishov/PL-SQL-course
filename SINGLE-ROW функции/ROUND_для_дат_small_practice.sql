@@ -17,3 +17,7 @@ FROM dual;
 -- Task 5: Round July 1 to year.
 SELECT ROUND(DATE ' 2026-07-01', 'YYYY') AS result
 FROM dual;
+
+-- Task 6: Round quarter before border.
+SELECT ROUND(DATE '2026-08-15', 'Q') AS result
+FROM dual;
