@@ -25,3 +25,10 @@ FROM dual;
 -- Task 7: Round quarter after border.
 SELECT ROUND(DATE '2026-08-16', 'Q') AS result
 FROM dual;
+
+-- Task 8: Use employees hire_date.
+SELECT employee_id,
+       first_name, 
+       hire_date,
+       ROUND(hire_date, 'MM') AS rounded_month
+FROM employees;
