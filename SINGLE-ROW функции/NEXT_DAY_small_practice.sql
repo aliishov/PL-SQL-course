@@ -24,3 +24,9 @@ SELECT employee_id,
        hire_date,
        NEXT_DAY(hire_date, 'MONDAY') AS next_monday_after_hire
 FROM employees;
+
+-- Task 7: Use job_history start_date.
+SELECT employee_id,
+       start_date,
+       NEXT_DAY(start_date, 'FRIDAY') AS next_friday_fater_start
+FROM job_history;
