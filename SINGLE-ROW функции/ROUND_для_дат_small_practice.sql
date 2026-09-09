@@ -21,3 +21,7 @@ FROM dual;
 -- Task 6: Round quarter before border.
 SELECT ROUND(DATE '2026-08-15', 'Q') AS result
 FROM dual;
+
+-- Task 7: Round quarter after border.
+SELECT ROUND(DATE '2026-08-16', 'Q') AS result
+FROM dual;
