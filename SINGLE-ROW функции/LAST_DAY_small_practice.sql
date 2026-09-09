@@ -28,3 +28,10 @@ SELECT employee_id,
        hire_date,
        LAST_DAY(hire_date) AS hire_month_end
 FROM employees;
+
+-- Task 8: Calculate days until month end for hire_date.
+SELECT employee_id,
+       first_name,
+       hire_date,
+       LAST_DAY(hire_date) - hire_date AS days_until_month_end
+FROM employees;
