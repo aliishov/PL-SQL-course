@@ -17,3 +17,7 @@ FROM dual;
 -- Task 5: Check February in leap year.
 SELECT LAST_DAY(DATE '2028-02-01') AS result
 FROM dual;
+
+-- Task 6: Calculate days left in fixed month.
+SELECT LAST_DAY(SYSDATE) - DATE '2026-09-09' AS result
+FROM dual;
