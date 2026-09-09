@@ -17,3 +17,10 @@ FROM dual;
 -- Task 5: Use SYSDATE.
 SELECT NEXT_DAY(SYSDATE, 'MONDAY') AS result
 FROM dual;
+
+-- Task 6: Use employees hire_date.
+SELECT employee_id,
+       first_name,
+       hire_date,
+       NEXT_DAY(hire_date, 'MONDAY') AS next_monday_after_hire
+FROM employees;
