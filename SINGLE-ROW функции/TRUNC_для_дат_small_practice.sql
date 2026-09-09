@@ -22,3 +22,10 @@ FROM dual;
 SELECT TRUNC(DATE '2026-12-31', 'MM') AS result_mm,
        TRUNC(DATE '2026-12-31', 'MONTH') AS result_month
 FROM dual;
+
+-- Task 7: Use employees hire_date.
+SELECT employee_id,
+       first_name,
+       hire_date,
+       TRUNC(hire_date, 'MM') AS hire_month_start
+FROM employees;
