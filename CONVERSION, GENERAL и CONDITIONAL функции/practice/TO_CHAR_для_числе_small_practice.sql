@@ -25,3 +25,7 @@ FROM dual;
 -- Task 7: Use local decimal and group elements.
 SELECT TO_CHAR(1234567.89, '9G999G999D99') AS result
 FROM dual;
+
+-- Task 8: Show dollar amount.
+SELECT TO_CHAR(1234.5, '$999,999.99') AS result
+FROM dual;
