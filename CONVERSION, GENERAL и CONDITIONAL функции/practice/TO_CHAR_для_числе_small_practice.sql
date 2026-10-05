@@ -13,3 +13,7 @@ FROM dual;
 -- Task 4: Show decimal digits.
 SELECT TO_CHAR(18.35, '999.99') AS result
 FROM dual;
+
+-- Task 5: Force decimal zeros.
+SELECT TO_CHAR(18, '999.00') AS result
+FROM dual;
