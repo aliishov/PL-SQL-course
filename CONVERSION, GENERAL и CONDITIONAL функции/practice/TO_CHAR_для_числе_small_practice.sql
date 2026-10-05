@@ -17,3 +17,7 @@ FROM dual;
 -- Task 5: Force decimal zeros.
 SELECT TO_CHAR(18, '999.00') AS result
 FROM dual;
+
+-- Task 6: Use group separator.
+SELECT TO_CHAR(1234567, '9,999,999') AS result
+FROM dual;
