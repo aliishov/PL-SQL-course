@@ -29,3 +29,7 @@ FROM dual;
 -- Task 8: Show dollar amount.
 SELECT TO_CHAR(1234.5, '$999,999.99') AS result
 FROM dual;
+
+-- Task 9: Show sign.
+SELECT TO_CHAR(-18, 'S099') AS result
+FROM dual;
