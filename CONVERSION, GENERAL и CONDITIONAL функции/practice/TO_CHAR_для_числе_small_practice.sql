@@ -33,3 +33,9 @@ FROM dual;
 -- Task 9: Show sign.
 SELECT TO_CHAR(-18, 'S099') AS result
 FROM dual;
+
+-- Task 10: Format employees salary.
+SELECT e.first_name,
+       e.salary,
+       TO_CHAR(e.salary, '$999,999') AS salary_text
+FROM employees e;
