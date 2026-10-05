@@ -21,3 +21,7 @@ FROM dual;
 -- Task 6: Use group separator.
 SELECT TO_CHAR(1234567, '9,999,999') AS result
 FROM dual;
+
+-- Task 7: Use local decimal and group elements.
+SELECT TO_CHAR(1234567.89, '9G999G999D99') AS result
+FROM dual;
