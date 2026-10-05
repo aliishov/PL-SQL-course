@@ -5,3 +5,7 @@ FROM dual;
 -- Task 2: Use 9 positions.
 SELECT TO_CHAR(18, '99999') AS result
 FROM dual;
+
+-- Task 3: Use 0 positions.
+SELECT TO_CHAR(18, '00000') AS result
+FROM dual;
