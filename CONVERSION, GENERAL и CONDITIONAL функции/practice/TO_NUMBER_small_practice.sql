@@ -23,3 +23,10 @@ SELECT e.employee_id,
        e.salary
 FROM employees e
 WHERE e.salary >= TO_NUMBER('$5,000', '$9,9999');
+
+-- Task 6: Add text value '300' to every employee salary.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary,
+       e.salary + TO_NUMBER('300') AS increased_salary
+FROM employees e;
