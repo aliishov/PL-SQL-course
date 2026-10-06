@@ -26,3 +26,18 @@ SELECT e.employee_id,
        e.hire_date
 FROM employees e
 WHERE e.hire_date < TO_DATE('01-JAN-2007', 'DD-MON-YYYY');
+
+-- Task 6: Show employees hired during 2006.
+SELECT e.employee_id,
+       e.first_name,
+       e.hire_date
+FROM employees e
+WHERE e.hire_date >= TO_DATE('01-JAN-2006', 'DD-MON-YYYY') AND
+      e.hire_date <  TO_DATE('01-JAN-2007', 'DD-MON-YYYY';
+
+SELECT e.employee_id,
+       e.first_name,
+       e.hire_date
+FROM employees e
+WHERE e.hire_date BETWEEN TO_DATE('01-JAN-2006', 'DD-MON-YYYY') AND
+                          TO_DATE('01-JAN-2007', 'DD-MON-YYYY';
