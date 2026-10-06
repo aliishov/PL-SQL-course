@@ -39,3 +39,9 @@ SELECT e.employee_id,
        e.hire_date
 FROM employees e
 WHERE TO_CHAR(e.hire_date, 'fmMonth') = 'August';
+
+-- Task 10: Make readable sentence.
+SELECT 'Employee ' || e.first_name ||
+       ' was hired on ' ||
+       TO_CHAR(e.hire_date, 'fmDay, ddTH "of" fmMonth YYYY') AS sentence
+FROM employees e;
