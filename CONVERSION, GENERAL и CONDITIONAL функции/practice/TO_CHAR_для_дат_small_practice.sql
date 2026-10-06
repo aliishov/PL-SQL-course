@@ -5,3 +5,7 @@ FROM dual;
 -- Task 2: Show current date as DD-MM-YYYY.
 SELECT TO_CHAR(SYSDATE, 'DD-MM-YYYY') AS result
 FROM dual;
+
+-- Task 3: Show current date and time.
+SELECT TO_CHAR(SYSDATE, 'DD-MM-YYYY HH24:MM:SS') AS result
+FROM dual;
