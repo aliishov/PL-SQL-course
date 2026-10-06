@@ -64,3 +64,10 @@ SELECT e.employee_id,
        e.hire_date
 FROM employees e
 WHERE e.hire_date < TO_DATE('01-JAN-2006', 'DD-MON-YYYY');
+
+-- Task 10: Show readable sentence for employees hired after 01-JAN-2008.
+SELECT 'Employee ' || e.first_name ||
+       ' was hired on ' ||
+       TO_CHAR(e.hire_date, 'DD-MON-YYYY') AS sentence
+FROM employees e
+WHERE e.hire_date > TO_DATE('01-JAN-2008', 'DD-MON-YYYY');
