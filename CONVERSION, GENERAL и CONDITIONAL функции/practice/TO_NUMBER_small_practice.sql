@@ -16,3 +16,10 @@ SELECT e.employee_id,
        e.salary
 FROM employees e
 WHERE e.salary > TO_NUMBER('10000');
+
+-- Task 5: Show employees whose salary is at least formatted value '$5,000'.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary
+FROM employees e
+WHERE e.salary >= TO_NUMBER('$5,000', '$9,9999');
