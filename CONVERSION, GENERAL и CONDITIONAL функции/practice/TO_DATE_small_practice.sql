@@ -48,3 +48,12 @@ SELECT e.employee_id,
        e.hire_date
 FROM employees e
 WHERE e.hire_date >= TO_DATE('20-SEP-2006', 'DD-MON-YYYY');
+
+-- Task 8: Show employee name, hire_date and formatted hire_date_text
+--         for employees hired after 01-JAN-2007.
+SELECT e.employee_id,
+       e.first_name,
+       e.hire_date,
+       TO_CHAR(e.hire_date, 'DD-MON-YYYY') AS hire_date_text
+FROM employees e
+WHERE e.hire_date > TO_DATE('01-JAN-2007', 'DD-MON-YYYY');
