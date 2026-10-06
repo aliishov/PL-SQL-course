@@ -21,3 +21,7 @@ FROM dual;
 -- Task 6: Show quarter.
 SELECT TO_CHAR(SYSDATE, 'Q') AS result
 FROM dual;
+
+-- Task 7: Show seconds after midnight.
+SELECT TO_CHAR(SYSDATE, 'SSSSS') AS result
+FROM dual
