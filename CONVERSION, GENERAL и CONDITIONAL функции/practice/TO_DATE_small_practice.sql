@@ -6,3 +6,9 @@ FROM dual;
 SELECT TO_CHAR(TO_DATE('15-08-2026 14:30:25', 'DD-MM-YYYY HH24:MI:SS'),
                        'DD-MM-YYYY HH24:MI:SS') AS result
 FROM dual;
+
+-- Task 3: Convert text with English month name.
+SELECT TO_DATE('15-August-2026',
+               'DD-Month-YYYY',
+               'NLS_DATE_LANGUAGE = English') AS result
+FROM dual;
