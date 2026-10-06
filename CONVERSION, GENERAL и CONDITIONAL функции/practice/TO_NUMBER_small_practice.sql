@@ -37,3 +37,11 @@ SELECT e.employee_id,
        e.salary,
        e.salary - TO_NUMBER('1,000', '9,999') AS reduced_salary
 FROM employees e;
+
+-- Task 8: Show employees whose commission_pct is greater than text '0.20'.
+SELECT e.employee_id,
+       e.first_name,
+       e.commission_pct
+FROM employees e
+WHERE e.commission_pct > TO_NUMBER('0.20', '9D99',
+                                   'NLS_NUMERIC_CHARACTERS = ''.,''');
