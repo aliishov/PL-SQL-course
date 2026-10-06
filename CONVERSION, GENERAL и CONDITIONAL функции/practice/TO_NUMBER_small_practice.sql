@@ -9,3 +9,10 @@ FROM dual;
 -- Task 3: Convert '<1,250.50>' to a negative NUMBER.
 SELECT TO_NUMBER('<1,250.50>', '9,999.99PR') AS result
 FROM dual;
+
+-- Task 4: Show employees whose salary is greater than text value '10000'.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary
+FROM employees e
+WHERE e.salary > TO_NUMBER('10000');
