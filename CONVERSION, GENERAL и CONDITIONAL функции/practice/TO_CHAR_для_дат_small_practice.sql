@@ -32,3 +32,10 @@ SELECT e.employee_id,
        e.hire_date,
        TO_CHAR(e.hire_date, 'DD-MON-YYYY') AS hire_date_text
 FROM employees e;
+
+-- Task 9: Find employees hired in August.
+SELECT e.employee_id,
+       e.first_name,
+       e.hire_date
+FROM employees e
+WHERE TO_CHAR(e.hire_date, 'fmMonth') = 'August';
