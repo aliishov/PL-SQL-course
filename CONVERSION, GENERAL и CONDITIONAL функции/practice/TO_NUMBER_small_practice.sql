@@ -53,3 +53,11 @@ SELECT e.employee_id,
        e.salary * TO_NUMBER('0.10', '9D99', 
                                     'NLS_NUMERIC_CHARACTERS = ''.,''') AS new_salary
 FROM employees e;
+
+-- Task 10: Show employees whose salary is between two converted text values.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary
+FROM employees e
+WHERE e.salary >= TO_NUMBER('5,000', '99,999')
+  AND e.salary <= TO_NUMBER('15,000', '99,999');
