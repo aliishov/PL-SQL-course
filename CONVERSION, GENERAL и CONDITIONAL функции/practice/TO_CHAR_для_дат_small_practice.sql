@@ -13,3 +13,7 @@ FROM dual;
 -- Task 4: Show month name.
 SELECT TO_CHAR(SYSDATE, 'fmMonth') AS result
 FROM dual;
+
+-- Task 5: Show day name.
+SELECT TO_CHAR(SYSDATE, 'fmDay') AS result
+FROM dual;
