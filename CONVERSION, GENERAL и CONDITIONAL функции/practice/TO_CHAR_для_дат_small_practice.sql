@@ -25,3 +25,10 @@ FROM dual;
 -- Task 7: Show seconds after midnight.
 SELECT TO_CHAR(SYSDATE, 'SSSSS') AS result
 FROM dual
+
+-- Task 8: Format employees hire_date.
+SELECT e.employee_id,
+       e.first_name,
+       e.hire_date,
+       TO_CHAR(e.hire_date, 'DD-MON-YYYY') AS hire_date_text
+FROM employees e;
