@@ -12,3 +12,10 @@ SELECT TO_DATE('15-August-2026',
                'DD-Month-YYYY',
                'NLS_DATE_LANGUAGE = English') AS result
 FROM dual;
+
+-- Task 4: Show employees hired after 01-JAN-2005.
+SELECT e.employee_id,
+       e.first_name,
+       e.hire_date
+FROM employees e
+WHERE e.hire_date > TO_DATE('01-JAN-2005', 'DD-MON-YYYY');
