@@ -17,3 +17,7 @@ FROM dual;
 -- Task 5: Show day name.
 SELECT TO_CHAR(SYSDATE, 'fmDay') AS result
 FROM dual;
+
+-- Task 6: Show quarter.
+SELECT TO_CHAR(SYSDATE, 'Q') AS result
+FROM dual;
