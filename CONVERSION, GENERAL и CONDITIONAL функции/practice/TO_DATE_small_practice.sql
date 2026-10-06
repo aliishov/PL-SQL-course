@@ -19,3 +19,10 @@ SELECT e.employee_id,
        e.hire_date
 FROM employees e
 WHERE e.hire_date > TO_DATE('01-JAN-2005', 'DD-MON-YYYY');
+
+-- Task 5: Show employees hired before 01-JAN-2007.
+SELECT e.employee_id,
+       e.first_name,
+       e.hire_date
+FROM employees e
+WHERE e.hire_date < TO_DATE('01-JAN-2007', 'DD-MON-YYYY');
