@@ -41,3 +41,10 @@ SELECT e.employee_id,
 FROM employees e
 WHERE e.hire_date BETWEEN TO_DATE('01-JAN-2006', 'DD-MON-YYYY') AND
                           TO_DATE('01-JAN-2007', 'DD-MON-YYYY';
+
+-- Task 7: Show employees hired on or after 20-SEP-2006.
+SELECT e.employee_id,
+       e.first_name,
+       e.hire_date
+FROM employees e
+WHERE e.hire_date >= TO_DATE('20-SEP-2006', 'DD-MON-YYYY');
