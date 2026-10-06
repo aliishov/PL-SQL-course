@@ -30,3 +30,10 @@ SELECT e.employee_id,
        e.salary,
        e.salary + TO_NUMBER('300') AS increased_salary
 FROM employees e;
+
+-- Task 7: Subtract formatted text value '1,000' from salary.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary,
+       e.salary - TO_NUMBER('1,000', '9,999') AS reduced_salary
+FROM employees e;
