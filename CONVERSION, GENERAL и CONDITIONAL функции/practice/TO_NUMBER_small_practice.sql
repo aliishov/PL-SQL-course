@@ -45,3 +45,11 @@ SELECT e.employee_id,
 FROM employees e
 WHERE e.commission_pct > TO_NUMBER('0.20', '9D99',
                                    'NLS_NUMERIC_CHARACTERS = ''.,''');
+
+-- Task 9: Multiply salary by numeric value converted from text '1.10'.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary,
+       e.salary * TO_NUMBER('0.10', '9D99', 
+                                    'NLS_NUMERIC_CHARACTERS = ''.,''') AS new_salary
+FROM employees e;
