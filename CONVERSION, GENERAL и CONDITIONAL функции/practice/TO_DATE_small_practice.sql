@@ -57,3 +57,10 @@ SELECT e.employee_id,
        TO_CHAR(e.hire_date, 'DD-MON-YYYY') AS hire_date_text
 FROM employees e
 WHERE e.hire_date > TO_DATE('01-JAN-2007', 'DD-MON-YYYY');
+
+-- Task 9: Show employees whose hire_date is before 01-JUL-2006.
+SELECT e.employee_id,
+       e.first_name,
+       e.hire_date
+FROM employees e
+WHERE e.hire_date < TO_DATE('01-JAN-2006', 'DD-MON-YYYY');
