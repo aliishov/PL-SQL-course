@@ -53,3 +53,10 @@ SELECT e.employee_id,
        e.hire_date,
        TO_CHAR(ADD_MONTHS(e.hire_date, 6), 'DD-MON-YYYY') AS review_date
 FROM employees e;
+
+-- Task 10: Remove dots from phone_number and convert result to NUMBER.
+SELECT e.employee_id,
+       e.first_mname,
+       e.phone_number,
+       TO_NUMBER(REPLACE(e.phone_number, '.', '')) AS phone_as_number
+FROM employees e;
