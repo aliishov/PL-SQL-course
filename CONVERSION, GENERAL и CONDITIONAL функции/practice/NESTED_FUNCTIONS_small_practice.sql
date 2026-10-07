@@ -12,3 +12,9 @@ FROM dual;
 -- Task 3: Convert date text to DATE and show its day name.
 SELECT TO_CHAR(TO_DATE('07-10-2026', 'DD-MM-YYYY'), 'FMDAY') AS result
 FROM dual;
+
+-- Task 4: Show first 3 letters of each first_name in lowercase.
+SELECT e.employee_id,
+       e.first_name,
+       LOWER(SUBSTR(e.first_name, 1, 3)) AS short_name
+FROM employees e;
