@@ -38,3 +38,10 @@ SELECT e.employee_id,
        e.first_name,
        NVL(SUBSTR(e.first_name, 6), 'Name is too short') AS name_part
 FROM employees e;
+
+-- Task 8: Show 0 when manager_id is NULL.
+SELECT e.employee_id,
+       e.first_name,
+       e.manager_id,
+       NVL(e.manager_id, 0) AS manager_value
+FROM employees e;
