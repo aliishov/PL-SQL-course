@@ -45,3 +45,10 @@ SELECT e.employee_id,
        e.manager_id,
        NVL(e.manager_id, 0) AS manager_value
 FROM employees e;
+
+-- Task 9: Show 'No phone' when phone_number is NULL.
+SELECT e.employee_id,
+       e.first_name,
+       e.phone_number,
+       NVL(e.phone_number, 'No phone') AS phone_value
+FROM employees e;
