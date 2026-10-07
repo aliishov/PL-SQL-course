@@ -32,3 +32,9 @@ SELECT e.employee_id,
        e.commission_pct,
        e.salary * NVL(e.commission_pct) AS commission_amount
 FROM employees e;
+
+-- Task 7: Show a message when SUBSTR returns NULL.
+SELECT e.employee_id,
+       e.first_name,
+       NVL(SUBSTR(e.first_name, 6), 'Name is too short') AS name_part
+FROM employees e;
