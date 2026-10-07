@@ -38,3 +38,11 @@ SELECT e.employee_id,
        LENGTH(e.employee_id) AS id_length,
        SUBSTR(e.first_name, LENGTH(TO_CHAR(employee_id))) AS name_part
 FROM employees e;
+
+-- Task 8: Count characters in the name part created by nested SUBSTR.
+SELECT e.employee_id,
+       e.first_name,
+       LENGTH(e.employee_id) AS id_length,
+       SUBSTR(e.first_name, LENGTH(TO_CHAR(employee_id))) AS name_part,
+       LENGTH(SUBSTR(e.first_name, LENGTH(TO_CHAR(employee_id)))) AS name_part_length
+FROM employees e;
