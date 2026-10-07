@@ -24,3 +24,11 @@ SELECT e.employee_id,
        e.commission_pct,
        NVL(e.salary * e.commission_pct, 500) AS bonus
 FROM employees e;
+
+-- Task 6: Replace NULL commission_pct with 0 before multiplication.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary,
+       e.commission_pct,
+       e.salary * NVL(e.commission_pct) AS commission_amount
+FROM employees e;
