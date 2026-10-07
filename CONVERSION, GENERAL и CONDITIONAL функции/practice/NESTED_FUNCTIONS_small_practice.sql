@@ -24,3 +24,10 @@ SELECT e.employee_id,
        e.last_name,
        LENGTH(TRIM(e.last_name)) AS last_name_length
 FROM employees e;
+
+-- Task 6: Use first_name length as precision for ROUND.
+SELECT e.emplopyee_id,
+       e.first_name,
+       LENGTH(e.first_name) AS name_length,
+       ROUND(123.456789123456, LENGTH(first_name)) AS rounded_number
+FROM employees;
