@@ -52,3 +52,10 @@ SELECT e.employee_id,
        e.phone_number,
        NVL(e.phone_number, 'No phone') AS phone_value
 FROM employees e;
+
+-- Task 10: Find employees whose commission_pct is NULL or 0.
+SELECT e.employee_id,
+       e.first_name,
+       e.commission_pct
+FROM employees e
+WHERE NVL(e.commission_pct, 0) = 0;
