@@ -46,3 +46,10 @@ SELECT e.employee_id,
        SUBSTR(e.first_name, LENGTH(TO_CHAR(employee_id))) AS name_part,
        LENGTH(SUBSTR(e.first_name, LENGTH(TO_CHAR(employee_id)))) AS name_part_length
 FROM employees e;
+
+-- Task 9: Add 6 months to hire_date and format the result as text.
+SELECT e.employee_id,
+       e.first_name,
+       e.hire_date,
+       TO_CHAR(ADD_MONTHS(e.hire_date, 6), 'DD-MON-YYYY') AS review_date
+FROM employees e;
