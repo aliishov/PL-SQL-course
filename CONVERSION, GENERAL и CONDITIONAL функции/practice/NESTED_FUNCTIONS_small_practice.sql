@@ -18,3 +18,9 @@ SELECT e.employee_id,
        e.first_name,
        LOWER(SUBSTR(e.first_name, 1, 3)) AS short_name
 FROM employees e;
+
+-- Task 5: Remove outer spaces from last_name and count its characters.
+SELECT e.employee_id,
+       e.last_name,
+       LENGTH(TRIM(e.last_name)) AS last_name_length
+FROM employees e;
