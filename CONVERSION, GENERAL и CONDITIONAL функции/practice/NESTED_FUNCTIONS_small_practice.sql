@@ -31,3 +31,10 @@ SELECT e.emplopyee_id,
        LENGTH(e.first_name) AS name_length,
        ROUND(123.456789123456, LENGTH(first_name)) AS rounded_number
 FROM employees;
+
+-- Task 7: Use employee_id length as start position in first_name.
+SELECT e.employee_id,
+       e.first_name,
+       LENGTH(e.employee_id) AS id_length,
+       SUBSTR(e.first_name, LENGTH(TO_CHAR(employee_id))) AS name_part
+FROM employees e;
