@@ -16,3 +16,11 @@ SELECT e.employee_id,
        e.commission_pct,
        NVL(e.commission_pct, 0) AS commission_value
 FROM employees e;
+
+-- Task 5: Return bonus 500 when salary * commission_pct is NULL.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary,
+       e.commission_pct,
+       NVL(e.salary * e.commission_pct, 500) AS bonus
+FROM employees e;
