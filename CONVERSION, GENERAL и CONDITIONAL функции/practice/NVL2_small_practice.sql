@@ -9,3 +9,10 @@ FROM dual;
 -- Task 3: Show 'No text' for an empty string.
 SELECT NVL2('', 'Has Text', 'No Text') AS result
 FROM dual;
+
+-- Task 4: Return commission_pct or 0.
+SELECT e.employee_id,
+       e.first_name,
+       e.commission_pct,
+       NVL2(e.commission_pct, e.commission_pct, 0) AS commission_value
+FROM employees e;
