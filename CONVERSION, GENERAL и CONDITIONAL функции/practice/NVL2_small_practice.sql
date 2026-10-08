@@ -35,3 +35,13 @@ SELECT e.employee_id,
             e.salary * e.commission_pct,
             0) AS commission_amount
 FROM employees e;
+
+-- Task 7: Use commission for bonus or 5 percent of salary.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary,
+       e.commission_pct,
+       NVL2(e.commission_pct,
+            e.salary * e.commission_pct,
+            e.salary * 0.05) AS commission_amount
+FROM employees e;
