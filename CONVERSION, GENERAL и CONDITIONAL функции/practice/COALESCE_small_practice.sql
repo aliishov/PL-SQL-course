@@ -76,3 +76,10 @@ SELECT e.employee_id,
            'Hidden job'
        ) AS job_value
 FROM employees e;
+
+-- Task 10: Find employees with a positive commission_pct.
+SELECT e.employee_id,
+       e.first_name,
+       e.commission_pct
+FROM employees e
+WHERE COALESCE(e.commission_pct, 0) > 0;
