@@ -12,3 +12,10 @@ SELECT NULLIF(
            TO_DATE('1987/09/18', 'YYYY/MM/DD')
        ) AS result
 FROM dual;
+
+-- Task 4: Turn commission_pct 0 into NULL.
+SELECT e.employee_id,
+       e.first_name,
+       e.commission_pct,
+       NULLIF(e.commission_pct, 0)
+FROM employees e;
