@@ -18,10 +18,20 @@ FROM dual;
 SELECT e.employee_id,
        e.first_name,
        e.commission_pct,
-       DECODE(
-           e.commission_pct,
-           NULL, 'No commission',
-           0.1,  'Small',
-           0.4,  'Big',
-                 'Middle') AS commission_group
+       DECODE(e.commission_pct,
+              NULL, 'No commission',
+              0.1,  'Small',
+              0.4,  'Big',
+                    'Middle') AS commission_group
+FROM employees e;
+
+-- Task 5: Translate department_id to department text.
+SELECT e.employee_id,
+       e.first_name,
+       e.department_id,
+       DECODE(e.department_id,
+              10, 'Administration',
+              20, 'Marketing',
+              50, 'Shipping',
+                  'Other department') AS department_text
 FROM employees e;
