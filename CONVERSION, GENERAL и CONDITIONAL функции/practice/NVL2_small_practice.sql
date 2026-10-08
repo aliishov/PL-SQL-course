@@ -16,3 +16,12 @@ SELECT e.employee_id,
        e.commission_pct,
        NVL2(e.commission_pct, e.commission_pct, 0) AS commission_value
 FROM employees e;
+
+-- Task 5: Show a text status for commission_pct.
+SELECT e.employee_id,
+       e.first_name,
+       e.commission_pct,
+       NVL2(e.commission_pct, 
+            'Hash commission', 
+            'No commission') AS commission_status
+FROM employees e;
