@@ -54,3 +54,12 @@ SELECT e.employee_id,
             'Hash manager', 
             'No manager') AS manager_status
 FROM employees e;
+
+-- Task 9: Return phone_number or text 'No phone'.
+SELECT e.employee_id,
+       e.first_name,
+       e.phone_number,
+       NVL2(e.phone_number, 
+            e.phone_number, 
+            'No phone') AS phone_value
+FROM employees e;
