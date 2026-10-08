@@ -25,3 +25,13 @@ SELECT e.employee_id,
             'Hash commission', 
             'No commission') AS commission_status
 FROM employees e;
+
+-- Task 6: Calculate commission amount or return 0.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary,
+       e.commission_pct,
+       NVL2(e.commission_pct,
+            e.salary * e.commission_pct,
+            0) AS commission_amount
+FROM employees e;
