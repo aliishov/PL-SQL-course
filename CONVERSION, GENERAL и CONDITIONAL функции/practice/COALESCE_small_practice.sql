@@ -22,3 +22,15 @@ SELECT e.employee_id,
            e.salary
        ) AS first_available_number
 FROM employees e;
+
+-- Task 5: Choose phone_number, email or fixed contact text.
+SELECT e.employee_id,
+       e.first_name,
+       e.email,
+       e.phone_number,
+       COALESCE(
+           e.email,
+           e.phone_number,
+           'No contact'
+       ) AS preferred_contact
+FROM employees e;
