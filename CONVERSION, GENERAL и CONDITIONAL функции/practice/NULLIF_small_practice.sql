@@ -56,3 +56,16 @@ SELECT c.country_id,
            UPPER(SUBSTR(c.country_name, 1, 2))
        ) AS comparison_result
 FROM countries c;
+
+-- Task 10: Show a readable country code comparison status.
+SELECT c.country_id,
+       c.country_name,
+       NVL2(
+            NULLIF(
+                 c.country_id,
+                 UPPER(SUBSTR(c.country_name, 1, 2))
+            ),
+            'Match not found',
+            'Match found'
+       ) AS comparison_status
+FROM countries c;
