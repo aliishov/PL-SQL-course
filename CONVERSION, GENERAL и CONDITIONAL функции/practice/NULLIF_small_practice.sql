@@ -26,3 +26,10 @@ SELECT e.employee_id,
        e.job_id,
        NULLIF(e.job_id, 'SA_REP') AS job_except_sales_rep
 FROM employees e;
+
+-- Task 6: Turn manager_id 100 into NULL.
+SELECT e.employee_id,
+       e.first_name,
+       e.manager_id,
+       NULLIF(e.manager_id, 100) AS manager_except_100
+FROM employees e;
