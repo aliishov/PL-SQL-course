@@ -17,5 +17,12 @@ FROM dual;
 SELECT e.employee_id,
        e.first_name,
        e.commission_pct,
-       NULLIF(e.commission_pct, 0)
+       NULLIF(e.commission_pct, 0) AS normalized_commission
+FROM employees e;
+
+-- Task 5: Turn job_id 'SA_REP' into NULL.
+SELECT e.employee_id,
+       e.first_name,
+       e.job_id,
+       NULLIF(e.job_id, 'SA_REP') AS job_except_sales_rep
 FROM employees e;
