@@ -66,3 +66,13 @@ SELECT e.employee_id,
            'No name'
        ) AS name_value
 FROM employees e;
+
+-- Task 9: Replace job_id 'SA_REP' through NULLIF and COALESCE.
+SELECT e.employee_id,
+       e.first_name,
+       e.job_id,
+       COALESCE(
+           NULLIF(e.job_id, 'SA_REP'),
+           'Hidden job'
+       ) AS job_value
+FROM employees e;
