@@ -47,3 +47,12 @@ SELECT e.employee_id,
        e.last_name,
        NULLIF(LENGTH(e.first_name), LENGTH(e.last_name)) AS length_check
 FROM employees e;
+
+-- Task 9: Compare country_id with first two letters of country_name.
+SELECT c.country_id,
+       c.country_name,
+       NULLIF(
+           c.country_id,
+           UPPER(SUBSTR(c.country_name, 1, 2))
+       ) AS comparison_result
+FROM countries c;
