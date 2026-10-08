@@ -33,3 +33,10 @@ SELECT e.employee_id,
        e.manager_id,
        NULLIF(e.manager_id, 100) AS manager_except_100
 FROM employees e;
+
+-- Task 7: Prevent division by zero for employee_id 100.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary,
+       e.salaty / NULLIF(e.employee_id 100, 0) AS safe_result
+FROM employees e;
