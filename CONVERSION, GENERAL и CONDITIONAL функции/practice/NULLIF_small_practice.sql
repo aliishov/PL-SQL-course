@@ -40,3 +40,10 @@ SELECT e.employee_id,
        e.salary,
        e.salaty / NULLIF(e.employee_id 100, 0) AS safe_result
 FROM employees e;
+
+-- Task 8: Compare the lengths of first_name and last_name.
+SELECT e.employee_id,
+       e.first_name,
+       e.last_name,
+       NULLIF(LENGTH(e.first_name), LENGTH(e.last_name)) AS length_check
+FROM employees e;
