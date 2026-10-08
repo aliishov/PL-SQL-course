@@ -11,5 +11,17 @@ SELECT DECODE(2 + 2 * 2,
               5,      'Five', 
               12 / 2, 'Six from expression', 
               6,      'Six from literal', 
-              'No match') AS result
+                      'No match') AS result
 FROM dual;
+
+-- Task 4: Classify commission_pct by exact values.
+SELECT e.employee_id,
+       e.first_name,
+       e.commission_pct,
+       DECODE(
+           e.commission_pct,
+           NULL, 'No commission',
+           0.1,  'Small',
+           0.4,  'Big',
+                 'Middle') AS commission_group
+FROM employees e;
