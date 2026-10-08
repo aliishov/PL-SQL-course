@@ -34,3 +34,15 @@ SELECT e.employee_id,
            'No contact'
        ) AS preferred_contact
 FROM employees e;
+
+-- Task 6: Calculate commission, five percent bonus or fixed bonus.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary,
+       e.commission_pct,
+       COALESCE(
+           e.salary * e.commission_pct,
+           e.salary * 0.05,
+           500
+       ) AS bonus
+FROM employees e;
