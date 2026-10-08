@@ -45,3 +45,12 @@ SELECT e.employee_id,
             e.salary * e.commission_pct,
             e.salary * 0.05) AS commission_amount
 FROM employees e;
+
+-- Task 8: Show whether manager_id exists.
+SELECT e.employee_id,
+       e.first_name,
+       e.manager_id,
+       NVL2(e.manager_id, 
+            'Hash manager', 
+            'No manager') AS manager_status
+FROM employees e;
