@@ -35,3 +35,14 @@ SELECT e.employee_id,
               50, 'Shipping',
                   'Other department') AS department_text
 FROM employees e;
+
+-- Task 6: Translate selected job_id values to job names.
+SELECT e.employee_id,
+       e.first_name,
+       e.job_id,
+       DECODE(e.job_id,
+              'IT_PROG', 'Programmer',
+              'SA_REP',  'Sales representative',
+              'ST_CLERK','Stock clerk',
+                         'Other job') AS job_names
+FROM employees e;
