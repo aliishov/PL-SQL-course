@@ -46,3 +46,13 @@ SELECT e.employee_id,
            500
        ) AS bonus
 FROM employees e;
+
+-- Task 7: Return hire_date or a default DATE value.
+SELECT e.employee_id,
+       e.first_name,
+       e.hire_date,
+       COALESCE(
+           e.hire_date,
+           TO_DATE('01-01-2000', 'DD-MM-YYYY')
+       ) AS safe_hire_date
+FROM employees e;
