@@ -56,3 +56,13 @@ SELECT e.employee_id,
            TO_DATE('01-01-2000', 'DD-MM-YYYY')
        ) AS safe_hire_date
 FROM employees e;
+
+-- Task 8: Use SUBSTR result, original first_name or fixed text.
+SELECT e.employee_id,
+       e.first_name
+       COALESCE(
+           SUBSTR(e.first_name, 6),
+           e.first_name,
+           'No name'
+       ) AS name_value
+FROM employees e;
