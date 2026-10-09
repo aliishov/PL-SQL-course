@@ -51,3 +51,15 @@ SELECT e.employee_id,
            ELSE 'Have commission'
        END AS commission_status
 FROM employees e;
+
+-- Task 7: Check salary and commission_pct in one AND condition.
+SELECT e.employee_id,
+       e.first_name 
+       e.commission_pct
+       CASE
+           WHEN e.salary >= 10000
+            AND e.commission_pct IS NOT NULL
+               THEN 'High salary with commission'
+           ELSE 'Other employee'
+       END AS employee_group
+FROM employees e;
