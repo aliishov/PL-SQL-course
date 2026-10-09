@@ -92,3 +92,13 @@ SELECT e.employee_id,
            ELSE 'Other'
        END AS job_area
 FROM employees e;
+
+-- Task 10: Use simple CASE result to keep department_id 50.
+SELECT e.employee_id,
+       e.firsty_name,
+       e.department_id
+FROM employees e
+WHERE CASE e.department_id
+          WHEN 50 THEN 1
+          ELSE 0
+      END = 1;
