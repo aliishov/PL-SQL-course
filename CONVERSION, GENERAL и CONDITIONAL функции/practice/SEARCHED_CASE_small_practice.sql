@@ -41,3 +41,13 @@ SELECT e.employee_id,
            ELSE 'Lower salary'
        END AS salary_group 
 FROM employees e;
+
+-- Task 6: Show commission status using IS NULL.
+SELECT e.employee_id,
+       e.first_name 
+       e.commission_pct
+       CASE
+           WHEN e.commission_pct IS NULL THEN 'No commission'
+           ELSE 'Have commission'
+       END AS commission_status
+FROM employees e;
