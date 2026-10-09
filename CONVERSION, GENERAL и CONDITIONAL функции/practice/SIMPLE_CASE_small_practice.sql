@@ -81,3 +81,14 @@ SELECT e.employee_id,
            ELSE e.salary
        END AS adjusted_salary
 FROM employees e;
+
+-- Task 9: Classify job area by first two characters of job_id.
+SELECT e.employee_id,
+       e.job_id,
+       CASE SUBSTR(e.job_id, 1, 2)
+           WHEN 'IT' THEN 'Technology'
+           WHEN 'SA' THEN 'Sales'
+           WHEN 'ST' THEN 'Stock'
+           ELSE 'Other'
+       END AS job_area
+FROM employees e;
