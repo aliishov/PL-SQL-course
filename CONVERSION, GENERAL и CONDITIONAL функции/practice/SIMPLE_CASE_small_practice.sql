@@ -21,3 +21,16 @@ SELECT CASE 3 * 5
            ELSE 'No match'
        END AS result
 FROM dual;
+
+-- Task 4: Classify first_name by its exact length.
+SELECT e.employee_id,
+       e.first_name,
+       CASE LENGTH(e.first_name)
+           WHEN 4 THEN 'Too short name'
+           WHEN 5 THEN 'Short name'
+           WHEN 6 THEN 'Middle length name'
+           WHEN 7 THEN 'Long name'
+           WHEN 8 THEN 'Too long name'
+           ELSE 'Length undefined'
+       END AS length_status
+FROM employees e;
