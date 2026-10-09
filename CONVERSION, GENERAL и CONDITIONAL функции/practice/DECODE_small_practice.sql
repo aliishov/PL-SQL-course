@@ -56,3 +56,14 @@ SELECT e.employee_id,
               NULL, 0,
                     e.salary * e.commission_pct) AS commission_amount
 FROM employees e;
+
+-- Task 8: Classify job area by first two characters of job_id.
+SELECT e.employee_id,
+       e.first_name,
+       e.job_id,
+       DECODE(SUBSTR(e.job_id, 1, 2),
+              'IT', 'Technology',
+              'SA', 'Sales',
+              'ST', 'Stock',
+                    'Other') AS job_area
+FROM employees e;
