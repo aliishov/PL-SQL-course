@@ -76,3 +76,17 @@ SELECT e.employee_id,
            ELSE 'Hired in 2008 or later'
        END AS hire_period 
 FROM employees e;
+
+-- Task 9: Calculate bonus using different conditions.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary,
+       e.commission_pct
+       CASE
+           WHEN e.commission_pct IS NOT NULL
+               THEN e.salary * e.commission_pct
+           WHEN e.salary >= 10000
+               THEN e.salary * 0.10
+           ELSE e.salary * 0.05
+       END AS bonus
+FROM employees e;
