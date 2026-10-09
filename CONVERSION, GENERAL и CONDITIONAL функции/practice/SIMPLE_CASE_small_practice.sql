@@ -46,3 +46,15 @@ SELECT e.employee_id,
            ELSE 'Other department' 
        END AS department_name
 FROM employees e;
+
+-- Task 6: Translate selected job_id values to job names.
+SELECT e.employee_id,
+       e.first_name,
+       e.job_id
+       CASE e.job_id
+           WHEN 'IT_PROG' THEN 'Programmer'
+           WHEN 'SA_REP'  THEN 'Sales representative'
+           WHEN 'ST_CLERK' THEN 'Stock clerk'
+           ELSE 'Other job'
+       END AS job_name
+FROM employees e;
