@@ -12,3 +12,12 @@ SELECT CASE 3 * 4
            ELSE 'No match'
        END AS result
 FROM dual;
+
+-- Task 3: Return ELSE when 3 * 5 matches no WHEN value.
+SELECT CASE 3 * 5 
+           WHEN 11     THEN 'Eleven'
+           WHEN 12     THEN 'Twelve from literal'
+           WHEN 24 / 2 THEN 'Twelve from expression'
+           ELSE 'No match'
+       END AS result
+FROM dual;
