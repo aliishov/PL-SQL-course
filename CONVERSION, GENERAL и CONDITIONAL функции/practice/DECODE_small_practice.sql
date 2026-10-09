@@ -69,10 +69,19 @@ SELECT e.employee_id,
 FROM employees e;
        
 -- Task 9: Show whether manager_id is NULL.
-SELECT e.employee_ida,
+SELECT e.employee_id,
        e.first_name,
        e.manager_id,
        DECODE(e.manager_id, 
               NULL, 'No manager',
                     'Has Manager') AS manager_status
 FROM employees e;
+
+-- Task 10: Find employees whose commission_pct is not NULL.
+SELECT e.employee_id,
+       e.first_name,
+       e.commission_pct
+FROM employees e
+WHERE DECODE(e.commission_pct,
+             NULL, 0,
+                   1) = 1;
