@@ -63,3 +63,16 @@ SELECT e.employee_id,
            ELSE 'Other employee'
        END AS employee_group
 FROM employees e;
+
+-- Task 8: Classify employees by hire_date periods.
+SELECT e.employee_id,
+       e.first_name,
+       e.hire_date,
+       CASE
+           WHEN e.hire_date < TO_DATE('01-01-2005', 'DD-MM-YYYY')
+               THEN 'Hired before 2005'
+           WHEN e.hire_date < TO_DATE('01-01-2008', 'DD-MM-YYYY')
+               THEN 'Hired from 2005 to 2007'
+           ELSE 'Hired in 2008 or later'
+       END AS hire_period 
+FROM employees e;
