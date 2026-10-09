@@ -19,3 +19,14 @@ SELECT CASE
            ELSE 'Fifteen'
        END
 FROM dual;
+
+-- Task 4: Classify first_name by length ranges.
+SELECT e.employee_id,
+       e.first_name
+       CASE
+           WHEN LENGTH(e.first_name) <= 4 THEN 'Very short name'
+           WHEN LENGTH(e.first_name) <= 6 THEN 'Short name'
+           WHEN LENGTH(e.first_name) <= 8 THEN 'Middle name'
+           ELSE 'Long name'
+       END AS length_status
+FROM employees e;
