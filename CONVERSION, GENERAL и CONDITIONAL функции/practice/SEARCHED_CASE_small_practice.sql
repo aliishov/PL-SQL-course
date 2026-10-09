@@ -90,3 +90,14 @@ SELECT e.employee_id,
            ELSE e.salary * 0.05
        END AS bonus
 FROM employees e;
+
+-- Task 10: Classify departments using IN lists.
+SELECT e.employee_id,
+       e.first_name,
+       e.department_id,
+       CASE
+           WHEN e.department_id IN (10, 20, 30) THEN 'Office group'
+           WHEN e.department_id IN (50, 80)     THEN 'Operations group'
+           ELSE 'Other group'
+       END AS department_group
+FROM employees e;
