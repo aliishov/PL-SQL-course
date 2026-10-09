@@ -11,3 +11,11 @@ SELECT CASE
            ELSE 'No condition'
        END AS result
 FROM dual;
+
+-- Task 3: Return ELSE when no condition is TRUE.
+SELECT CASE
+           WHEN 3 * 5 = 11 THEN 'Eleven'
+           WHEN 3 * 5 = 12 THEN 'Twelve'
+           ELSE 'Fifteen'
+       END
+FROM dual;
