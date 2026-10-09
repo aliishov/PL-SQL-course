@@ -67,3 +67,12 @@ SELECT e.employee_id,
               'ST', 'Stock',
                     'Other') AS job_area
 FROM employees e;
+       
+-- Task 9: Show whether manager_id is NULL.
+SELECT e.employee_ida,
+       e.first_name,
+       e.manager_id,
+       DECODE(e.manager_id, 
+              NULL, 'No manager',
+                    'Has Manager') AS manager_status
+FROM employees e;
