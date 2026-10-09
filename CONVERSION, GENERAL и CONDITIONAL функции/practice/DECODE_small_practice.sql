@@ -46,3 +46,13 @@ SELECT e.employee_id,
               'ST_CLERK','Stock clerk',
                          'Other job') AS job_names
 FROM employees e;
+
+-- Task 7: Calculate commission amount or return 0.
+SELECT e.employee_id,
+       e.first_name,
+       e.salary,
+       e.commission_pct,
+       DECODE(e.commission_pct,
+              NULL, 0,
+                    e.salary * e.commission_pct) AS commission_amount
+FROM employees e;
