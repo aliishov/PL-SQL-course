@@ -70,3 +70,14 @@ SELECT e.employee_id,
            ELSE 'Other commission'
        END AS commission_group
 FROM employees e;
+
+-- Task 8: Calculate adjusted salary for exact department_id values.
+SELECT e.employee_id,
+       e.first_name,
+       CASE e.department_id
+           WHEN 10 THEN e.salary * 1.10
+           WHEN 20 THEN e.salary * 1.15
+           WHEN 50 THEN e.salary * 1.05
+           ELSE e.salary
+       END AS adjusted_salary
+FROM employees e;
