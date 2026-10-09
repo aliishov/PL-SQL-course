@@ -58,3 +58,15 @@ SELECT e.employee_id,
            ELSE 'Other job'
        END AS job_name
 FROM employees e;
+
+-- Task 7: Classify commission_pct after replacing NULL with -1.
+SELECT e.employee_id,
+       e.first_name,
+       e.commission_pct,
+       CASE NVL(e.commission_pct, -1
+           WHEN -1  THEN 'No commission'
+           WHEN 0.1 THEN 'Small commission'
+           WHEN 0.4 THEN 'Big commission'
+           ELSE 'Other commission'
+       END AS commission_group
+FROM employees e;
