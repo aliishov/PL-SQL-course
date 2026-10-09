@@ -30,3 +30,14 @@ SELECT e.employee_id,
            ELSE 'Long name'
        END AS length_status
 FROM employees e;
+
+-- Task 5: Classify salary with higher threshold first.
+SELECT e.employee_id,
+       e.first_name 
+       e.salary
+       CASE
+           WHEN e.salary >= 15000 THEN 'High salary'
+           WHEN e.salary >= 8000  THEN 'Middle salary'
+           ELSE 'Lower salary'
+       END AS salary_group 
+FROM employees e;
