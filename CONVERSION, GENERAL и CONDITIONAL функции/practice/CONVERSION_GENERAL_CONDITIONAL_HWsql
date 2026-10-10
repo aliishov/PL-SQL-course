@@ -125,3 +125,14 @@ SELECT
          'different length',
          'same length') AS result
 FROM employees e;
+
+-- Task 16: Display the employee's name, commission, and an indication of whether 
+--          they receive a commission (Yes/No).
+SELECT 
+    e.employee_id,
+    e.first_name,
+    e.commission_pct,
+    NVL2(e.commission_pct,
+         'Yes',
+         'No') AS has_bonus
+FROM employees e;
