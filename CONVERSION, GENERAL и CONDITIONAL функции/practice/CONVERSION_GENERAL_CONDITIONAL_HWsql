@@ -87,3 +87,13 @@ SELECT
     e.salary,
     e.salary + TO_NUMBER('$12,345.55', '$99,999.99') AS new_salary
 FROM employees e;
+
+-- Task 13: Display the employee's name, their start day, and the number of 
+--          months between their start date and the date derived from the 
+--          text "SEP, 18:45:00 18 2009". 
+SELECT
+    e.employee_id,
+    e.first_name,
+    e.hire_date,
+    ROUND(MONTHS_BETWEEN(TO_DATE('SEP, 18:45:00 18 2009', 'MON, HH24:MI:SS DD YYYY'), e.hire_date)) AS months_between
+FROM employees e;
