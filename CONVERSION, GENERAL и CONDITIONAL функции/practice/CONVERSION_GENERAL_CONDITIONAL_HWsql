@@ -113,3 +113,15 @@ SELECT
     e.salary + (e.salary * NVL(e.commission_pct, 0)) AS new_salary,
     TO_CHAR(e.salary + (e.salary * NVL(e.commission_pct, 0)), '$99,999.00') AS new_salary_text
 FROM employees e;
+
+-- Task 15: Display the employee's first name, last name, and the string "different length" 
+--          if the lengths differ, or "same length" if they are equal. Do not use 
+--          conditional functions.
+SELECT
+    e.employee_id,
+    e.first_name,
+    e.last_name,
+    NVL2(NULLIF(LENGTH(e.first_name), LENGTH(e.last_name)),
+         'different length',
+         'same length') AS result
+FROM employees e;
