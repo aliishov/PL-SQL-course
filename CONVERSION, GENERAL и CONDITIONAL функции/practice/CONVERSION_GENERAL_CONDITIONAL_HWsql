@@ -13,3 +13,9 @@ WHERE LOWER(e.first_name) LIKE '%a%a%';
 SELECT *
 FROM employees e
 WHERE INSTR(LOWER(e.first_name), 'a', 1, 2) > 0;
+
+-- Task 3. Retrieve the first word of the department name for departments with 
+--         names consisting of more than one word.
+SELECT SUBSTR(d.department_name, 1, INSTR(d.department_name, ' ') - 1) AS departmetn
+FROM departments d
+WHERE INSTR(d.department_name, ' ') > 0;
