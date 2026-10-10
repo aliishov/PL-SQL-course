@@ -44,3 +44,7 @@ WHERE TO_CHAR(e.hire_date, 'DD') = '01';
 SELECT *
 FROM employees e
 WHERE TO_CHAR(e.hire_date, 'YYYY') = '2008';
+
+-- Task 8: Display tomorrow's date in the format: Tomorrow is Second day of January.
+SELECT TO_CHAR(DATE '2026-01-02', 'fm"Tomorrow is "Ddspth "day of "Month') AS text
+FROM dual;
