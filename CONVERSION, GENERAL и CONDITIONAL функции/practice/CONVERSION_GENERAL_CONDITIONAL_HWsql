@@ -136,3 +136,14 @@ SELECT
          'Yes',
          'No') AS has_bonus
 FROM employees e;
+
+-- Task 17: Display the employee's name and a value characterizing them: the commission 
+--          amount (if present), otherwise the manager's ID (if present), otherwise the salary.
+SELECT
+    e.employee_id,
+    e.first_name,
+    e.commission_pct,
+    e.manager_id,
+    e.salary,
+    COALESCE(e.commission_pct, e.manager_id, e.salary) AS first_not_null
+FROM employees e;
