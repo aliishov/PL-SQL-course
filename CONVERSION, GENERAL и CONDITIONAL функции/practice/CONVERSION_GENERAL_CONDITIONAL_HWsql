@@ -180,6 +180,7 @@ SELECT
               'Unknown') AS region
 FROM countries c;
 
+-- Task 20: Solve task #19 using CASE.
 SELECT
     c.country_id,
     c.country_name,
