@@ -1,10 +1,10 @@
--- Task 1. Using functions, retrieve a list of all employees whose names contain 
+-- Task 1: Using functions, retrieve a list of all employees whose names contain 
 --         the letter 'b' (case-insensitive).
 SELECT *
 FROM employees e
 WHERE INSTR(LOWER(e.first_name), 'b') > 0;
 
--- Task 2. Using functions, retrieve a list of all employees whose names contain
+-- Task 2: Using functions, retrieve a list of all employees whose names contain
 --         at least two 'a's.
 SELECT *
 FROM employees e
@@ -14,7 +14,7 @@ SELECT *
 FROM employees e
 WHERE INSTR(LOWER(e.first_name), 'a', 1, 2) > 0;
 
--- Task 3. Retrieve the first word of the department name for departments with 
+-- Task 3: Retrieve the first word of the department name for departments with 
 --         names consisting of more than one word.
 SELECT
     d.department_name,
@@ -22,15 +22,20 @@ SELECT
 FROM departments d
 WHERE INSTR(d.department_name, ' ') > 0;
 
--- Task 4. Retrieve employee names with the first and last letters removed.
+-- Task 4: Retrieve employee names with the first and last letters removed.
 SELECT 
     e.first_name,
     SUBSTR(e.first_name, 2, LENGTH(e.first_name) - 2) AS first_name_short
 FROM employees e;
 
--- Task 5. Retrieve a list of all employees where the `job_id` value has at least 
+-- Task 5: Retrieve a list of all employees where the `job_id` value has at least 
 --         3 characters after the underscore ('_'), but the part after the underscore is not 'CLERK'.
 SELECT *
 FROM employees e
 WHERE LENGTH(SUBSTR(e.job_id, INSTR(e.job_id, '_') + 1)) >= 3 
   AND SUBSTR(e.job_id, INSTR(e.job_id, '_') + 1) <> 'CLERK';
+    
+-- Task 6: Retrieve a list of all employees who started work on the first day of any month.
+SELECT *
+FROM employees e
+WHERE TO_CHAR(e.hire_date, 'DD') = '01';
