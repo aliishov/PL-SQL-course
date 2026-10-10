@@ -55,3 +55,14 @@ SELECT
     e.hire_date,
     TO_CHAR(e.hire_date, 'fmDdth "of "Month", "YYYY') AS start_date_text
 FROM employees e;
+
+-- Task 10: Retrieve a list of employees with their salaries increased by 20%. 
+--          Display the salary in the format: $28,800.00.
+SELECT
+    e.employee_id,
+    e.first_name,
+    e.last_name,
+    e.salary,
+    e.salary + (e.salary * 0.20) AS increased_salary,
+    TO_CHAR(e.salary + (e.salary * 0.20), '$999,999.99') AS increased_salary_text
+FROM employees e;
