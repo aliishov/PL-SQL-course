@@ -162,3 +162,33 @@ SELECT
         ELSE 'Unknown'
     END AS salary_level
 FROM employees e;
+
+-- Task 19: For each country, display its region: 1-Europe, 2-America, 3-Asia, 4-Africa. 
+--          Complete this task without using JOIN; use DECODE instead.
+SELECT *
+FROM countries;
+
+SELECT
+    c.country_id,
+    c.country_name,
+    c.region_id,
+    DECODE(c.region_id,
+           1, 'Europe',
+           2, 'America',
+           3, 'Asia',
+           4, 'Africe',
+              'Unknown') AS region
+FROM countries c;
+
+SELECT
+    c.country_id,
+    c.country_name,
+    c.region_id,
+    CASE c.region_id
+        WHEN 1 THEN 'Europe'
+        WHEN 2 THEN 'America'
+        WHEN 3 THEN 'Asia'
+        WHEN 4 THEN 'Africe'
+        ELSE 'Unknown'
+    END AS region
+FROM countries c;
