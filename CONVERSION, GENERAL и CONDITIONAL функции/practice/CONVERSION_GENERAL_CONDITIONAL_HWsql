@@ -66,3 +66,15 @@ SELECT
     e.salary + (e.salary * 0.20) AS increased_salary,
     TO_CHAR(e.salary + (e.salary * 0.20), '$999,999.99') AS increased_salary_text
 FROM employees e;
+
+-- Task 11: Display the current date, plus a second, a minute, an hour, a day, 
+--          a month, and a year (each added separately to the current date).
+SELECT 
+    SYSDATE                      AS now,
+    SYSDATE + 1 / (24 * 60 * 60) AS plus_second,
+    SYSDATE + 1 / (24 * 60)      AS plus_minute,
+    SYSDATE + 1 / 24             AS plus_hour,
+    SYSDATE + 1                  AS plus_day,
+    ADD_MONTHS(SYSDATE, 1)       AS plus_month,
+    ADD_MONTHS(SYSDATE, 12)      AS plus_year
+FROM dual;
