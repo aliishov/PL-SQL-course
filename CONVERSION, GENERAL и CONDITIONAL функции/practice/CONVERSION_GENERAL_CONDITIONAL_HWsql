@@ -1,0 +1,5 @@
+-- Task 1. Using functions, retrieve a list of all employees whose names contain 
+--         the letter 'b' (case-insensitive).
+SELECT *
+FROM employees e
+WHERE INSTR(LOWER(e.first_name), 'b') > 0;
