@@ -39,3 +39,8 @@ WHERE LENGTH(SUBSTR(e.job_id, INSTR(e.job_id, '_') + 1)) >= 3
 SELECT *
 FROM employees e
 WHERE TO_CHAR(e.hire_date, 'DD') = '01';
+
+-- Task 7: Retrieve a list of all employees who started work in 2008.
+SELECT *
+FROM employees e
+WHERE TO_CHAR(e.hire_date, 'YYYY') = '2008';
