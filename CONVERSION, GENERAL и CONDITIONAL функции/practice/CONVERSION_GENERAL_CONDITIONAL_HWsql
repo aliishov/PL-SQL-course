@@ -16,6 +16,14 @@ WHERE INSTR(LOWER(e.first_name), 'a', 1, 2) > 0;
 
 -- Task 3. Retrieve the first word of the department name for departments with 
 --         names consisting of more than one word.
-SELECT SUBSTR(d.department_name, 1, INSTR(d.department_name, ' ') - 1) AS departmetn
+SELECT
+    d.department_name,
+    SUBSTR(d.department_name, 1, INSTR(d.department_name, ' ') - 1) AS departmetn_name_short
 FROM departments d
 WHERE INSTR(d.department_name, ' ') > 0;
+
+-- Task 4. Retrieve employee names with the first and last letters removed.
+SELECT 
+    e.first_name,
+    SUBSTR(e.first_name, 2, LENGTH(e.first_name) - 2) AS first_name_short
+FROM employees e;
