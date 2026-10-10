@@ -48,3 +48,10 @@ WHERE TO_CHAR(e.hire_date, 'YYYY') = '2008';
 -- Task 8: Display tomorrow's date in the format: Tomorrow is Second day of January.
 SELECT TO_CHAR(DATE '2026-01-02', 'fm"Tomorrow is "Ddspth "day of "Month') AS text
 FROM dual;
+
+-- Task 9: Display the employee's name and their start date in the format: 21st of June, 2007.
+SELECT 
+    e.first_name,
+    e.hire_date,
+    TO_CHAR(e.hire_date, 'fmDdth "of "Month", "YYYY') AS start_date_text
+FROM employees e;
