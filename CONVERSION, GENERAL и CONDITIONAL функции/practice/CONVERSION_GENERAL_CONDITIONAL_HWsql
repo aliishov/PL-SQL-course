@@ -78,3 +78,12 @@ SELECT
     ADD_MONTHS(SYSDATE, 1)       AS plus_month,
     ADD_MONTHS(SYSDATE, 12)      AS plus_year
 FROM dual;
+
+-- Task 12: Display the employee's name, their salary, and a new salary equal 
+--          to the old salary plus the value represented by the text "$12,345.55".
+SELECT
+    e.employee_id,
+    e.first_name,
+    e.salary,
+    e.salary + TO_NUMBER('$12,345.55', '$99,999.99') AS new_salary
+FROM employees e;
