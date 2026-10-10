@@ -27,3 +27,10 @@ SELECT
     e.first_name,
     SUBSTR(e.first_name, 2, LENGTH(e.first_name) - 2) AS first_name_short
 FROM employees e;
+
+-- Task 5. Retrieve a list of all employees where the `job_id` value has at least 
+--         3 characters after the underscore ('_'), but the part after the underscore is not 'CLERK'.
+SELECT *
+FROM employees e
+WHERE LENGTH(SUBSTR(e.job_id, INSTR(e.job_id, '_') + 1)) >= 3 
+  AND SUBSTR(e.job_id, INSTR(e.job_id, '_') + 1) <> 'CLERK';
