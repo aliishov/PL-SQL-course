@@ -3,3 +3,13 @@
 SELECT *
 FROM employees e
 WHERE INSTR(LOWER(e.first_name), 'b') > 0;
+
+-- Task 2. Using functions, retrieve a list of all employees whose names contain
+--         at least two 'a's.
+SELECT *
+FROM employees e
+WHERE LOWER(e.first_name) LIKE '%a%a%';
+
+SELECT *
+FROM employees e
+WHERE INSTR(LOWER(e.first_name), 'a', 1, 2) > 0;
